@@ -36,9 +36,11 @@ Population size (province): ```./modelinput_data/pop_2019.RData: ```<br />
 Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
 
-###Run MCMC Model<br />
+### Run MCMC Model<br />
 *You will have to create an output directory to write the chains to and can fit the model to the province level data or you can fit the diagonal to the municipality level, collapse to province level and then calculate the likelihood*<br />
-
+Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
+Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```
+Run Model Files: ```./MCMC_model/```
 
 ## Relative Risk Analysis
 
