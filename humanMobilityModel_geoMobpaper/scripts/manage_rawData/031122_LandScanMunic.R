@@ -73,3 +73,4 @@ for(i in 1:nrow(shp)){
 }
 landscan_populations <- df
 save(landscan_populations,file="./data/landscan2017/LandScan_PopulationN.RData")
+load("./data/landscan2017/LandScan_PopulationN.RData")
