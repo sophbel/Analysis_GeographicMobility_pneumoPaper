@@ -42,6 +42,12 @@ Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
 Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```<br />
 Run Model Files: ```./MCMC_model/```<br />
 
+### Simulations to Test Model Function <br />
+
+### Test Model Fit <br />
+
+### Model Projection Simulations <br />
+
 ## Relative Risk Analysis
 
 
