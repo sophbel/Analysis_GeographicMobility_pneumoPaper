@@ -87,9 +87,10 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 ### Model Projection Simulations <br />
 *These are the scripts to simulate pneumococcal transmission*
 ```./ModelProjections/```
-1) Generate the 234X234Xnumber of transmission generations array
-Load the 3 chains from the model with 20000 iterations from (https://figshare.com/s/5761f8d7ace15fb22b9d)
-2)```mkdir ./ModelProjections/outputs/``` & ```mkdir ./ModelProjections/plots/```
+1) Load the 3 chains from the model with 20000 iterations from (https://figshare.com/s/5761f8d7ace15fb22b9d)
+2) ```mkdir ./ModelProjections/outputs/``` & ```mkdir ./ModelProjections/plots/```
+3) Generate the 234X234Xnumber of transmission generations array using ```051122_234X234_MobPerGen.R```
+4) Run ```051122_map_plots.R``` to generate the relative risk of transmission after on year maps as well as the rural vs. urban transmission initiations maps.
 
 ## Relative Risk Analysis
 
