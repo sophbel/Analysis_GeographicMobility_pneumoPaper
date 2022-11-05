@@ -85,6 +85,11 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 6) To plot and the true data, sub-sampled data, and model fit run ```./MCMC_model/Simulations/051122_Simulate_Recapture_CLUSTER.R```
 
 ### Model Projection Simulations <br />
+*These are the scripts to simulate pneumococcal transmission*
+```./ModelProjections/```
+1) Generate the 234X234Xnumber of transmission generations array
+Load the 3 chains from the model with 20000 iterations from (https://figshare.com/s/5761f8d7ace15fb22b9d)
+2)```mkdir ./ModelProjections/outputs/``` & ```mkdir ./ModelProjections/plots/```
 
 ## Relative Risk Analysis
 
