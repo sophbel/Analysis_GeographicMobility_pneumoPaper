@@ -35,7 +35,7 @@ Raw input data is in this folder:
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
 2) **Facebook Data** <br />(https://dataforgood.facebook.com/) <br />
-*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file mvment_SA.provinces.RData from FigShare directly```*<br />
+*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
 ```./data/facebook/mvment_SA.provinces.RData```  <br />
