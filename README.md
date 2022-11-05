@@ -1,7 +1,8 @@
 # Analysis for Geographic Mobility and Fitness of *Streptococcus pneumoniae*
-
+*This code was run with R version 3.6.1*
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
+
 ### Packages to install listed in no particular order. 
 install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize"))
 
