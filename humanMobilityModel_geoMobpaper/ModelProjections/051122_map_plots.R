@@ -237,8 +237,7 @@ mean(upoverall$Risk_1year)
 densities.tmp<-as.numeric(shp.tmp$pop_density)
 names(densities.tmp)<-shp.tmp$NAME_3
 densities<-densities.tmp[names(pop2019.town)]
-# setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/RData_outputs/")
-# save(densities,file="densities.RData")
+save(densities,file="./ModelProjections/data/densities.RData")
 
 # min.dens<-c(0,50,500)
 # max.dens<-c(50,500,5000)

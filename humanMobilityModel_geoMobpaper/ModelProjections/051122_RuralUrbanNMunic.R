@@ -16,21 +16,18 @@ var=30^2
 shape=mean^2/var
 scale=var/mean
 ##INPUT TRUE MOBILITY 
-setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/RData_outputs/")
-load("cdr.mat.town.one.RData")# # [Mobility_ManyMonthsSA.R] ## Probability of movement between each province normalized to carriage rates for each province
+load("./modelinput_data/cdr.mat.town.one.RData")
 cdr.mat.town<-cdr.mat.town.one
 tranmat.cdr <- cdr.mat.town
 
-load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/TranMatArray.234x234.RData")
+load("./ModelProjections/data/TranMatArray.234x234.RData")
 TranMatArray.1<-TranMatArray.234x234
-# load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/version2/directional_mobility/outputs/df.wherenextSim.RData")
-load("pairwise_geodist.town.RData") # # [21_05_21_PariwiseDistance.R] ## Pairwise distance between towns in South Africa
-# load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/version2/outputs/cdr.mat.town.RData")# # [Mobility_ManyMonthsSA.R] ## Probability of movement between each province normalized to carriage rates for each province 
-load("pop2019_municipality.2017LS.RData") 
+load("./modelinput_data/pairwise_geodist.town.RData") 
+load("./modelinput_data/pop_municipality.2017LS.RData") 
 provs <- c("Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga","North West","Northern Cape","Western Cape")
 tn <- rownames(cdr.mat.town)
 pairwise_geodist.town <- pairwise_geodist.town[tn,tn]
-load("/Users/sb62/Documents/Migration/SA_Migration_110422/RData_outputs/densities.RData")
+load("./ModelProjections/data/densities.RData")
 
 
 ####Check proportion in start
