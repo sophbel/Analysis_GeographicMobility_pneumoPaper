@@ -33,7 +33,7 @@ This analysis integrates human mobility data and genomic data to mechanistically
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
-*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes.*  
+*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes. (https://figshare.com/s/675e41ed68ece18c5c61)*  
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
 2) **Facebook Data** <br />(https://dataforgood.facebook.com/) <br />
