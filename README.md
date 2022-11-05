@@ -35,7 +35,7 @@ Raw input data is in this folder:
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
 2) **Facebook Data** <br />(https://dataforgood.facebook.com/) <br />
-*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL)*<br />
+*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file mvment_SA.provinces.RData from FigShare directly```*<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
 ```./data/facebook/mvment_SA.provinces.RData```  <br />
@@ -64,15 +64,27 @@ Output: ```./modelinput_data/tMRCAs.RData```<br />
 *You will have to create an output directory to write the chains to and can then run the code to fit the model*<br />
   ```cd ./MCMC_model/```<br/>
  ```mkdir outputs```<br/>
- **Files**
+ **Files**<br/>
 Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
 Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```<br />
-Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R```<br />
-Open ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R``` 
+Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
+1) Open ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R``` <br />
+2) Set the number of iterations ```iters=20000```
+3) Set the chain number ```chain=1```
+4) Load R on your cluster environment and submit a job with ```Rscript ./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```
+5) Repeat with at least 3 chains remembering to change the ```chain``` variable as this will prevent your files from overwriting each other.
+
+### Test Model Fit <br />
+*Test your Model Fit against the data*
+1) Navigate to ```./MCMC_model/TestFit/<br />
+2) Run ```mkdir Plots``` & ```mkdir Data```
+3) Open ```051122_MunicFitTest.R```
+4) Set the number of iterations to match the number of iterations in your model run. 
+
 
 ### Simulations to Test Model Function <br />
 
-### Test Model Fit <br />
+
 
 ### Model Projection Simulations <br />
 
