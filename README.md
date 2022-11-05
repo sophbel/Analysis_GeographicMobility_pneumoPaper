@@ -54,6 +54,8 @@ Population size (province): ```./modelinput_data/pop_2019.RData: ```<br />
 Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
 
+*Can download all model input files into ```./data/modelinput_data/``` from this FigShare (https://figshare.com/s/361552cabfa381acf6c2)*
+
 ### Run MCMC Model<br />
 *You will have to create an output directory to write the chains to and can then run the code to fit the model*<br />
   ```cd ./MCMC_model/```<br/>
