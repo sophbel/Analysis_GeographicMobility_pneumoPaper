@@ -1,5 +1,5 @@
 # Analysis for Geographic Mobility and Fitness of *Streptococcus pneumoniae*
-*This code was run with R version 3.6.1*
+*This code was run with R version 3.6.1 which is necessary for Rcpp*
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
 
@@ -69,11 +69,13 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 
 
 ### Simulations to Test Model Function <br />
-*This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model*
+*This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model.*
 1) Navigate to ```./MCMC_model/Simulations/```
 2) ```mkdir output```
-3) Run ```./MCMC_model/Simulations/051122_Simulate_fit.R```
-4) To plot and the true data, sub-sampled data, and model fit run ```./MCMC_model/Simulations/051122_Simulate_fit_recaptureParameter.R```
+3) Open ```./MCMC_model/Simulations/051122_Simulate_fit.R```
+4) Set the number of iterations ```iters=20000``` & scale ```scale=0.06```
+5) Run ```./MCMC_model/Simulations/051122_Simulate_fit.R```
+6) To plot and the true data, sub-sampled data, and model fit run ```./MCMC_model/Simulations/051122_Simulate_fit_recaptureParameter.R```
 
 ### Model Projection Simulations <br />
 
