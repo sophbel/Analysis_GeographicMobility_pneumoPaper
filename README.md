@@ -36,7 +36,7 @@ Raw input data is in this folder:
 *This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes. (https://figshare.com/s/675e41ed68ece18c5c61)*  
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
-1) ```cd ./data/``` & ```mkdir landscan2017```
+ ```cd ./data/``` & ```mkdir landscan2017```
 2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
 *This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
 Script: ```facebook_rawData.R``` <br />
