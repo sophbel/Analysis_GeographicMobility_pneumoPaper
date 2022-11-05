@@ -3,7 +3,9 @@
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
 ### Packages to install listed in no particular order. 
-``` data.table``` 
+```raster``` 
+```rgdal``` 
+```data.table``` 
 ```doParallel``` 
 ```ucminf``` 
 ```doMC``` 
