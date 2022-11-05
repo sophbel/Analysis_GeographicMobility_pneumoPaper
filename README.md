@@ -33,10 +33,17 @@ This analysis integrates human mobility data and genomic data to mechanistically
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
-*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes. (https://figshare.com/s/675e41ed68ece18c5c61)*  
+*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes.*  
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
- ```cd ./data/``` & ```mkdir landscan2017```
+
+ Download this folder from FigShare (https://figshare.com/s/675e41ed68ece18c5c61)
+  Run this code ```mkdir ./data/landscan2017``` 
+  Unzip downloaded files and place them in ```./data/landscan2017/```
+  ```mkdir ./data/shapefiles```
+  Download South Africa shapefiles from GADM (https://gadm.org/data.html)
+  Unzip downloaded files and place them in ```./data/shapefiles/```
+  
 2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
 *This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
 Script: ```facebook_rawData.R``` <br />
