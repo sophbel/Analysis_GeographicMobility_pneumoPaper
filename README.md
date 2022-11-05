@@ -86,10 +86,9 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 
 ### Test Model Fit <br />
 *Test your Model Fit against the data*
-1) Navigate to ```./MCMC_model/TestFit/```<br />
-2) Run ```mkdir Plots``` & ```mkdir Data```
-3) Open ```051122_MunicFitTest.R```
-4) Set the number of iterations to match the number of iterations in your model run. 
+1) Run code: ```mkdir ./MCMC_model/TestFit/Plots``` & ```mkdir ./MCMC_model/TestFit/Data```
+2) Open ```051122_MunicFitTest.R```
+3) Set the number of iterations to match the number of iterations in your model run under variable ```iters`` 
 
 
 ### Simulations to Test Model Function <br />
