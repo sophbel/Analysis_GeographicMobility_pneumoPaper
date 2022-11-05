@@ -1,7 +1,8 @@
 
-### Province Level Function
-chain<-1
-iters<-20
+### Municipality Level Function
+iters=20000
+# for (chain in 1:3){
+chain=2
 cluster=FALSE
 ##### Adding variables from other scripts and loading libraries
 library(data.table)
@@ -20,18 +21,19 @@ library(dplyr)
 #### Bring in data
 load('./modelinput_data/cdr.mat.one.RData')
 cdr.mat<-cdr.mat.one
+load('./modelinput_data/pop_2019.RData')
 load('./modelinput_data/dat.tmp.allser.RData')
-load('./modelinput_data/pairwise_geodist.RData')
-load("./modelinput_data/pop2019_municipality.2017LS.RData") 
-load("./modelinput_data/pop_2019.RData") 
-load("./modelinput_data/pairwise_geodist.town.RData")
 load('./modelinput_data/tMRCAs.RData')
+load('./modelinput_data/pairwise_geodist.RData')
+load("./modelinput_data/pop_municipality.2017LS.RData") 
+load("./modelinput_data/pairwise_geodist.town.RData") 
 load('./modelinput_data/cdr.mat.town.one.RData')
 cdr.mat.town<-cdr.mat.town.one
 ###
 nloc=nlocs=9
 nloc.munic=234
 maxGen<-100
+
 maxTranGens=maxGen
 
 ## Gamma distribution for a generation time of 35 days- same as lines above
@@ -42,6 +44,8 @@ scale=varGen/genTime
 
 # max.no.gens<-round(3650/genTime,0)
 max.no.gens<-maxGen
+
+plot(1:1000,dgamma(1:1000,shape=shape,scale=scale))
 
 pFunc<-function(x){
   a<-dgamma(x*365,shape=shape*1:1000,scale=scale)
@@ -68,16 +72,17 @@ for (ser in 1:9){
 }
 
 probByGen.tmp=prob.tMRCA.out
+## set provs order
+provs<-colnames(cdr.mat)
 
-
+### Adding variables
 Eigencpp=TRUE
 calcAllProbs=FALSE
 
 maxGen=maxTranGens
+
 sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
-source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Prov.R")
-
-
+source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Munic.R")
 
 nam.a<-colnames(cdr.mat)
 pop_2019<-pop_2019[nam.a]
@@ -122,19 +127,15 @@ extTranMatDat.tmp$popbyCell<-pop_2019
 extTranMatDat.tmp$pars<-list()
 extTranMatDat.tmp$pars$homeSus<-999
 
-dat.in2<-dat.inMaster[which(dat.inMaster$totTimeDays<3650),]
+dat.in2<-dat.inMaster[which(dat.inMaster$totTimeDays<3500),]
 npairs=nrow(dat.in2)
 
 ### Run MCMC
 par1<-runif(1,-3,0)
 par2_8<-runif(8,0,0.9999)
 startPar<-c(par1,par2_8)
-# startPar<-c(-2.5,rep(0,8))
-start.time<-Sys.time()
-ans.prov <- MCMC(likFunc.prov,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .06),thin=5)
-end.time<-Sys.time()
-end.time-start.time
-save(ans.prov,file=paste0("./MCMC_model/outputs/ans.prov",chain,".",iters,".RData"))
+ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
+save(ans.munic,file=paste0("./MCMC_model/outputs/ans.munic",chain,".",iters,".08",".RData"))
 
 
 

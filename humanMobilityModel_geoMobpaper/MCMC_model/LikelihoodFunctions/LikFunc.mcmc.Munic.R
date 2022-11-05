@@ -1,4 +1,4 @@
-likFunc.munic.234<-function(par){
+likFunc.munic<-function(par){
   
   extTranMatDat.tmp$pars$homeSus<-par[1]
   ##### Put this back to fit more
@@ -6,15 +6,12 @@ likFunc.munic.234<-function(par){
   nInfecLoc[1:8]<-exp(par[2:9])
   nInfecLoc<-nInfecLoc/sum(nInfecLoc)
   ################################
-  ## Single parameter test
-  # nInfecLoc<-extTranMatDat.tmp$popbyCell
-  # nInfecLoc<-nInfecLoc/sum(nInfecLoc)
   
   
-  tmp.pHome.MUNIC<-pop2019.town
-  tmp.pHome.MUNIC<-tmp.pHome.MUNIC/sum(tmp.pHome.MUNIC)
-  # tmp.pHome.PROV<-extTranMatDat.tmp$popbyCell
-  # tmp.pHome.PROV<-tmp.pHome.PROV/sum(tmp.pHome.PROV)
+  # tmp.pHome.MUNIC<-pop2019.town
+  # tmp.pHome.MUNIC<-tmp.pHome.MUNIC/sum(tmp.pHome.MUNIC)
+  tmp.pHome.PROV<-extTranMatDat.tmp$popbyCell
+  tmp.pHome.PROV<-tmp.pHome.PROV/sum(tmp.pHome.PROV)
   
   ### Create mobility matrix for susceptible individuals
   tmpbase<-cdr.mat.town
@@ -38,19 +35,19 @@ likFunc.munic.234<-function(par){
     }
   }
   
-  # tmpbase.1 <- apply(tmpbase, 1, function(x){
-  #   split(x,splitnames[,2]) %>% sapply(sum)
-  # })  %>% transpose()
-  # 
-  # tmpbase2 <- apply(tmpbase.1,2,function(x) {
-  #   mapply( weighted.mean
-  #           , x = split(x,splitnames[,2])
-  #           , w = split(pop2019.town,splitnames[,2])
-  #   )
-  # })
+  tmpbase.1 <- apply(tmpbase, 1, function(x){
+    split(x,splitnames[,2]) %>% sapply(sum)
+  })  %>% transpose()
   
-  move3<-tcrossprod(tmpbase,tmpbase)
-  move4<-sweep(move3,2,tmp.pHome.MUNIC,"*")
+  tmpbase2 <- apply(tmpbase.1,2,function(x) {
+    mapply( weighted.mean
+            , x = split(x,splitnames[,2])
+            , w = split(pop2019.town,splitnames[,2])
+    )
+  })
+  
+  move3<-tcrossprod(tmpbase2,tmpbase2)
+  move4<-sweep(move3,2,tmp.pHome.PROV,"*")
   TranMat.tmp2<-sweep(move4,1,rowSums(move4),"/")
   
   
@@ -86,9 +83,9 @@ likFunc.munic.234<-function(par){
 ######RUN MATRIX MULTIPLICATION
   gensA<-gensB<-(1:maxGen)
   maxgen.tmp<-maxGen
-  TranMatArray.1<-array(NA,c(nloc.munic,nloc.munic,maxgen.tmp))
-  TranMatArray.1[,,1]<-TranMat.tmp2
-  for (j in 2:maxgen.tmp){TranMatArray.1[,,j]<-eigenMapMatMult(TranMatArray.1[,,j-1], TranMat.tmp2)
+  TranMatArray<-array(NA,c(nlocs,nlocs,maxgen.tmp))
+  TranMatArray[,,1]<-TranMat.tmp2
+  for (j in 2:maxgen.tmp){TranMatArray[,,j]<-eigenMapMatMult(TranMatArray[,,j-1], TranMat.tmp2)
   }
   
   
@@ -101,15 +98,15 @@ likFunc.munic.234<-function(par){
 #   aperm(c(2,1,3))
   
 ### True Condense from 234X234XmaxGen into 234X9XmaxGen#### 
-  TranMatArray<-apply(TranMatArray.1, c(1,3), function(x){
-    split(x,splitnames[,2]) %>% sapply(sum)
-  })  %>%
-    aperm(c(2,1,3))
+  # TranMatArray<-apply(TranMatArray.1, c(1,3), function(x){
+  #   split(x,splitnames[,2]) %>% sapply(sum)
+  # })  %>%
+  #   aperm(c(2,1,3))
   
   
   
-  # mrcaVec<-extTranMatDat.tmp$popbyCell
-  mrcaVec<-pop2019.town
+  mrcaVec<-extTranMatDat.tmp$popbyCell
+  # mrcaVec<-pop2019.town
   
   llIndPair<-function(ii){
     
@@ -154,6 +151,7 @@ likFunc.munic.234<-function(par){
     # TranMatArrayB2<-matrix(TranMatArrayB,nlocs*length(gensB),nloc.munic,byrow=T)
     probAllPrs<-eigenMapMatMult(TranMatArrayB2,TranMatArrayA3)
     den<-sum(probAllPrs)
+    
     
     TranMatArrayA3<-matrix(TranMatArrayA2[,dat.in2$loc1[ii],],nlocs,length(gensA))
     TranMatArrayB2<-matrix(TranMatArrayB[,dat.in2$loc2[ii],],length(gensB),nlocs,byrow=T)
