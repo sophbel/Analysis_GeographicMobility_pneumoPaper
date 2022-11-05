@@ -10,9 +10,12 @@ This analysis integrates human mobility data and genomic data to mechanistically
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
-*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes.*  
+*This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html)or can download the shapefiles here (https://figshare.com/s/73ca1408ae3ed18ff658) to create a datatable with all population levels ad the municipality (N=234) level population sizes.*  
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
+OR <br />
+Download this folder from FigShare (https://figshare.com/s/1d702d56dbf8c5829829)<br />
+Unzip and place files in ```./data/landscan2017/```<br />
 
  Download this folder from FigShare (https://figshare.com/s/675e41ed68ece18c5c61)<br />
   Run this code ```mkdir ./data/landscan2017``` <br />
@@ -22,10 +25,14 @@ Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
   Unzip downloaded files and place them in ```./data/shapefiles/```<br />
   
 2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
-*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
+*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). *<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
 ```./data/facebook/mvment_SA.provinces.RData```  <br />
+Download this folder from FigShare (https://figshare.com/s/1d702d56dbf8c5829829) <br />
+Unzip downloaded files and place them in ```./data/landscan2017/```<br />
+Download this folder from FigShare (https://figshare.com/s/7eb72568387c476e62f5) and place ```mvment_SA.provinces.RData``` in ```./data/facebook/``` <br />
+
 ### Create model input files
 Scripts to generate input files location: ```./scripts/createinputs/``` <br />
 Output RData files location: ```./modelinput_data/``` <br />
@@ -71,7 +78,7 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 ### Simulations to Test Model Function <br />
 *This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model.*
 1) Navigate to ```./MCMC_model/Simulations/```
-2) ```mkdir output```
+2) ```mkdir output``` & ```mkdir Plots```
 3) Open ```./MCMC_model/Simulations/051122_Simulate_fit_CLUSTER.R```
 4) Set the number of iterations ```iters=20000``` & scale ```scale=0.06```
 5) Run ```./MCMC_model/Simulations/051122_Simulate_fit_CLUSTER.R```
