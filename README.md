@@ -2,8 +2,32 @@
 
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
-### Process raw input data.  
+### Packages to install listed in no particular order. 
+``` data.table``` 
+```doParallel``` 
+```ucminf``` 
+```doMC``` 
+```Rcpp``` 
+```RcppEigen``` 
+```Rfast``` 
+```abind``` 
+```ggplot2``` 
+```fmcmc``` 
+```coda``` 
+```dplyr``` 
+```ape``` 
+```lubridate``` 
+```tmaptools``` 
+```geodist``` 
+```PBSmapping``` 
+```stringi``` 
+```maptools``` 
+```tidyr``` 
+```stringr``` 
+```ComplexHeatmap``` 
+```circlize``` 
 
+### Process raw input data.  
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
@@ -37,10 +61,14 @@ Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
 
 ### Run MCMC Model<br />
-*You will have to create an output directory to write the chains to and can fit the model to the province level data or you can fit the diagonal to the municipality level, collapse to province level and then calculate the likelihood*<br />
+*You will have to create an output directory to write the chains to and can then run the code to fit the model*<br />
+  ```cd ./MCMC_model/```<br/>
+ ```mkdir outputs```<br/>
+ **Files**
 Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
 Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```<br />
-Run Model Files: ```./MCMC_model/```<br />
+Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R```<br />
+Open ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R``` 
 
 ### Simulations to Test Model Function <br />
 
