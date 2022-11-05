@@ -68,11 +68,22 @@ Output: ```./modelinput_data/tMRCAs.RData```<br />
 Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
 Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```<br />
 Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R```<br />
-Open ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R``` 
+1) Open ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R``` <br />
+2) Set the number of iterations ```iters=20000```
+3) Set the chain number ```chain=1```
+4) Load R on your cluster environment and submit a job with ```Rscript ./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC234.9par.R```
+5) Repeat with at least 3 chains remembering to change the ```chain``` variable as this will prevent your files from overwriting each other.
+
+### Test Model Fit <br />
+*Test your Model Fit against the data*
+1) Navigate to ```./MCMC_model/TestFit/<br />
+2) Open ```051122_MunicFitTest.R```
+3) Set the number of iterations to match the number of iterations in your model run. 
+
 
 ### Simulations to Test Model Function <br />
 
-### Test Model Fit <br />
+
 
 ### Model Projection Simulations <br />
 
