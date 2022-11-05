@@ -91,6 +91,7 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 2) ```mkdir ./ModelProjections/outputs/``` & ```mkdir ./ModelProjections/plots/```
 3) Generate the 234X234Xnumber of transmission generations array using ```051122_234X234_MobPerGen.R```
 4) Run ```051122_map_plots.R``` to generate the relative risk of transmission after on year maps as well as the rural vs. urban transmission initiations maps.
+5) Run ```051122_NMunicSim.R``` to simulate the branching epidemic.
 
 ## Relative Risk Analysis
 
