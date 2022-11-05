@@ -1,7 +1,7 @@
 ####Fit model with simulation
-iters=10
-scale=.06
-boot=1
+iters=50
+scale=0.06
+boot=10
 #########Set up simulation
 library(dplyr)
 library(data.table)
@@ -23,7 +23,7 @@ cdr.mat.town<-cdr.mat.town.one
 load('./modelinput_data/pairwise_geodist.RData')
 load("./modelinput_data/dat.tmp.allser.RData")
 load('./modelinput_data/pop_2019.RData')
-load("./modelinput_data/pop2019_municipality.2017LS.RData")
+load("./modelinput_data/pop_municipality.2017LS.RData")
 sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
 
 #####index for province and municipality match

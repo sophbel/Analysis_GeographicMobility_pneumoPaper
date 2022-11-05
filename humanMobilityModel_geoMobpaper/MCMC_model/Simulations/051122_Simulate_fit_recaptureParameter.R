@@ -1,4 +1,7 @@
 ####Fit model with simulation
+iters=50
+scale=0.06
+boot=10
 #########Set up simulation
 library(dplyr)
 library(data.table)
@@ -12,16 +15,15 @@ library(RcppEigen)
 library(Rfast)
 library(coda)
 library(fmcmc)
-setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/RData_outputs/")
-load('cdr.mat.one.RData')
+load('./modelinput_data/cdr.mat.one.RData')
 cdr.mat<-cdr.mat.one
-load('cdr.mat.town.one.RData')
+load('./modelinput_data/cdr.mat.town.one.RData')
 cdr.mat.town<-cdr.mat.town.one
-load('pairwise_geodist.RData')
-load("dat.tmp.allser.RData")
-load('pop_2019.RData')
-load("pop2019_municipality.2017LS.RData")
-sourceCpp("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/MatrixMultiplication.cpp")
+load('./modelinput_data/pairwise_geodist.RData')
+load("./modelinput_data/dat.tmp.allser.RData")
+load('./modelinput_data/pop_2019.RData')
+load("./modelinput_data/pop_municipality.2017LS.RData")
+sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
 
 # load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/MCMC_ReviseModel/outputs/Munic_9X9/gen30/ans_munic9_2000.100gens.30genTime.RData")
 # load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/MCMC_ReviseModel/outputs/Munic_9X9/GenerationTimeSensitivity/gen30/ans_munic9_3000.100gen.genTime30.RData")
@@ -160,15 +162,15 @@ extTranMatDat.tmp$pars$homeSus<-999
 
 genTime<-30
 
-varGen<-(genTime)^2
-shape=genTime^2/varGen
-scale=varGen/genTime
+# varGen<-(genTime)^2
+# shape=genTime^2/varGen
+# scale=varGen/genTime
 
 max.no.gens<-30 ### 8.2 years for minimum number of generations times (10 days)
 maxGen<-max.no.gens
 
 #### Plot generation time distribution. 
-hist(rgamma(5000, shape=shape, scale=scale),breaks=500)
+# hist(rgamma(5000, shape=shape, scale=scale),breaks=500)
 # 
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -177,7 +179,7 @@ for(k in 1:nrow(dat.in2)){
 }
 
 
-source("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/LikFunc.mcmc.SIMS.Munic.R")
+source("./MCMC_model/Simulations/LikFunc.mcmc.SIMS.Munic.R")
 
 # nInfecLoc<-colSums(rbind(table(dat.in.all$loc1),table(dat.in.all$loc2)))
 nInfecLoc<-table(dat.in.all$start)
@@ -233,11 +235,13 @@ library(fmcmc)
 
   # load("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/output/sim.ans.0.05.10000.RData")
   # load("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/output/sim.ans.0.06.10000.RData")
-  load("./MCMC_model/Simulations/output/sim.ans.0.06.20000minmaxBackin.RData")
+  load(paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,".RData"))
   # load("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/output/sim.ans.0.06.20000.RData")
   
   plot(sim.ans[,1])
-  ans<-mcmc(sim.ans,start=15000,end=20000)
+  # ans<-mcmc(sim.ans,start=15000,end=20000)
+  ans<-mcmc(sim.ans,start=iters/3,end=iters)
+  
   plot(ans[,1])
   summary(ans)$statistics[,1]
   1-rejectionRate(ans)
