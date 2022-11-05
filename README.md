@@ -1,33 +1,10 @@
 # Analysis for Geographic Mobility and Fitness of *Streptococcus pneumoniae*
-
+*This code was run with R version 3.6.1*
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
-### Packages to install listed in no particular order. 
-```raster``` 
-```rgdal``` 
-```data.table``` 
-```doParallel``` 
-```ucminf``` 
-```doMC``` 
-```Rcpp``` 
-```RcppEigen``` 
-```Rfast``` 
-```abind``` 
-```ggplot2``` 
-```fmcmc``` 
-```coda``` 
-```dplyr``` 
-```ape``` 
-```lubridate``` 
-```tmaptools``` 
-```geodist``` 
-```PBSmapping``` 
-```stringi``` 
-```maptools``` 
-```tidyr``` 
-```stringr``` 
-```ComplexHeatmap``` 
-```circlize``` 
+
+### Install R packages. 
+```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize"))```
 
 ### Process raw input data.  
 Raw input data is in this folder:
@@ -36,7 +13,15 @@ Raw input data is in this folder:
 *This script reads in the landscan population data and associated shapefiles from GADM (https://gadm.org/data.html) to create a datatable with all population levels ad the municipality (N=234) level population sizes.*  
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
-2) **Facebook Data** <br />(https://dataforgood.facebook.com/) <br />
+
+ Download this folder from FigShare (https://figshare.com/s/675e41ed68ece18c5c61)<br />
+  Run this code ```mkdir ./data/landscan2017``` <br />
+  Unzip downloaded files and place them in ```./data/landscan2017/```<br />
+  ```mkdir ./data/shapefiles```<br />
+  Download South Africa shapefiles from GADM (https://gadm.org/data.html)<br />
+  Unzip downloaded files and place them in ```./data/shapefiles/```<br />
+  
+2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
 *This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
@@ -78,15 +63,17 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 
 ### Test Model Fit <br />
 *Test your Model Fit against the data*
-1) Navigate to ```./MCMC_model/TestFit/```<br />
-2) Run ```mkdir Plots``` & ```mkdir Data```
-3) Open ```051122_MunicFitTest.R```
-4) Set the number of iterations to match the number of iterations in your model run. 
+1) Run code: ```mkdir ./MCMC_model/TestFit/Plots``` & ```mkdir ./MCMC_model/TestFit/Data```
+2) Open ```051122_MunicFitTest.R```
+3) Set the number of iterations to match the number of iterations in your model run under variable ```iters```
 
 
 ### Simulations to Test Model Function <br />
-
-
+*This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model*
+1) Navigate to ```./MCMC_model/Simulations/```
+2) ```mkdir output```
+3) Run ```./MCMC_model/Simulations/051122_Simulate_fit.R```
+4) To plot and the true data, sub-sampled data, and model fit run ```./MCMC_model/Simulations/051122_Simulate_fit_recaptureParameter.R```
 
 ### Model Projection Simulations <br />
 
