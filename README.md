@@ -35,7 +35,7 @@ Raw input data is in this folder:
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
 2) **Facebook Data** <br />(https://dataforgood.facebook.com/) <br />
-*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL)*<br />
+*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file mvment_SA.provinces.RData from FigShare directly```*<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
 ```./data/facebook/mvment_SA.provinces.RData```  <br />
@@ -64,7 +64,7 @@ Output: ```./modelinput_data/tMRCAs.RData```<br />
 *You will have to create an output directory to write the chains to and can then run the code to fit the model*<br />
   ```cd ./MCMC_model/```<br/>
  ```mkdir outputs```<br/>
- **Files**
+ **Files**<br/>
 Likelihoods Functions: ```./MCMC_model/LikelihoodFunctions/```<br />
 Matrix Multiplication Cpp file: ```./MCMC_model/MatrixMultiplication.cpp```<br />
 Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
