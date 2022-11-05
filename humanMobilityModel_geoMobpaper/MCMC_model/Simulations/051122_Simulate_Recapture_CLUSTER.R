@@ -1,4 +1,6 @@
-
+iters=20000
+scale=.06
+boot=1
 #########Load in data
 library(dplyr)
 library(data.table)
@@ -12,16 +14,15 @@ library(RcppEigen)
 library(Rfast)
 library(coda)
 library(fmcmc)
-setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/RData_outputs/")
-load('cdr.mat.one.RData')
+load('./modelinput_data/cdr.mat.one.RData')
 cdr.mat<-cdr.mat.one
-load('cdr.mat.town.one.RData')
+load('./modelinput_data/cdr.mat.town.one.RData')
 cdr.mat.town<-cdr.mat.town.one
-load('pairwise_geodist.RData')
-load("dat.tmp.allser.RData")
-load('pop_2019.RData')
-load("pop2019_municipality.2017LS.RData")
-sourceCpp("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/MatrixMultiplication.cpp")
+load('./modelinput_data/pairwise_geodist.RData')
+load("./modelinput_data/dat.tmp.allser.RData")
+load('./modelinput_data/pop_2019.RData')
+load("./modelinput_data/pop_municipality.2017LS.RData")
+sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
 
 
 #####index for province and municipality match
@@ -44,16 +45,13 @@ extTranMatDat.tmp$popbyCell<-pop_2019
 extTranMatDat.tmp$pars<-list()
 extTranMatDat.tmp$pars$homeSus<-999
 #### check fit of cluster run simulation
-for (chain in 3){
-  setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/output/3chains/")
-  load(paste0("sim.ans.0.06.20000.",chain,".RData"))
-  load(paste0("dat.in20.06.20000.",chain,".RData"))
-  load(paste0("dat.in.all0.06.20000.",chain,".RData"))
-# load("sim.ans.0.06.20000.1.RData")
-# load("dat.in20.06.20000.1.RData")
-# load("dat.in.all0.06.20000.1.RData")
+for (chain in 1){
+  load(paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,".RData"))
+  load(paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,".RData"))
+  load(paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,".RData"))
+
 plot(sim.ans[,1])
-ans<-mcmc(sim.ans,start=2000,end=20000)
+ans<-mcmc(sim.ans,start=iters/3,end=iters)
 plot(ans[,1])
 summary(ans)$statistics[,1]
 1-rejectionRate(ans)
@@ -293,8 +291,7 @@ simFit <-ggplot()+
   theme(axis.text=element_text(size=20), axis.title = element_text(size=20))+
   ylab("Spatial Distance (km)")
 simFit
-# setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/MCMC_model/Simulations/output/3chains/plot_fits/")
-# ggsave(filename = paste0("simFit",chain,".pdf"))
+ggsave(filename = paste0("./MCMC_model/Simulations/Plots/simFit",chain,".pdf"))
 }
 
 

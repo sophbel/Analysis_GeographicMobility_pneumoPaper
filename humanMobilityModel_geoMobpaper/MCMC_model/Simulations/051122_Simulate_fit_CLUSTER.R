@@ -15,16 +15,15 @@ library(RcppEigen)
 library(Rfast)
 library(coda)
 library(fmcmc)
-setwd("/lustre/scratch118/infgen/team284/sb62/Migration/SouthAfrica/mobility_model/SA_Migration_130422/RData_outputs/")
-load('cdr.mat.one.RData')
+load('./modelinput_data/cdr.mat.one.RData')
 cdr.mat<-cdr.mat.one
-load('cdr.mat.town.one.RData')
+load('./modelinput_data/cdr.mat.town.one.RData')
 cdr.mat.town<-cdr.mat.town.one
-load('pairwise_geodist.RData')
-load("dat.tmp.allser.RData")
-load('pop_2019.RData')
-load("pop2019_municipality.2017LS.RData")
-sourceCpp("/lustre/scratch118/infgen/team284/sb62/Migration/SouthAfrica/mobility_model/SA_Migration_130422/MCMC_model/MatrixMultiplication.cpp")
+load('./modelinput_data/pairwise_geodist.RData')
+load("./modelinput_data/dat.tmp.allser.RData")
+load('./modelinput_data/pop_2019.RData')
+load("./modelinput_data/pop_municipality.2017LS.RData")
+sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
 
 #####index for province and municipality match
 nloc.munic<-length(pop2019.town)
@@ -184,7 +183,7 @@ for(k in 1:nrow(dat.in2)){
 }
 
 
-source("/lustre/scratch118/infgen/team284/sb62/Migration/SouthAfrica/mobility_model/SA_Migration_130422/MCMC_model/Simulations/LikFunc.mcmc.SIMS.Munic.R")
+source("./MCMC_model/Simulations/LikFunc.mcmc.SIMS.Munic.R")
 
 nInfecLoc<-table(dat.in.all$start)
 
@@ -199,9 +198,8 @@ start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
-setwd("/lustre/scratch118/infgen/team284/sb62/Migration/SouthAfrica/mobility_model/SA_Migration_130422/MCMC_model/Simulations/output/3chains/")
-save(dat.in2,file=paste0("dat.in2",scale,".",iters,".",boot,".RData"))
-save(dat.in.all,file=paste0("dat.in.all",scale,".",iters,".",boot,".RData"))
-save(sim.ans,file=paste0("sim.ans.",scale,".",iters,".",boot,".RData"))###SAVE OUTPUT
+save(dat.in2,file=paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,".RData"))
+save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,".RData"))
+save(sim.ans,file=paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,".RData"))###SAVE OUTPUT
 # }
 ###############################################################################
