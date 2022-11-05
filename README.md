@@ -37,12 +37,12 @@ Raw input data is in this folder:
 Script: ```031122_LandScanMunic.R``` <br />
 Output: ```./data/landscan2017/LandScan_PopulationN.RData```  <br />
 
- Download this folder from FigShare (https://figshare.com/s/675e41ed68ece18c5c61)
-  Run this code ```mkdir ./data/landscan2017``` 
-  Unzip downloaded files and place them in ```./data/landscan2017/```
-  ```mkdir ./data/shapefiles```
-  Download South Africa shapefiles from GADM (https://gadm.org/data.html)
-  Unzip downloaded files and place them in ```./data/shapefiles/```
+ Download this folder from FigShare (https://figshare.com/s/675e41ed68ece18c5c61)<br />
+  Run this code ```mkdir ./data/landscan2017``` <br />
+  Unzip downloaded files and place them in ```./data/landscan2017/```<br />
+  ```mkdir ./data/shapefiles```<br />
+  Download South Africa shapefiles from GADM (https://gadm.org/data.html)<br />
+  Unzip downloaded files and place them in ```./data/shapefiles/```<br />
   
 2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
 *This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). Alternatively you can download the output file ```mvment_SA.provinces.RData``` from FigShare directly (https://figshare.com/s/7eb72568387c476e62f5)*<br />
