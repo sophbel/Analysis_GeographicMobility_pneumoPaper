@@ -69,8 +69,11 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 
 
 ### Simulations to Test Model Function <br />
-
-
+*This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model*
+1) Navigate to ```./MCMC_model/Simulations/```
+2) ```mkdir output```
+3) Run ```./MCMC_model/Simulations/051122_Simulate_fit.R```
+4) To plot and the true data, sub-sampled data, and model fit run ```./MCMC_model/Simulations/051122_Simulate_fit_recaptureParameter.R```
 
 ### Model Projection Simulations <br />
 
