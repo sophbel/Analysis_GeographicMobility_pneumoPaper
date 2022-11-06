@@ -24,6 +24,12 @@ disease=FALSE
 ```{r}
 # Read in Data
 load("../data/gps_metadata/GPS_SA.RData")
+if(disease==TRUE){
+  GPS_SA<-subset(GPS_SA,GPS_SA$Type=="Disease")}else
+  {
+    load("../data/gps_metadata/GPS_SA.RData")
+
+  }
 ```
 #### Set up 6910X6910 Matrices for lineage level RR
 ```{r}
