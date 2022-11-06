@@ -96,7 +96,12 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 5) Run ```051122_NMunicSim.R``` to simulate the branching epidemic.
 6) To vary whether the start location is Rural (<50per/km2) or Urban (>500per/km2) run ```051122_RuralUrbanNMunic.R```. 
 ## Relative Risk Analysis
-
+*This is an Rmarkdown file detailing the relative risk analysis both at the lineage level, with time resolved trees, categorically & continuously. You can toggle the ```sub``` and ```disease``` variables ```TRUE``` or ```FALSE``` depending on whether you want to sub-sample or only use disease isolates.*<br />
+Script: ```./RelativeRisk/061122_RRScript.Rmd```<br />
+1) Navigate to the folder. ```cd RelativeRisk/```
+2) ```mkdir plots```
+3) Open ```061122_RRScript.Rmd``` and run the code chunks to produce the same data files you downloaded in the ```./RelativeRisk/files/``` folder. 
+4) Open ```RR_plots.R``` to reproduce the Relative risk plots from the paper
 
 
 ## Fitness Analysis
