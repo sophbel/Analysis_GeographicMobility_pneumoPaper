@@ -4,7 +4,7 @@
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
 
 ### Install R packages. 
-```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize"))```
+```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize","patchwork"))```
 
 ### Process raw input data.  
 Raw input data is in this folder:
@@ -53,6 +53,8 @@ Population size (province): ```./modelinput_data/pop_2019.RData: ```<br />
 *This creates a list of length 9 (number of GPSCs) with pairwise time to MRCA for each pair (half the time between pairs (years)).*<br />
 Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
+
+*Can download all model input files into ```./data/modelinput_data/``` from this FigShare (https://figshare.com/s/361552cabfa381acf6c2)*
 
 ### Run MCMC Model<br />
 *You will have to create an output directory to write the chains to and can then run the code to fit the model*<br />
