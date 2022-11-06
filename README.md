@@ -71,14 +71,14 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 5) Repeat with at least 3 chains remembering to change the ```chain``` variable as this will prevent your files from overwriting each other.
 
 ### Test Model Fit <br />
-*Test your Model Fit against the data*
+*Test your model fit against the data*
 1) Run code: ```mkdir ./MCMC_model/TestFit/Plots``` & ```mkdir ./MCMC_model/TestFit/Data```
 2) Open ```051122_MunicFitTest.R```
 3) Set the number of iterations to match the number of iterations in your model run under variable ```iters```
 
 
 ### Simulations to Test Model Function <br />
-*This is a file to simulate a true epidemic, sub-sample the phylogenty, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model.*
+*This is a file to simulate a true epidemic, sub-sample the phylogeny, and fit the data on the sub-sampled phylogeny representing the true incompleteness inherent to data. This is simulated with a parameter of -2 input and we are able to recapture it with the model.*
 1) Navigate to ```./MCMC_model/Simulations/```
 2) ```mkdir output``` & ```mkdir Plots```
 3) Open ```./MCMC_model/Simulations/051122_Simulate_fit_CLUSTER.R```
@@ -101,7 +101,7 @@ Script: ```./RelativeRisk/061122_RRScript.Rmd```<br />
 1) Navigate to the folder. ```cd RelativeRisk/```
 2) ```mkdir plots```
 3) Open ```061122_RRScript.Rmd``` and run the code chunks to produce the same data files you downloaded in the ```./RelativeRisk/files/``` folder. 
-4) Open ```RR_plots.R``` to reproduce the Relative risk plots from the paper
+4) Open ```RR_plots.R``` to reproduce the relative risk plots from the paper
 
 
 ## Fitness Analysis
