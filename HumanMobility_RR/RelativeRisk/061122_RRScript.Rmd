@@ -20,54 +20,10 @@ sub=FALSE
 disease=FALSE
 ```
 
-##### Load in all GPS Data and subset GPS_SA >2000
-```{r}
-# GPS Data from the DataViewer
-GPS <- read.table(file = "/Users/sb62/Documents/Migration/raw_data/combined_GPSPneumoDB_clean.csv", sep =  "," , header = TRUE, fill = TRUE, stringsAsFactors = FALSE)
-# published<-read.csv("/Users/sb62/Documents/Migration/SA_Migration_110422/Relative_Risk_Framework/laneids-published.csv")
-# pub_lid<-published$Lane_id[which(published$Published=="Y" | published$Published=="Others")]
-# GPS<-subset(GPS,GPS$Lane_Id%in%pub_lid)
-GPS_SA <- subset(GPS, GPS$Country == "South Africa")
-GPS_SA$Region <- as.character(GPS_SA$Region)
-GPS_SA$Region[GPS_SA$Region == "Kwazulu Natal"] <- "KwaZulu-Natal"
-GPS_SA$Region[GPS_SA$Region == "KwaZulu Natal"] <- "KwaZulu-Natal"
-GPS_SA$Region[GPS_SA$Region == "Soweto"] <- "Gauteng"
-GPS_SA$Region[is.na(GPS_SA$Region)] <- "South Africa"
-GPS_SA$Region[GPS_SA$Region == "Agincourt"] <- "Mpumalanga"
-GPS_SA$Region[GPS_SA$Region == "North West"] <- "North West"
-GPS_SA$Region[GPS_SA$Region == ""] <- "South Africa"
-GPS_SA$Region[is.na(GPS_SA$Region)] <- "South Africa"
-GPS_SA <- subset(GPS_SA, GPS_SA$Region != "South Africa")
-GPS_SA[] <- lapply(GPS_SA, function(x) if(is.factor(x)) factor(x) else x)
-GPS_SA<-subset(GPS_SA, GPS_SA$Col_Year>1999)
-```
 ##### 1) RR Lineage Level: Find Latitude and Longitude for each province
 ```{r}
-# #Specify that it is south africa so that it assigns the correct lat and long
-GPS_SA$Region[GPS_SA$Region == "North West"] <- "North West, South Africa"
-# # ##Province Latitude and longitude
-city <- names(table(GPS_SA$Region[GPS_SA$Country=="South Africa"]))
-#Geocoding
-# #input is a list of country in a csv file
-require(tmaptools)
-# #output file
-Geocoding_output <- data.frame("Region" =0, "Latitude_New"=0, "Longitude_New"=0)
-# #Geocoding
-for (i in city) {
-  longitude <- geocode_OSM(i)$coords[1]
-  latitude <- geocode_OSM(i)$coords[2]
-  Geocoding_output <- rbind(Geocoding_output, c(i,latitude, longitude))
-}
-Geocoding_output <- subset(Geocoding_output, Geocoding_output$Longitude_New != 0)
-GPS_GEO <- left_join(GPS_SA, Geocoding_output, by = "Region")
-# # #Change it back to the name of the province once latitude is assigned
-GPS_SA <- GPS_GEO
-GPS_SA$Region[GPS_SA$Region == "North West, South Africa"] <- "North West"
-# setwd("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/inputFiles/")
-# setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/SA_Metadata/GPS/")
-# save(GPS_SA,file="/Users/sb62/Documents/Migration/SA_Migration_110422/SA_Metadata/GPS/GPS_SA.RData")
-# load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/GPS_SA.RData")
-# GPS_SA<-subset(GPS_SA, GPS_SA$Type=="Disease")
+# Read in Data
+load("../data/gps_metadata/GPS_SA.RData")
 ```
 #### Set up 6910X6910 Matrices for lineage level RR
 ```{r}
@@ -139,6 +95,7 @@ neighbor_cont_bootstrap <- function(x=x,y=x, geo_matrix, colyear_matrix, strain_
 ```
 ###### Calculate the RR at the lineage level across South African Provinces
 ```{r}
+nboot=10
 ##collection time window
 tseqmax=c(1)
 tseqmin=c(0)
@@ -154,7 +111,6 @@ tseqmin=c(0)
     minpos=maxpos-window
     minpos[which(minpos<0)]<-0
     minpos[1] <- 0
-    nboot=50
     boot.out = matrix(NA, length(maxpos), nboot )
     nseq = nrow(GPS_SA)
     sa_row <- 1:nseq
@@ -201,31 +157,34 @@ tseqmin=c(0)
     # mat$distance_range[mat$distance_range=="1300 - 1600"]<-">1300"
     mat_lineage<-mat
   
-setwd("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/input_files/")
-    # if(disease==TRUE){ 
-# if(sub==TRUE){save(mat_lineage,file="mat_lineage.disease.Sub.Rdata")} else {save(mat_lineage,file="mat_lineage.disease.noSub.Rdata") } } else{if(sub==TRUE){save(mat_lineage,file="mat_lineage.Sub.Rdata")} else {save(mat_lineage,file="mat_lineage.noSub.Rdata") } }
+if(sub==TRUE){save(mat_lineage,file="./files/mat_lineage.Sub.Rdata")
+  } else {save(mat_lineage,file="./files/mat_lineage.noSub.Rdata") } 
 ```
 
 ##### (2) Find RR using Genomic data(using time resolved trees) 
 ```{r}
+##Load in Data
+load("../data/gps_metadata/GPS_GPSC_everything.RData")
+'%notin%'<-Negate('%in%')
+
 # #Read in trees
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC2/bactdating/bd_GPSC2_1e6")
+resbd <- readRDS("../data/phylogenies/bd_GPSC2")
 res2 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC5/bactdating/bd_GPSC5_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC5")
 res5 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC14/bactdating/bd_GPSC14_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC14")
 res14 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC17/bactdating/bd_GPSC17_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC17")
 res17 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC13/bactdating/bd_GPSC13_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC13")
 res13 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC10/bactdating/bd_GPSC10_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC10")
 res10 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC68/bactdating/bd_GPSC68_1e8")
+resbd <- readRDS("../data/phylogenies/bd_GPSC68")
 res68 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC79/bactdating/sero4_14/bd_GPSC79_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC79")
 res79 <- resbd$tree
-resbd <- readRDS("/Users/sb62/Documents/Migration/BactDating/GPSC1/bactdating/bd_GPSC1_1e7")
+resbd <- readRDS("../data/phylogenies/bd_GPSC1")
 res1 <- resbd$tree
 ## #Bind trees
 resA <- bind.tree(res2,res5)
@@ -237,85 +196,6 @@ resF <- bind.tree(resC,resD)
 resG <- bind.tree(resE, resF)
 res_everything <- bind.tree(resG,res1)
 lanes <- res_everything$tip.label
-GPS <- read.table(file = "/Users/sb62/Documents/Migration/raw_data/combined_GPSPneumoDB_clean.csv", sep =  "," , header = TRUE, fill = TRUE, stringsAsFactors = FALSE)
-GPS_GPSC_everything <- subset(GPS, GPS$Lane_Id %in% lanes)
-
-##Input missing latitudes and longitudes
-# #Latitude
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "USA"] <- 37.0902
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "China"] <- 35.8617
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Egypt"] <- 26.8206
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Thailand"] <- 15.87
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "The Gambia"] <- 13.4432
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "UK"] <- 3.4360
-
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Austria"] <- 47.5162
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Germany"] <- 51.1657
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Iceland"] <- 64.9631
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Korea"] <- 35.9078
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Malawi"] <- 13.2543
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Malaysia"] <- 4.2105
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Netherlands"] <- 52.1326
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Portugal"] <- 39.3999
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Taiwan"] <- 23.6978
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Turkey"] <- 38.9637
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "Vietnam"] <- 14.0583
-
-# #Longitude
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "USA"] <- -95.7129
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "China"] <- 104.195
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Egypt"] <- 30.8025
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Thailand"] <- 100.993
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "The Gambia"] <- -15.3101
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "UK"] <- 55.3781
-
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Austria"] <- 14.5501
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Germany"] <- 10.4515
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Iceland"] <- 19.0208
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Korea"] <- 127.7669
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Malawi"] <- 34.3015
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Malaysia"] <- 101.9758
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Netherlands"] <- 5.2913
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Portugal"] <- 8.2245
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Taiwan"] <- 120.9605
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Turkey"] <- 35.2433
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "Vietnam"] <- 108.2772
-
-### Make South African Regions match names and exclude any which do not have a geolocation by region
-GPS_GPSC_everything$Region <- as.character(GPS_GPSC_everything$Region)
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "Kwazulu Natal"] <- "KwaZulu-Natal"
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "KwaZulu Natal"] <- "KwaZulu-Natal"
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "Soweto"] <- "Gauteng"
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "Agincourt"] <- "Mpumalanga"
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "North West"] <- "North West"
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Country == "South Africa" & GPS_GPSC_everything$Region == ""] <- "South Africa"
-#Remove genomes with no region in South Africa.
-GPS_GPSC_everything <- subset(GPS_GPSC_everything, GPS_GPSC_everything$Region != "South Africa")
-
-#### Assign latitudes and longitudes of regions
-# # #Specify that North West is south africa so that it assigns the correct lat and long
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "North West"] <- "North West, South Africa"
-# # ##Province Latitude and longitude
-city <- names(table(GPS_GPSC_everything$Region[GPS_GPSC_everything$Country=="South Africa"]))
-#Geocoding
-# #input is a list of country in a csv file
-require(tmaptools)
-# #output file
-Geocoding_output <- data.frame("Region" =0, "Latitude_New"=0, "Longitude_New"=0)
-# #Geocoding
-for (i in city) {
-  longitude <- geocode_OSM(i)$coords[1]
-  latitude <- geocode_OSM(i)$coords[2]
-  Geocoding_output <- rbind(Geocoding_output, c(i,latitude, longitude))
-}
-Geocoding_output <- subset(Geocoding_output, Geocoding_output$Longitude_New != 0)
-GPS_GEO <- left_join(GPS_GPSC_everything, Geocoding_output, by = "Region")
-# # #Change it back to the name of the province once latitude is assigned
-GPS_GPSC_everything <- GPS_GEO
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Region == "North West, South Africa"] <- "North West"
-GPS_GPSC_everything$Latitude[GPS_GPSC_everything$Country == "South Africa"] <- GPS_GPSC_everything$Latitude_New[GPS_GPSC_everything$Country == "South Africa"]
-GPS_GPSC_everything$Longitude[GPS_GPSC_everything$Country == "South Africa"] <- GPS_GPSC_everything$Longitude_New[GPS_GPSC_everything$Country == "South Africa"]
-GPS_GPSC_everything$Region[GPS_GPSC_everything$Country != "South Africa"] <- GPS_GPSC_everything$Country[GPS_GPSC_everything$Country != "South Africa"]
 
 if (disease==TRUE) {GPS_GPSC_everything<-subset(GPS_GPSC_everything,GPS_GPSC_everything$Type=="Disease")}
 # ###### Drop tips of tree not included in metadata
@@ -325,21 +205,6 @@ res_overall <- keep.tip(res_everything, lanes_tree)
 order <- res_overall$tip.label
 GPS_GPSC_everything <- GPS_GPSC_everything %>%
   dplyr::slice(match(order, Lane_Id))
-# setwd("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/")
-# save(GPS_GPSC_everything,file="GPS_GPSC_everything.RData")
-# save(res_overall,file="res_overall.RData")
-'%notin%'<-Negate('%in%')
-# load("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/GPS_GPSC_everything.RData")
-published<-read.csv("/Users/sb62/Documents/Migration/SA_Migration_110422/Relative_Risk_Framework/laneids-published.csv")
-# pub_lid<-published$Lane_id[which(published$Published=="Y" | published$Published=="Others")]
-# GPS_GPSC_everything.pub<-subset(GPS_GPSC_everything,GPS_GPSC_everything$Lane_Id%notin%pub_lid)
-# countries.included<-data.table(table(GPS_GPSC_everything$Country))[order(-N)]
-# colnames(countries.included)<-c("countries","N_all")
-# countries.included.pub<-data.table(table(GPS_GPSC_everything.pub$Country))[order(-N)]
-# colnames(countries.included.pub)<-c("countries","N_notPub")
-# countries.included<-merge(countries.included,countries.included.pub,by=c("countries"),all=TRUE)
-# countries.included[which(is.na(countries.included$N_notPub)),]$N_notPub<-0
-# write.csv2(countries.included,file="/Users/sb62/Documents/Migration/SA_Migration_110422/Submission/Countries_Included/countries.included.csv",quote =FALSE,row.names = FALSE)
 ```
 
 ##### Build Matrices of all tips in the tree 6788*6788 for all
@@ -415,10 +280,6 @@ neighbor_cont_bootstrap <- function(x=x,y=x, geo_matrix, colyear_matrix, strain_
   a1=cumsum(hist(tmp*strain_mat.tmp,breaks=c(0,0,minpos,1e10),plot=F)$counts)
   a2=cumsum(hist(tmp*strain_mat.tmp,breaks=c(0,0,maxpos,1e10),plot=F)$counts)
   a=a2-a1
-
-  # b1=cumsum(hist(tmp*(denom_mat.tmp*gpsc_mat.tmp),breaks=c(0,0,minpos,1e10),plot=F)$counts)
-  # b2=cumsum(hist(tmp*(denom_mat.tmp*gpsc_mat.tmp),breaks=c(0,0,maxpos,1e10),plot=F)$counts)
-  # b=b2-b1
   
   b1=cumsum(hist(tmp*(gpsc_mat.tmp),breaks=c(0,0,minpos,1e10),plot=F)$counts)
   b2=cumsum(hist(tmp*(gpsc_mat.tmp),breaks=c(0,0,maxpos,1e10),plot=F)$counts)
@@ -427,8 +288,6 @@ neighbor_cont_bootstrap <- function(x=x,y=x, geo_matrix, colyear_matrix, strain_
   c = rep(sum(tmp2*strain_mat.tmp, na.rm=T),length(b))
   
   d = rep(sum(tmp2*gpsc_mat.tmp, na.rm=T),length(a))
-  # d = rep(sum(tmp2*(denom_mat.tmp)*gpsc_mat.tmp, na.rm=T),length(a))
-
   
   rr = (a/b)/(c/d) 
   if (max(rr, na.rm = T)>1E10){
@@ -533,10 +392,13 @@ for (k in 1:length(tseqmax)) {
   }
   
 mat_plot <- rbindlist(mat_list)
-setwd("/Users/sb62/Documents/Migration/Mobility_transmission_SA/Mobility_transmission/04APR22_PlotScripts/Relative_Risk_Framework/input_files/")
+setwd("./files/")
 matplot_specificRange <- mat_plot
-# if (disease==TRUE){  if(sub==TRUE){save(matplot_specificRange,file="matplot_specificRange.disease.Sub.RData")}else{save(matplot_specificRange,file="matplot_specificRange.disease.noSub.RData")} }else { 
-# if(sub==TRUE){save(matplot_specificRange,file="matplot_specificRange.Sub.RData")}else{save(matplot_specificRange,file="matplot_specificRange.noSub.RData")}}
+if (disease==TRUE){  if(sub==TRUE){save(matplot_specificRange,file="./files/matplot_specificRange.disease.Sub.RData")
+  }else{save(matplot_specificRange,file="./files/matplot_specificRange.disease.noSub.RData")} 
+  }else {
+if(sub==TRUE){save(matplot_specificRange,file="./files/matplot_specificRange.Sub.RData")
+  }else{save(matplot_specificRange,file="./files/matplot_specificRange.noSub.RData")}}
 ```
 #### Genomic but continuous rather than categorical
 ```{r}
@@ -631,8 +493,8 @@ for (k in 1:length(tseqmax)) {
   
 mat_plot <- rbindlist(mat_list)
 matplot_continuous <- mat_plot
-# if (disease==TRUE){if(sub==TRUE){save(matplot_continuous,file="matplot_continuous.disease.Sub.RData")}else{save(matplot_continuous,file="matplot_continuous.disease.noSub.RData")}  }else{
-# if(sub==TRUE){save(matplot_continuous,file="matplot_continuous.Sub.RData")}else{save(matplot_continuous,file="matplot_continuous.noSub.RData")} }
+if (disease==TRUE){if(sub==TRUE){save(matplot_continuous,file="./files/matplot_continuous.disease.Sub.RData")}else{save(matplot_continuous,file="./files/matplot_continuous.disease.noSub.RData")}  }else{
+if(sub==TRUE){save(matplot_continuous,file="./files/matplot_continuous.Sub.RData")}else{save(matplot_continuous,file="./files/matplot_continuous.noSub.RData")} }
 ```
 
 
@@ -680,7 +542,8 @@ pmanycont <- lin1_mal_cont + facet_wrap( ~ time_range_f, nrow =1) +
   strip.text.x = element_text(
     size = 12, color = "black"
   ))
-pmanycont 
+ggsave(pmanycont,"./plots/pmanycont.plot")
+#  
 ```
 
 ```{r}
@@ -763,6 +626,5 @@ homog <- plotwithin + facet_wrap( ~ distance_range_f, nrow =1) +
   theme(strip.text.x = element_blank())
 ```
 
-#####Test only under 5's
 
 
