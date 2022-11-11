@@ -25,7 +25,7 @@ Unzip and place files in ```./data/landscan2017/```<br />
   Unzip downloaded files and place them in ```./data/shapefiles/```<br />
   
 2) **Facebook Data** (https://dataforgood.facebook.com/) <br />
-*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL). *<br />
+*This script reads in the raw facebook mobility data from the disaster movement range maps (data downloaded from FigShare URL).*<br />
 Script: ```facebook_rawData.R``` <br />
 Output: ```./data/landscan2017/landscan_populations.RData```  <br />
 ```./data/facebook/mvment_SA.provinces.RData```  <br />
@@ -96,6 +96,10 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 5) Run ```051122_NMunicSim.R``` to simulate the branching epidemic.
 6) To vary whether the start location is Rural (<50per/km2) or Urban (>500per/km2) run ```051122_RuralUrbanNMunic.R```. 
 
+### Generation Time Estimates <br />
+*Take the carriage duration estimates from The Gambia and Kilifi, Kenya and estimate the transmission generation distribution using simulation* <br />
+Script: ```./CarriageDurations/061122_Carriage_GenTime.R```<br />
+Output: Plot into ```./CarriageDurations/```<br />
 ## Relative Risk Analysis
 *This is an Rmarkdown file detailing the relative risk analysis both at the lineage level, with time resolved trees, categorically & continuously. You can toggle the ```sub``` and ```disease``` variables ```TRUE``` or ```FALSE``` depending on whether you want to sub-sample or only use disease isolates.*<br />
 Script: ```./RelativeRisk/061122_RRScript.Rmd```<br />
