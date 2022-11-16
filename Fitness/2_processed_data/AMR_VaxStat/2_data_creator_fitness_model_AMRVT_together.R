@@ -1,5 +1,5 @@
 
-setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/TAKE2_toberm/")
+setwd("./Fitness/")
 ################################################################################
 ###Resistance Data###
 ##Reference is Resistance which is the second row.
