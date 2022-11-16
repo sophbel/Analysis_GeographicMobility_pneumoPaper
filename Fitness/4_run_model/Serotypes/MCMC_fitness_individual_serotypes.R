@@ -11,11 +11,11 @@ library(doParallel)
 rstan_options(auto_write = TRUE)
 
 ############# R(t) model
-# setwd('/Users/noemielefrancq/Documents/Project_fitness_Strep_Pneumo/SPneumoMobility/Fitness/NVT_PCV7_PCV13_dynamics/per_serotype_overvallSA/')
-model.MCMC <- stan_model(file = '../3_model/Serotypes/Model_fitness_individual_serotypes_2p_vaccineintro_switch_11082022.stan')
+setwd('./Fitness/')
+model.MCMC <- stan_model(file = './3_model/Serotypes/Model_fitness_individual_serotypes_2p_vaccineintro_switch_11082022.stan')
 
 ############# data for MCMC ######################################################
-data.MCMC = readRDS('../2_processed_data/Serotypes/Data_model_individual_serotypes_11082022_ref_13NVT.rds')
+data.MCMC = readRDS('./2_processed_data/Serotypes/Data_model_individual_serotypes_11082022_ref_13NVT.rds')
 
 ############# parameters vaccination #############################################
 data.MCMC$R_every_pre_vacc = 12
