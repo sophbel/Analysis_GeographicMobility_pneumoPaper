@@ -1,6 +1,6 @@
 # Description of how to run the Fitness model 
 *This analysis was run using R version 4.0.5* <br />
-### Install packages ```install.packages(c("RColorBrewer","rstan","binom","stringr","data.table","doParallel","loo","ggplot2"))```r
+Install packages ```install.packages(c("RColorBrewer","rstan","binom","stringr","data.table","doParallel","loo","ggplot2"))```<br />
 ### Model Types
 Each top folders is subset by the three different types of models we run: <br />
 1)  NVT_PCV7_PCV13: Fitness of all serotypes grouped by whether they are in the vaccine.
