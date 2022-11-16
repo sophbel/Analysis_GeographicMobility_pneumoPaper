@@ -1,7 +1,7 @@
 library(stringr)
 library(data.table)
-setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/")
-load("./raw_data/GPS_SA.AMR.RData")
+setwd("./Fitness/")
+load("./1_raw_data/GPS_SA.AMR.RData")
 GPS_SA.amr$Region<-str_to_upper(GPS_SA.amr$Region)
 vt.type <- c("NVT","VT")
 amr.type <- c(0,1)
@@ -42,9 +42,9 @@ for (i in 1:nb_regions) {
 }
 names(clade_list)<-provs
 clade_sero_list <- clade_list
-save(clade_list,file="./Data/alltogether/VaccineStatus/clade_list.RData")
-save(clade_sero_list,file="./Data/alltogether/VaccineStatus/clade_sero_list.RData")
-save(clade_number_array, file="./Data/alltogether/VaccineStatus/clade_numer_array.RData")
+save(clade_list,file="./2_processed_data/AMR_VaxStat/VT_NVT/clade_list.RData")
+save(clade_sero_list,file="./2_processed_data/AMR_VaxStat/VT_NVT/clade_sero_list.RData")
+save(clade_number_array, file="./2_processed_data/AMR_VaxStat/VT_NVT/clade_numer_array.RData")
 ####################################################
 
 
@@ -75,9 +75,9 @@ for (i in 1:nb_regions) {
 }
 names(clade_list)<-provs
 clade_sero_list <- clade_list
-save(clade_list,file="./Data/alltogether/AMR/clade_list.RData")
-save(clade_sero_list,file="./Data/alltogether/AMR/clade_sero_list.RData")
-save(clade_number_array, file="./Data/alltogether/AMR/clade_numer_array.RData")
+save(clade_list,file="./2_processed_data/AMR_VaxStat/AMR/clade_list.RData")
+save(clade_sero_list,file="./2_processed_data/AMR_VaxStat/AMR/clade_sero_list.RData")
+save(clade_number_array, file="./2_processed_data/AMR_VaxStat/AMR/clade_numer_array.RData")
 ####################################################
 
 
@@ -115,9 +115,9 @@ for (i in 1:nb_regions) {
 
 names(clade_list)<-provs
 clade_sero_list <- clade_list
-save(clade_list,file="./Data/alltogether/Overall/clade_list.RData")
-save(clade_sero_list,file="./Data/alltogether/Overall/clade_sero_list.RData")
-save(clade_number_array, file="./Data/alltogether/Overall/clade_numer_array.RData")
+save(clade_list,file="./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_list.RData")
+save(clade_sero_list,file="./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_sero_list.RData")
+save(clade_number_array, file="./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_numer_array.RData")
 
 
 

@@ -4,7 +4,10 @@
 ### Author: Sophie Belman
 ### Last modification: 11NOV22
 #######################################################
-setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/")
+# setwd("./Fitness/")
+setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/TAKE2_toberm/")
+
+
 ## Load required packages
 library(rstan)
 library(doParallel)  
@@ -12,13 +15,10 @@ library(loo)
 # library(gcc)
 rstan_options(auto_write = TRUE)
 ############# Load model and compile
-model.MCMC <- stan_model(file = './Model/Model_fitness_genotypes_2p_AMR_VT_together.stan')
+model.MCMC <- stan_model(file = './3_model/AMR_VaxStat/Model_fitness_genotypes_2p_AMR_VT_together.stan')
 #
 ############# Data
-data.MCMC = readRDS('./Data/alltogether/Data_model_061622_ref_R.VT_fitness.rds')
-# data.MCMC = readRDS('/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/Data/ERY_VaxStat/Data_model_061622_ref_R.VT_fitness.rds')
-# data.MCMC = readRDS('/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/Data/AMR_VaxStat/carriageonly/Data_model_061622_ref_R.VT_fitness.rds')
-# data.MCMC = readRDS('/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/Data/AMR_VaxStat/diseaseonly/Data_model_061622_ref_R.VT_fitness.rds')
+data.MCMC = readRDS('./2_processed_data/AMR_VaxStat/Data_model_061622_ref_R.VT_fitness.rds')
 
 ############# Parameters vaccination #############################################
 
@@ -35,11 +35,7 @@ data.MCMC$yearIntroduction = data.MCMC$vaccine_introduction
 ## Run MCMC 
 ##################################################################################
 ## Name output
-# name_file = '/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/AMR_VaxStat/Output_vaxstatAMR_NVT.R'
-# name_file = '/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/ERY_VaxStat/29JUN22_AllTogether/Output_vaxstatERY_NVT.R'
-# name_file = '/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/AMR_VaxStat/carriageonly/Output_vaxstatAMR_NVT.R'
-# name_file = '/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/AMR_VaxStat/diseaseonly/Output_vaxstatAMR_NVT.R'
-name_file = '/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/AMR_VaxStat//Output_vaxstatAMR_NVT.R'
+name_file = './4_run_model/AMR_VaxStat/output/Output_vaxstatAMR_NVT.R'
 
 
 ## Number of cores to use
@@ -62,7 +58,7 @@ f0_init = function(nb_countries, nb_geno){
     res[,i] = rnorm(nb_countries, mean = 0.08, sd = 0.01)
   }
 }
-iters=200
+iters=100
 # foreach(i = 1:3)  %dopar% {
   for(i in 1:3)  {
 
@@ -70,8 +66,8 @@ iters=200
   print(paste0('Running chain n = ', i))
   fit_delay <- sampling(model.MCMC, data = data.MCMC, 
                         show_messages = TRUE, 
-                        chains = 1, cores = 1,iter= iters, chain_id = i,
-                        # chains = 1, cores = 1,iter= 1000, chain_id = i,
+                        # chains = 1, cores = 1,iter= iters, chain_id = i,
+                        chains = 1, cores = 1,iter= 1000, chain_id = i,
                         control = list(adapt_delta = 0.97, max_treedepth = 13)) 
   fit = list(fit=fit_delay,
              data= data.MCMC)
@@ -140,7 +136,4 @@ waic_1 <- waic(log_lik_1, r_eff = r_eff, cores = 2)
 print(loo_1)
 print(waic_1)
 ################################################################################
-# setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/Fitness/RunModel/AMR_VaxStat/")
-# pdf("plots.pdf",width=10,height=10,onefile = F)
-# pairs(fit$fit, pars=c("f0_amr","f0_vstat"))
-# dev.off()
+

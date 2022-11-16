@@ -12,10 +12,10 @@ rstan_options(auto_write = TRUE)
 
 ############# R(t) model
 #setwd('/Users/noemielefrancq/Documents/Project_fitness_Strep_Pneumo/SPneumoMobility/Fitness/NVT_PCV7_PCV13_dynamics/per_provice_NVT_PCV7_PCV13_swicth2009_minus1/')
-model.MCMC <- stan_model(file = '../3_model/Model_fitness_PCV_2p_vaccineintro_switch_11082022.stan')
+model.MCMC <- stan_model(file = '../3_model/NVT_PCV7_PCV13/Model_fitness_PCV_2p_vaccineintro_switch_11082022.stan')
 
 ############# data for MCMC ######################################################
-data.MCMC = readRDS('../2_processed_data/Data_model_NVT_PCV7_PCV13_11082023_ref_NVT.rds')
+data.MCMC = readRDS('../2_processed_data/NVT_PCV7_PCV13/Data_model_NVT_PCV7_PCV13_11082023_ref_NVT.rds')
 
 ############# parameters vaccination #############################################
 data.MCMC$R_every_pre_vacc = 12
@@ -54,8 +54,8 @@ for(delay in delays){
   # seed = 123
   # print(paste0('seed = ', seed))
   
-  if(delay >= 0) name_file = paste0('Output_per_provice_NVT_PCV7_PCV13_swicth2009_plus', abs(delay))
-  if(delay < 0) name_file = paste0('Output_per_provice_NVT_PCV7_PCV13_swicth2009_minus', abs(delay))
+  if(delay >= 0) name_file = paste0('./4_run_model/Serotypes/output/Output_per_provice_NVT_PCV7_PCV13_swicth2009_plus', abs(delay))
+  if(delay < 0) name_file = paste0('./4_run_model/Serotypes/output/Output_per_provice_NVT_PCV7_PCV13_swicth2009_minus', abs(delay))
   print(name_file)
   
   foreach(i = 1:3)  %dopar% {

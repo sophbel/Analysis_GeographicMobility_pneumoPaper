@@ -1,12 +1,12 @@
 
-
+setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/TAKE2_toberm/")
 ################################################################################
 ###Resistance Data###
 ##Reference is Resistance which is the second row.
 ################################################################################
-load('./Data/alltogether/AMR/clade_list.RData')
-load('./Data/alltogether/AMR/clade_numer_array.RData')
-load('./Data/alltogether/AMR/clade_sero_list.RData')
+load('./2_processed_data/AMR_VaxStat/AMR/clade_list.RData')
+load('./2_processed_data/AMR_VaxStat/AMR/clade_numer_array.RData')
+load('./2_processed_data/AMR_VaxStat/AMR/clade_sero_list.RData')
 clade_list_amr=clade_list
 # clade_number_array_strep_pneumo = clade_number_array
 clade_number_array_amr = clade_number_array
@@ -15,9 +15,9 @@ clade_sero_list_amr=clade_sero_list
 ###Vaccine Type Data###
 ###Reference is NVT which is the 1st row
 ################################################################################
-load('./Data/VaccineStatus/AMR/clade_list.RData')
-load('./Data/VaccineStatus/clade_numer_array.RData')
-load('./Data/VaccineStatus/clade_sero_list.RData')
+load('./2_processed_data/AMR_VaxStat/VT_NVT/clade_list.RData')
+load('./2_processed_data/AMR_VaxStat/VT_NVT/clade_numer_array.RData')
+load('./2_processed_data/AMR_VaxStat/VT_NVT/clade_sero_list.RData')
 clade_list_vstat=clade_list
 # clade_number_array_strep_pneumo = clade_number_array
 clade_number_array_vstat = clade_number_array
@@ -27,9 +27,9 @@ clade_sero_list_vstat=clade_sero_list
 ###Vaccine Type Data###
 ###Reference is NVT-R which is the 2nd row
 ################################################################################
-load('./Data/Overall/clade_list.RData')
-load('./Data/Overall/clade_numer_array.RData')
-load('./Data/Overall/clade_sero_list.RData')
+load('./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_list.RData')
+load('./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_numer_array.RData')
+load('./2_processed_data/AMR_VaxStat/AMR_VTNVT/clade_sero_list.RData')
 clade_list_total=clade_list
 # clade_number_array_strep_pneumo = clade_number_array
 clade_number_array_total = clade_number_array
@@ -263,5 +263,5 @@ data.MCMC = list(nb_genotypes_amr = nb_clades_amr,
                  # freq_per_class = freq_per_class,
                  
                  vaccine_introduction = vaccine_introduction)
-saveRDS(data.MCMC, './Data/alltogether/Data_model_061622_ref_R.VT_fitness.rds')
+saveRDS(data.MCMC, './2_processed_data/AMR_VaxStat/Data_model_061622_ref_R.VT_fitness.rds')
 
