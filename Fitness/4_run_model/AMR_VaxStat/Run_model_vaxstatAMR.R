@@ -4,7 +4,6 @@
 ### Author: Sophie Belman
 ### Last modification: 11NOV22
 #######################################################
-# setwd("./Fitness/")
 setwd("./Fitness/")
 
 
