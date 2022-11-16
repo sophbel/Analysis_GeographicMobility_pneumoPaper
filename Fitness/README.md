@@ -1,15 +1,23 @@
 # Description of how to run the Fitness model 
-## Vaccine type and non-vaccine type serotypes
 
-## Penicillin resistance in vaccine type and non-vaccine type serotypes
-### Process the raw data
-Script: ```./Data/alltogether/111122_fitness.formatting.VaccineStatus_AMR_AMRVaxStat.R```<br />
+### Model Types
+#### Serotypes: Fitness of each serotype across provinces in South Africa.
+#### NVT_PCV7_PCV13: Fitness of all serotypes grouped by whether they are in the vaccine.
+#### AMR_VaxStat: Fitness of penicillin resistance within non-vaccine type and vaccine type serotypes.
+
+### 1: Raw data
+In this folder, you will find the raw data used, consisting of the metadat for each sequence in this study.  
+
+### 2: Processed data
+You will find the processed data, that is the input of the model, and the script to curate the raw data.
 Output: This will output the files with the numbers of vaccine type and non-vaccine type, AMR, and whether the VT or NVT had penicillin resistance. <br />
 
-### Format the data input file for the model
-Script: ```./Data/DataCreators/data_creator_fitness_model_AMRVT_together.R```<br />
-Output: ```./Data/alltogether/Data_model_061622_ref_R.VT_fitness.rds```<br />
+### 3: Model
+You will find the various models used in this study. **(needs more description)**
 
-## Set up to run the model
-1) mkdir ```RunModel```
-2) 
+### 4: Results
+#### Serotypes: Fitness of each serotype across provinces in South Africa.
+#### NVT_PCV7_PCV13: Fitness of all serotypes grouped by whether they are in the vaccine.
+#### AMR_VaxStat: Fitness of penicillin resistance within non-vaccine type and vaccine type serotypes.
+
+### 5: Figures

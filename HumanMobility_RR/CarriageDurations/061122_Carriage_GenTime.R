@@ -94,5 +94,5 @@ ggplot()+
   scale_fill_manual(values = colors,breaks=c("The Gambia","Kenya"),limits=c("The Gambia","Kenya"))+
   guides(fill = guide_legend(override.aes = list(size=10,color="white")))
 
-
+ggsave("./CarriageDurations/transmissiongens.pdf",width=4,height=3.5)
   

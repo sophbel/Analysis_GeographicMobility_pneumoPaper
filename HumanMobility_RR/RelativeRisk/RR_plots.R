@@ -4,7 +4,6 @@
 disease=FALSE
 sub=FALSE
 load("./data/gps_metadata/GPS_SA.RData")###This loads all 6910 SA metadata
-
 if(sub==FALSE){
 if(disease==TRUE){
   load("./RelativeRisk/files/mat_lineage.disease.noSub.Rdata")###This loads all 6910 SA metadata

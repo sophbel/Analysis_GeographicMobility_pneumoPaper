@@ -5,7 +5,7 @@
 ### Last modification: 11NOV22
 #######################################################
 # setwd("./Fitness/")
-setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/Fitness/TAKE2_toberm/")
+setwd("./Fitness/")
 
 
 ## Load required packages
