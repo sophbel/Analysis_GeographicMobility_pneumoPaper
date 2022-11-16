@@ -109,4 +109,3 @@ Script: ```./RelativeRisk/061122_RRScript.Rmd```<br />
 4) Open ```RR_plots.R``` to reproduce the relative risk plots from the paper
 
 
-## Fitness Analysis
