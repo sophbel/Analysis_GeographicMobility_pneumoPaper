@@ -4,7 +4,7 @@
 setwd('./Fitness/')
 
 ## Load data
-load('1_raw_data/GPS_SA.GPSC.RData')
+load('./1_raw_data/GPS_SA.GPSC.RData')
 
 ## Define pcv 7 and pcv 13 serotype
 pcv7.type <- c("4","6B", "9V","14","18C","23F","19F")
@@ -112,5 +112,5 @@ data.MCMC = list(nb_genotypes = nb_clades,
 ################################################################################
 ## Save data 
 ################################################################################
-saveRDS(data.MCMC, '2_processed_data/NVT_PCV7_PCV13/Data_model_NVT_PCV7_PCV13_11082022_ref_NVT.rds')
+saveRDS(data.MCMC, './2_processed_data/NVT_PCV7_PCV13/Data_model_NVT_PCV7_PCV13_11082022_ref_NVT.rds')
 ################################################################################
