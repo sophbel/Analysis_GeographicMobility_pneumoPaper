@@ -7,7 +7,7 @@ This analysis integrates human mobility data and genomic data to mechanistically
 ```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize","patchwork"))```
 
 ### Process raw input data.*
-* *Links throughout allow to you to download processed data* <br />
+**Links throughout allow to you to download processed data* <br />
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
