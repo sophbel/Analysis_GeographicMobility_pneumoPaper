@@ -1,4 +1,5 @@
 # Analysis for fitness of *Streptococcus pneumoniae* including vaccine status, individual serotypes, and penicillin resistance
+## Fitness model
 *This analysis was run using R version 4.0.5* <br />
 <br />
 Install packages ```install.packages(c("RColorBrewer","rstan","binom","stringr","data.table","doParallel","loo","ggplot2"))```<br />
