@@ -8,6 +8,7 @@ This analysis integrates human mobility data and genomic data to mechanistically
 
 ### Process raw input data.*
 **Links throughout allow to you to download processed data* <br />
+<br />
 Raw input data is in this folder:
 ```./scripts/manage_rawData/```
 1) **Landscan Data** (https://landscan.ornl.gov/) <br />
