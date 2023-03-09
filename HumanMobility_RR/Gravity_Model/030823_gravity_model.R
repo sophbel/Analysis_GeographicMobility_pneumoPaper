@@ -26,3 +26,12 @@ for(i in 1:n){
 rowtot<-rowSums(probMove)
 probMove_grav_munic <- apply(probMove, 2, function(x) x/rowtot  )
 
+timeWindow<-35
+probStay<-1-(diag(probMove_grav_munic))^timeWindow
+tmp<-probMove_grav_munic
+diag(tmp)<-0
+tmp<-sweep(tmp,1,rowSums(tmp),"/")
+tmp<-sweep(tmp,1,(1-probStay)/(1-diag(tmp)),"*")
+diag(tmp)<-probStay
+probMoveWeek<-tmp
+

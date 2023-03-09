@@ -38,21 +38,21 @@ likFunc.munic<-function(par){
   rowtot<-rowSums(probMove)
   probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
   
-  probMoveMonth<-1-exp(-probMove_preadj*35)
-  tmp.oneIP <- rowSums(probMoveMonth)
-  tmpbase <- apply(probMoveMonth, 2, function(x) x/tmp.oneIP  )
+  ### first method to adjust for infectious period
+  # probMoveMonth<-1-exp(-probMove_preadj*35)
+  # tmp.oneIP <- rowSums(probMoveMonth)
+  # tmpbase <- apply(probMoveMonth, 2, function(x) x/tmp.oneIP  )
+  
+  ### second method to adjust for infectious period
+  timeWindow<-35
+  probStay<-1-(diag(probMove_preadj))^timeWindow
+  tmp<-probMove_preadj
+  diag(tmp)<-0
+  tmp1<-sweep(tmp,1,rowSums(tmp),"/")
+  tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
+  diag(tmp2)<-probStay
+  tmpbase<-tmp2
 
-  ### Create mobility matrix for susceptible individuals
-  # tmpbase<-cdr.mat.town
-  # tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))
-  # tmppar <- min.range+tmppar1*(max.range-min.range)
-  # tmpdiag<-diag(tmpbase)-tmppar
-  # tmpdiag[which(tmpdiag>0.99999)]<-0.99999
-  # diag(tmpbase)<-0
-  # tmpbase<-sweep(tmpbase,1,rowSums(tmpbase),"/")
-  # tmpbase<-sweep(tmpbase,1,(1-tmpdiag)/(1-diag(tmpbase)),"*")
-  # diag(tmpbase)<-tmpdiag
-  # tmp.sick<-tmp<-tmpbase
   
   ####### Collapse mobility matrix to 9X9 here
   nloc.munic=nrow(tmpbase)
