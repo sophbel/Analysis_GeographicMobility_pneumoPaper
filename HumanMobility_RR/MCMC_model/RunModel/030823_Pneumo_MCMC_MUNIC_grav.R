@@ -82,7 +82,7 @@ calcAllProbs=FALSE
 maxGen=maxTranGens
 
 sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
-source("./Gravity_Model/LikFunc.mcmc.Munic_grav.R")
+source("./LikelihoodFunctions/LikFunc.mcmc.Munic_grav.R")
 
 nam.a<-colnames(cdr.mat)
 pop_2019<-pop_2019[nam.a]
@@ -137,7 +137,7 @@ par3<-runif(1,-3,0)
 par4_10<-runif(8,0,0.9999)
 startPar<-c(par1,par2,par3,par4_10)
 ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
-save(ans.munic,file=paste0("./MCMC_model/outputs/ans.munic",chain,".",iters,".08_gravity",".RData"))
+save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/ans.munic",chain,".",iters,".08_gravity",".RData"))
 
 
 
