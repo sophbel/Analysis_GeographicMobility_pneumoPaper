@@ -35,7 +35,7 @@ SA_pair_BL.normal.one.munic <- apply(SA_pair_BL.raw.one, 2, function(x) x/tmp.on
 
 ### combine probabilities across mean infectious periods
 ### adjusted for infectious period
-probMoveMonth_Munic<-1-exp(-SA_pair_BL.normal.one.munic*30)
+probMoveMonth_Munic<-1-exp(-SA_pair_BL.normal.one.munic*35)
 tmp.oneIP <- rowSums(probMoveMonth_Munic)
 SA_pair_BL.normal.IP.munic <- apply(probMoveMonth_Munic, 2, function(x) x/tmp.oneIP  )
 probmob.Munic <- SA_pair_BL.normal.IP.munic
