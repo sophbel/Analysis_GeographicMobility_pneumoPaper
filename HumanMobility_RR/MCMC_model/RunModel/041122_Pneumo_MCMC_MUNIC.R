@@ -1,4 +1,4 @@
-setwd( "/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR")
+setwd( "/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ### Municipality Level Function
 iters=10
 # for (chain in 1:3){
