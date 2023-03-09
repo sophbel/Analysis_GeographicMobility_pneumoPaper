@@ -19,20 +19,20 @@ library(fmcmc)
 library(coda)
 library(dplyr)
 #### Bring in data
-# load('./modelinput_data/cdr.mat.one.RData')
-# cdr.mat<-cdr.mat.one
-load('./modelinput_data/cdr.mat.IP.RData')
-cdr.mat<-cdr.mat.IP
+load('./modelinput_data/cdr.mat.one.RData')
+cdr.mat<-cdr.mat.one
+# load('./modelinput_data/cdr.mat.IP.RData')
+# cdr.mat<-cdr.mat.IP
 load('./modelinput_data/pop_2019.RData')
 load('./modelinput_data/dat.tmp.allser.RData')
 load('./modelinput_data/tMRCAs.RData')
 load('./modelinput_data/pairwise_geodist.RData')
 load("./modelinput_data/pop_municipality.2017LS.RData") 
 load("./modelinput_data/pairwise_geodist.town.RData") 
-# load('./modelinput_data/cdr.mat.town.one.RData')
-# cdr.mat.town<-cdr.mat.town.one
-load('./modelinput_data/cdr.mat.munic.IP.RData')
-cdr.mat.town<-cdr.mat.munic.IP
+load('./modelinput_data/cdr.mat.town.one.RData')
+cdr.mat.town<-cdr.mat.town.one
+# load('./modelinput_data/cdr.mat.munic.IP.RData')
+# cdr.mat.town<-cdr.mat.munic.IP
 ###
 nloc=nlocs=9
 nloc.munic=234
@@ -86,7 +86,13 @@ calcAllProbs=FALSE
 maxGen=maxTranGens
 
 sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
-source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Munic.R")
+
+## original mobility
+# source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Munic.R")
+
+## adjusting the mobility to span the infectious period rather than being daily
+source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Munic_adj.R")
+
 
 nam.a<-colnames(cdr.mat)
 pop_2019<-pop_2019[nam.a]
