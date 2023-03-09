@@ -1,6 +1,6 @@
-
+setwd( "/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR")
 ### Municipality Level Function
-iters=20000
+iters=10
 # for (chain in 1:3){
 chain=2
 cluster=FALSE
@@ -19,16 +19,20 @@ library(fmcmc)
 library(coda)
 library(dplyr)
 #### Bring in data
-load('./modelinput_data/cdr.mat.one.RData')
-cdr.mat<-cdr.mat.one
+# load('./modelinput_data/cdr.mat.one.RData')
+# cdr.mat<-cdr.mat.one
+load('./modelinput_data/cdr.mat.IP.RData')
+cdr.mat<-cdr.mat.IP
 load('./modelinput_data/pop_2019.RData')
 load('./modelinput_data/dat.tmp.allser.RData')
 load('./modelinput_data/tMRCAs.RData')
 load('./modelinput_data/pairwise_geodist.RData')
 load("./modelinput_data/pop_municipality.2017LS.RData") 
 load("./modelinput_data/pairwise_geodist.town.RData") 
-load('./modelinput_data/cdr.mat.town.one.RData')
-cdr.mat.town<-cdr.mat.town.one
+# load('./modelinput_data/cdr.mat.town.one.RData')
+# cdr.mat.town<-cdr.mat.town.one
+load('./modelinput_data/cdr.mat.munic.IP.RData')
+cdr.mat.town<-cdr.mat.munic.IP
 ###
 nloc=nlocs=9
 nloc.munic=234
