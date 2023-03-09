@@ -139,7 +139,7 @@ par1<-runif(1,-3,0)
 par2_8<-runif(8,0,0.9999)
 startPar<-c(par1,par2_8)
 ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
-save(ans.munic,file=paste0("./MCMC_model/outputs/ans.munic",chain,".",iters,".08",".RData"))
+save(ans.munic,file=paste0("./MCMC_model/outputs/ans.munic",chain,".",iters,".08_adj",".RData"))
 
 
 
