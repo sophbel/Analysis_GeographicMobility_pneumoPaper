@@ -36,9 +36,12 @@ likFunc.munic<-function(par){
     }
   }
   rowtot<-rowSums(probMove)
-  tmpbase <- apply(probMove, 2, function(x) x/rowtot  )
+  probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
   
-  
+  probMoveMonth<-1-exp(-probMove_preadj*35)
+  tmp.oneIP <- rowSums(probMoveMonth)
+  tmpbase <- apply(probMoveMonth, 2, function(x) x/tmp.oneIP  )
+
   ### Create mobility matrix for susceptible individuals
   # tmpbase<-cdr.mat.town
   # tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))

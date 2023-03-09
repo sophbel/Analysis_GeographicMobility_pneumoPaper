@@ -131,9 +131,9 @@ dat.in2<-dat.inMaster[which(dat.inMaster$totTimeDays<3500),]
 npairs=nrow(dat.in2)
 
 ### Run MCMC
-par1<-runif(1,-3,0)
-par2<-runif(1,-3,0)
-par3<-runif(1,-3,0)
+par1<-runif(1,0,3)
+par2<-runif(1,0,3)
+par3<-runif(1,0,3)
 par4_10<-runif(8,0,0.9999)
 startPar<-c(par1,par2,par3,par4_10)
 ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
