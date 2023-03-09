@@ -8,7 +8,8 @@ This analysis integrates human mobility data and genomic data to mechanistically
 
 ### Determine generation time distribution
 ```./CarriageDurations/061122_Carriage_GenTime.R```<br />
-*We used carriage duration estimates from Kenya and The Gambia (Abdullahi *et al.*, 2012 \& Chaguza *et al.*, 2021) to simulate generation times by sampling across incubation periods, and carriage duration, weighting by longer durations.*
+*We used carriage duration estimates from Kenya and The Gambia (Abdullahi et al., 2012 and Chaguza et al., 2021) to simulate generation times by sampling across incubation periods, and carriage duration, weighting by longer durations.* <br />
+Generation Time: Gamma distribution 35 day mean and standard deviation.
 ### Process raw input data.*
 **Links throughout allow to you to download processed data* <br />
 <br />
