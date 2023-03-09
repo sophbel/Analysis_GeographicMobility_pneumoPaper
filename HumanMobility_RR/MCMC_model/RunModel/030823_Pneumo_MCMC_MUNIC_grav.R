@@ -82,7 +82,7 @@ calcAllProbs=FALSE
 maxGen=maxTranGens
 
 sourceCpp("./MCMC_model/MatrixMultiplication.cpp")
-source("./LikelihoodFunctions/LikFunc.mcmc.Munic_grav.R")
+source("./MCMC_model/LikelihoodFunctions/LikFunc.mcmc.Munic_grav.R")
 
 nam.a<-colnames(cdr.mat)
 pop_2019<-pop_2019[nam.a]
