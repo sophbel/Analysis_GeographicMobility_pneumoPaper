@@ -39,6 +39,7 @@ simFunction<-function(tranmat,specificStart=specificStart,noGens,overdis=F,R0=1,
     Reff<-SeasonFunc(time,r0=R0,amp=amp) ## With Seasonality normal
     # Reff=R0 ### Without Seasonality
     nOffspring<-rpois(nseed,Reff)
+    # nOffspring<-Reff
     if(overdis){nOffspring<-rnbinom(nseed,mu=Reff,size=1)}
     tmp2<-tmp<-NULL
     if(sum(nOffspring)==0)break
@@ -63,7 +64,7 @@ simFunction<-function(tranmat,specificStart=specificStart,noGens,overdis=F,R0=1,
 }
 noGens=120
 ## time in days, generation of that day.
-nboot=100
+nboot=20
 mat.boots<-list()
 plot.nmuic.list <- list()
 plot.dist.list <- list()
@@ -205,8 +206,8 @@ colnames(mat.tot.fin.overall) <- c("NperGen","NperGen_lower","NperGen_upper",
                                    "propHome","propHome_lower","propHome_upper",
                                    "propJoburg","propJoburg_lower","propJoburg_upper","gen","days","medNperGen","medDistance")
 
-save(mat.tot.fin.overall,file="./ModelProjections/data/mat.tot.fin.overall.RData")
-save(mat.tot,file="./ModelProjections/data/mat.tot.RData")
+# save(mat.tot.fin.overall,file="./ModelProjections/data/mat.tot.fin.overall.RData")
+# save(mat.tot,file="./ModelProjections/data/mat.tot.RData")
 
 
 ######PLOTS
@@ -243,6 +244,6 @@ library(patchwork)
 
 (plot.dist + plot.nmuic + plot.probs.overall)
 
-ggsave("./ModelProjections/plots/sims.overall.dist.Nmunic.pdf",width=12,height=4)
+# ggsave("./ModelProjections/plots/sims.overall.dist.Nmunic.pdf",width=12,height=4)
 
 

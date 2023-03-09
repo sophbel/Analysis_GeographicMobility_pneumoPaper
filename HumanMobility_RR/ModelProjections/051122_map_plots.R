@@ -62,6 +62,12 @@ shp.trans_simpl <- st_simplify(shp.trans, preserveTopology = FALSE, dTolerance =
 shp.tmp <- shp
 shp.tmp$geometry <- shp.trans_simpl
 
+
+####sample population density
+densities.tmp<-as.numeric(shp.tmp$pop_density)
+names(densities.tmp)<-shp.tmp$NAME_3
+densities<-densities.tmp[names(pop2019.town)]
+# save(densities,file="./ModelProjections/data/densities.RData")
 ###############top population sizes
 ## GT
 j_lalo <- data.table(t(data.table(c(-26.2041, 28.0473))))## Joburg
@@ -145,18 +151,15 @@ shapes=c("Capitals"=8,"Population >1million"=18)
    
   nboot=600000
    ngens=10
-   noPop=TRUE
+   noPop=FALSE
    df.whereat<-matrix(nrow=1,ncol=nboot)
    for( boot in 2:nboot) {
-     
      if(noPop==TRUE){specificStart <- sample(234,1)}else
      {specificStart <- sample(234,1,prob=c(pop2019.town)) }
-     # specificStart <- 91
-     
      df.whereat[1,1] <- wherenext<- specificStart
      # for (gen in 2:ngens){
        df.whereat[1,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,10])
-       
+       # df.whereat[1,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,104])
      # }
      print(boot)
    }
@@ -178,16 +181,16 @@ shapes=c("Capitals"=8,"Population >1million"=18)
    
    shp_simple <- merge(shp.tmp,vecloc,by="NAME_3")
    
-save(j_lalo,file="./ModelProjections/data/j_lalo.RData")
-save(tshw_lalo,file="./ModelProjections/data/tshw_lalo.RData")
-save(ekur_lalo,file="./ModelProjections/data/ekur_lalo.RData")
-save(ct_lalo,file="./ModelProjections/data/ct_lalo.RData")
-save(kzn_lalo,file="./ModelProjections/data/kzn_lalo.RData")
-save(nmb_lalo,file="./ModelProjections/data/nmb_lalo.RData")
+# save(j_lalo,file="./ModelProjections/data/j_lalo.RData")
+# save(tshw_lalo,file="./ModelProjections/data/tshw_lalo.RData")
+# save(ekur_lalo,file="./ModelProjections/data/ekur_lalo.RData")
+# save(ct_lalo,file="./ModelProjections/data/ct_lalo.RData")
+# save(kzn_lalo,file="./ModelProjections/data/kzn_lalo.RData")
+# save(nmb_lalo,file="./ModelProjections/data/nmb_lalo.RData")
 
-if(noPop==TRUE){shp_simple_noPop<-shp_simple
-save(shp_simple_noPop,file="./ModelProjections/data/shp_simple_noPop.RData")}else{save(shp_simple,file="./ModelProjections/data/shp_simple.RData")
-}
+# if(noPop==TRUE){shp_simple_noPop<-shp_simple
+# save(shp_simple_noPop,file="./ModelProjections/data/shp_simple_noPop.RData")}else{save(shp_simple,file="./ModelProjections/data/shp_simple.RData")
+# }
 
    ##########plot normal
 risk1Year <- ggplot(data=shp_simple)+
@@ -218,7 +221,7 @@ risk1Year <- ggplot(data=shp_simple)+
 
 risk1Year
 
-ggsave("./ModelProjections/plots/RR1Year.map.Pop.pdf",width = 10,height = 10)
+# ggsave("./ModelProjections/plots/RR1Year.map.Pop.pdf",width = 10,height = 10)
 upoverall<-vecloc.pop[which(vecloc.pop$Risk_1year>1)]
 dim(upoverall)[1]
 tmp<-mat.numIncRisk[1:18,]
@@ -227,25 +230,20 @@ mean(upoverall$Risk_1year)
  ##################################################################################
 
 
-
  
 #######################################################
 ################RURAL VS URBAN###########
 ############################################
 
-####sample population density
-densities.tmp<-as.numeric(shp.tmp$pop_density)
-names(densities.tmp)<-shp.tmp$NAME_3
-densities<-densities.tmp[names(pop2019.town)]
-save(densities,file="./ModelProjections/data/densities.RData")
+
 
 # min.dens<-c(0,50,500)
 # max.dens<-c(50,500,5000)
-min.dens<-c(0,500)
-max.dens<-c(50,5000)
+min.dens<-c(0,500,0)
+max.dens<-c(50,5000,5000)
 riskpop.den<-list()
 risk.list<-list()
-testIncRisk=100
+testIncRisk=3
 mat.numIncRisk<-matrix(ncol=2,nrow=testIncRisk)
 for (g in 1:testIncRisk){
 for(d in 1:length(min.dens)){
@@ -313,11 +311,12 @@ shp_simple <- merge(shp.tmp,vecloc,by="NAME_3")
 # risk1Year
 # riskpop.den[[d]]<-risk1Year
 print(d)
+}
 risk.rural<-risk.list[[1]]
 uprural<-risk.rural[which(risk.rural$Risk_1year>1)]
 risk.urban<-risk.list[[2]]
 upurban<-risk.urban[which(risk.urban$Risk_1year>1)]
-}
+# }
 
 mat.numIncRisk[g,1]<-dim(uprural)[1]
 mat.numIncRisk[g,2]<-dim(upurban)[1]
@@ -326,13 +325,13 @@ mat.numIncRisk[g,2]<-dim(upurban)[1]
 # riskpop.den[[1]]+riskpop.den[[2]]+riskpop.den[[3]]
 # riskpop.den[[1]]+riskpop.den[[2]]
 tmp<-mat.numIncRisk[1:18,]
-quantile(tmp[,1],probs=c(0.025,0.5,0.975))
-mean(tmp[,1])
-quantile(tmp[,2],probs=c(0.025,0.5,0.975))
-mean(tmp[,2])
+quantile(tmp[,1],probs=c(0.025,0.5,0.975),na.rm=T)
+mean(tmp[,1],na.rm=T)
+quantile(tmp[,2],probs=c(0.025,0.5,0.975),na.rm=T)
+mean(tmp[,2],na.rm=T)
 uprural[which(uprural$NAME_3%in%upurban$NAME_3)]
 
-ggsave("./ModelProjections/plots/ruralurban.risk1year.pdf",width=25,height=7)
+# ggsave("./ModelProjections/plots/ruralurban.risk1year.pdf",width=25,height=7)
 
 
 
@@ -350,3 +349,261 @@ ggplot(data=shp.tmp)+
 
 
 # load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/RR1Year_popDensities.RData")
+
+############ ############ ############ ############################################
+####### Sequential simulations not RR for projections ###########
+############ ############ ############ ####################################
+#Calculating the distance travelled from Sequential simulations Reff=1
+load("./modelinput_data/pairwise_geodist.town.RData")
+diag(pairwise_geodist.town)<-NA
+for (i in 1){
+  # nboot=600000
+  ####overall
+  nboot=1000
+  ngens=120
+  noPop=FALSE
+  df.whereat<-matrix(nrow=ngens,ncol=nboot)
+  munic_nums<-munic_dist<-matrix(nrow=ngens, ncol=nboot)
+  
+  for( boot in 2:nboot) {
+    if(noPop==TRUE){specificStart <- sample(234,1)}else
+    {specificStart <- sample(234,1,prob=c(pop2019.town)) }
+    df.whereat[1,boot] <- wherenext<- specificStart
+    for (gen in 2:ngens){
+      df.whereat[gen,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,gen])
+      munic_nums[gen,boot]<-length(table(df.whereat[1:gen,boot]))
+      munic_dist[gen,boot]<-pairwise_geodist.town[specificStart,wherenext]
+    }
+    print(boot)
+  }
+  
+  munic_df<-melt(munic_nums)
+  colnames(munic_df)<-c("generations","boot","nmunic")
+  munic_df<-data.frame(munic_df)
+  #nmunic
+  overall_avs<- data.table(apply(munic_nums, 1, function(x) mean(x,na.rm=T)))
+  overall_avs$generations<-seq(1,ngens,1)
+  overall_avs$years<-overall_avs$generations/10
+  overall_avs$lower_CI<-apply(munic_nums, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs$upper_CI<-apply(munic_nums, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs$med<-apply(munic_nums, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  # overall_avs$lower_CI<-apply(munic_nums, 1, function(x) min(x,na.rm = T))
+  # overall_avs$upper_CI<-apply(munic_nums, 1, function(x)  max(x,na.rm = T))
+  munic_df$years<-munic_df$generations/10
+  
+  ##distance
+  munic_df2<-melt(munic_dist)
+  colnames(munic_df2)<-c("generations","boot","dist")
+  munic_df2<-data.frame(munic_df2)
+  overall_avs2<- data.table(apply(munic_dist, 1, function(x) mean(x,na.rm=T)))
+  overall_avs2$generations<-seq(1,ngens,1)
+  overall_avs2$years<-overall_avs$generations/10
+  overall_avs2$lower_CI<-apply(munic_dist, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs2$upper_CI<-apply(munic_dist, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs2$med<-apply(munic_dist, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  overall_avs2$min<-apply(munic_dist, 1, function(x) min(x,na.rm=T))
+  overall_avs2$max<-apply(munic_dist, 1, function(x) max(x,na.rm=T))
+  munic_df2$years<-munic_df2$generations/10
+  
+  ggplot(munic_df)+
+    geom_line(aes(x=years,y=nmunic,group=boot),alpha=0.09,color="grey")+
+    geom_line(data=overall_avs,aes(x=years,y=V1))+
+    theme_classic()+
+    xlab("Years")+
+    ylab("Number of Municipalities")
+  
+  
+  #### URBAN##########
+  df.whereat<-matrix(nrow=ngens,ncol=nboot)
+  munic_nums_urban<-munic_dist_urban<-matrix(nrow=ngens, ncol=nboot)
+  samp<-which(densities>500)
+  for( boot in 2:nboot) {
+    if(noPop==TRUE){specificStart <- sample(samp,1)}else
+    {specificStart <- sample(samp,1,prob=c(pop2019.town[samp])) }
+    df.whereat[1,boot] <- wherenext<- specificStart
+    for (gen in 2:ngens){
+      df.whereat[gen,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,gen])
+      munic_nums_urban[gen,boot]<-length(table(df.whereat[1:gen,boot]))
+      munic_dist_urban[gen,boot]<-pairwise_geodist.town[specificStart,wherenext]
+    }
+    print(boot)
+  }
+  
+  ##nmunic
+  munic_df_urban<-melt(munic_nums_urban)
+  colnames(munic_df_urban)<-c("generations","boot","nmunic")
+  munic_df_urban<-data.frame(munic_df_urban)
+  overall_avs_urban<- data.table(apply(munic_nums_urban, 1, function(x) mean(x,na.rm=T)))
+  overall_avs_urban$generations<-seq(1,ngens,1)
+  overall_avs_urban$years<-overall_avs$generations/10
+  overall_avs_urban$lower_CI<-apply(munic_nums_urban, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs_urban$upper_CI<-apply(munic_nums_urban, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs_urban$med<-apply(munic_nums_urban, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  # overall_avs_urban$lower_CI<-apply(munic_nums_urban, 1, function(x) min(x,na.rm=T))
+  # overall_avs_urban$upper_CI<-apply(munic_nums_urban, 1, function(x) max(x,na.rm=T))
+  munic_df_urban$years<-munic_df_urban$generations/10
+  
+  ##distance
+  munic_df_urban2<-melt(munic_dist_urban)
+  colnames(munic_df_urban2)<-c("generations","boot","dist")
+  munic_df_urban2<-data.frame(munic_df_urban2)
+  overall_avs_urban2<- data.table(apply(munic_dist_urban, 1, function(x) mean(x,na.rm=T)))
+  overall_avs_urban2$generations<-seq(1,ngens,1)
+  overall_avs_urban2$years<-overall_avs$generations/10
+  overall_avs_urban2$lower_CI<-apply(munic_dist_urban, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs_urban2$upper_CI<-apply(munic_dist_urban, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs_urban2$med<-apply(munic_dist_urban, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  overall_avs_urban2$min<-apply(munic_dist_urban, 1, function(x) min(x,na.rm=T))
+  overall_avs_urban2$max<-apply(munic_dist_urban, 1, function(x) max(x,na.rm=T))
+  munic_df_urban2$years<-munic_df_urban2$generations/10
+  
+  ggplot(munic_df_urban)+
+    geom_line(aes(x=years,y=nmunic,group=boot),alpha=0.09,color="grey")+
+    geom_line(data=overall_avs_urban,aes(x=years,y=V1))+
+    theme_classic()+
+    xlab("Years")+
+    ylab("Number of Municipalities")
+  
+  
+  
+  
+  ##################### RURAL############################
+  df.whereat<-matrix(nrow=ngens,ncol=nboot)
+  munic_nums_rural<-munic_dist_rural<-matrix(nrow=ngens, ncol=nboot)
+  samp<-which(densities<=500)
+  for( boot in 2:nboot) {
+    if(noPop==TRUE){specificStart <- sample(samp,1)}else
+    {specificStart <- sample(samp,1,prob=c(pop2019.town[samp])) }
+    
+    df.whereat[1,boot] <- wherenext<- specificStart
+    for (gen in 2:ngens){
+      df.whereat[gen,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,gen])
+      munic_nums_rural[gen,boot]<-length(table(df.whereat[1:gen,boot]))
+      munic_dist_rural[gen,boot]<-pairwise_geodist.town[specificStart,wherenext]
+    }
+    print(boot)
+  }
+  
+  ### number of munic.
+  munic_df_rural<-melt(munic_nums_rural)
+  colnames(munic_df_rural)<-c("generations","boot","nmunic")
+  munic_df_rural<-data.frame(munic_df_rural)
+  overall_avs_rural<- data.table(apply(munic_nums_rural, 1, function(x) mean(x,na.rm=T)))
+  overall_avs_rural$generations<-seq(1,ngens,1)
+  overall_avs_rural$years<-overall_avs$generations/10
+  overall_avs_rural$lower_CI<-apply(munic_nums_rural, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs_rural$upper_CI<-apply(munic_nums_rural, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs_rural$med<-apply(munic_nums_rural, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  # overall_avs_rural$lower_CI<-apply(munic_nums_rural, 1, function(x) min(x,na.rm=T))
+  # overall_avs_rural$upper_CI<-apply(munic_nums_rural, 1, function(x) max(x,na.rm=T))
+  munic_df_rural$years<-munic_df_rural$generations/10
+  
+  ### distance
+  munic_df_rural2<-melt(munic_dist_rural)
+  colnames(munic_df_rural2)<-c("generations","boot","dist")
+  munic_df_rural2<-data.frame(munic_df_rural2)
+  overall_avs_rural2<- data.table(apply(munic_dist_rural, 1, function(x) mean(x,na.rm=T)))
+  overall_avs_rural2$generations<-seq(1,ngens,1)
+  overall_avs_rural2$years<-overall_avs$generations/10
+  overall_avs_rural2$lower_CI<-apply(munic_dist_rural, 1, function(x) quantile(x,probs=c(0.025),na.rm=T))
+  overall_avs_rural2$upper_CI<-apply(munic_dist_rural, 1, function(x) quantile(x,probs=c(0.975),na.rm=T))
+  overall_avs_rural2$med<-apply(munic_dist_rural, 1, function(x) quantile(x,probs=c(0.5),na.rm=T))
+  
+  
+  overall_avs_rural2$min<-apply(munic_dist_rural, 1, function(x) min(x,na.rm=T) )
+  overall_avs_rural2$max<-apply(munic_dist_rural, 1, function(x) max(x,na.rm=T))
+  munic_df_rural2$years<-munic_df_rural2$generations/10
+  
+  ggplot(munic_df_rural)+
+    geom_line(aes(x=years,y=nmunic,group=boot),alpha=0.09,color="grey")+
+    geom_line(data=overall_avs_rural,aes(x=years,y=V1))+
+    theme_classic()+
+    xlab("Years")+
+    ylab("Number of Municipalities")
+  
+  ggplot(munic_df_rural2)+
+    geom_line(aes(x=years,y=dist,group=boot),alpha=0.09,color="grey")+
+    geom_line(data=overall_avs_rural2,aes(x=years,y=V1))+
+    theme_classic()+
+    xlab("Years")+
+    ylab("Number of Municipalities") 
+}
+
+
+#### Interrogate values for each at 1 year and 10 years for the number of municipalities and distance
+rbind(
+  overall_avs[overall_avs$years==1,],
+  overall_avs_urban[overall_avs_urban$years==1,],
+  overall_avs_rural[overall_avs_rural$years==1,])
+
+rbind(
+  overall_avs[overall_avs$generations==2,],
+  overall_avs_urban[overall_avs_urban$generations==2,],
+  overall_avs_rural[overall_avs_rural$generations==2,])
+
+rbind(
+  overall_avs[overall_avs$years==10,],
+  overall_avs_urban[overall_avs_urban$years==10,],
+  overall_avs_rural[overall_avs_rural$years==10,])
+
+
+rbind(
+  overall_avs2[overall_avs2$years==1,],
+  overall_avs_urban2[overall_avs_urban2$years==1,],
+  overall_avs_rural2[overall_avs_rural2$years==1,])
+
+rbind(
+  overall_avs2[overall_avs2$generations==2,],
+  overall_avs_urban2[overall_avs_urban2$generations==2,],
+  overall_avs_rural2[overall_avs_rural2$generations==2,])
+
+rbind(
+  overall_avs2[overall_avs2$years==10,],
+  overall_avs_urban2[overall_avs_urban2$years==10,],
+  overall_avs_rural2[overall_avs_rural2$years==10,])
+
+
+ggplot()+
+  # geom_line(aes(x=years,y=nmunic,group=boot),alpha=0.09,color="grey")+
+  geom_line(data=overall_avs_rural,aes(x=generations,y=V1),color="green")+
+  geom_line(data=overall_avs_urban,aes(x=generations,y=V1),color="orange")+
+  geom_line(data=overall_avs,aes(x=generations,y=V1),color="purple", linetype="dashed")+
+  
+  theme_classic()+
+  xlab("Years")+
+  ylab("Number of Municipalities")
+
+ggplot()+
+  # geom_line(aes(x=years,y=nmunic,group=boot),alpha=0.09,color="grey")+
+  geom_line(data=overall_avs_rural2,aes(x=generations,y=V1),color="green")+
+  # geom_ribbon(data=overall_avs_rural2,aes(x=years,ymin=lower_CI,ymax=upper_CI),color="green",alpha=0.03,color=NA)+
+  
+  geom_line(data=overall_avs_urban2,aes(x=generations,y=V1),color="orange")+
+  # geom_ribbon(data=overall_avs_urban2,aes(x=years,ymin=lower_CI,ymax=upper_CI),color="orange",alpha=0.03,color=NA)+
+  # 
+  geom_line(data=overall_avs2,aes(x=generations,y=V1),color="purple", linetype="dashed")+
+  # geom_ribbon(data=overall_avs2,aes(x=years,ymin=lower_CI,ymax=upper_CI),color="purple",alpha=0.03,color=NA)+
+  
+  
+  theme_classic()+
+  xlab("Years")+
+  ylab("Distance (km)")
+
+
+hist(pairwise_geodist.town[which(densities<500),which(densities<500)],breaks=50)
+hist(pairwise_geodist.town[which(densities>500),which(densities>500)],breaks=50)
+
+
+samp<-which(densities<=500)
+specificStart <- sample(samp,1,prob=c(pop2019.town[samp]))
+wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,gen])
+wherenext
+pairwise_geodist.town[specificStart,wherenext]
+
+
+##################################################################

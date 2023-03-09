@@ -1,3 +1,4 @@
+setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ###### Script to simulate across NVT + PCV13 Fitness effect probability of staying in the home municipality, number of municipalities visited, and distance travelled . 
 library(data.table)
 library(ggplot2)
@@ -39,7 +40,7 @@ mean(diag(TranMatArray.1[which(densities<=50),which(densities<=50),1]))
 quantile(diag(TranMatArray.1[which(densities<=50),which(densities<=50),1]))
 hist(diag(TranMatArray.1[which(densities<=50),which(densities<=50),1]),breaks=200)
 
-#### NVT ######
+####  ######
 ## Function
 simFunction<-function(tranmat,specificStart=specificStart,noGens,overdis=F,R0=1,amp=0.012){
   nloc<-234
