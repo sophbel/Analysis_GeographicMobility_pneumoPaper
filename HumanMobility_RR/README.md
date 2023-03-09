@@ -2,6 +2,9 @@
 *This code was run with R version 3.6.1 which is necessary for Rcpp*
 ## Human Mobility Model Analysis
 This analysis integrates human mobility data and genomic data to mechanistically understand pneumococcal migration in South Africa.
+<p align="center">
+  <img src="Method_schematic/schematic.png" width="500">
+</p>
 
 ### Install R packages. 
 ```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize","patchwork"))```
