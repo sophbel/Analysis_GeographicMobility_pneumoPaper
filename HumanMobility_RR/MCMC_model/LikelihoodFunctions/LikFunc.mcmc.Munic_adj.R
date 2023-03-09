@@ -1,12 +1,9 @@
 likFunc.munic<-function(par){
   
-  extTranMatDat.tmp$pars$alpha<-par[1]
-  extTranMatDat.tmp$pars$beta<-par[2]
-  extTranMatDat.tmp$pars$gamma<-par[3]
-  
+  extTranMatDat.tmp$pars$homeSus<-par[1]
   ##### Put this back to fit more
   nInfecLoc<-rep(1,9)
-  nInfecLoc[1:8]<-exp(par[4:11])
+  nInfecLoc[1:8]<-exp(par[2:9])
   nInfecLoc<-nInfecLoc/sum(nInfecLoc)
   ################################
   
@@ -16,43 +13,28 @@ likFunc.munic<-function(par){
   tmp.pHome.PROV<-extTranMatDat.tmp$popbyCell
   tmp.pHome.PROV<-tmp.pHome.PROV/sum(tmp.pHome.PROV)
   
+  ### Create mobility matrix for susceptible individuals
+  tmpbase_pre<-cdr.mat.town
+  tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))
+  tmppar <- min.range+tmppar1*(max.range-min.range)
+  tmpdiag<-diag(tmpbase_pre)-tmppar
+  tmpdiag[which(tmpdiag>0.99999)]<-0.99999
+  diag(tmpbase_pre)<-0
+  tmpbase_pre1<-sweep(tmpbase_pre,1,rowSums(tmpbase_pre),"/")
+  tmpbase_pre2<-sweep(tmpbase_pre1,1,(1-tmpdiag)/(1-diag(tmpbase_pre1)),"*")
+  diag(tmpbase_pre2)<-tmpdiag
   
   
-  #### gravity model parameter fit
-  popsize<-pop2019.town
-  # alpha=1.2
-  alpha=exp(extTranMatDat.tmp$pars$alpha)/(1+exp(extTranMatDat.tmp$pars$alpha))
-  # beta=1.5
-  beta=exp(extTranMatDat.tmp$pars$beta)/(1+exp(extTranMatDat.tmp$pars$beta))
-  # gamma=2
-  gamma=exp(extTranMatDat.tmp$pars$gamma)/(1+exp(extTranMatDat.tmp$pars$gamma))
-  dists<-pairwise_geodist.town
-  diag(dists)<-1
-  n<-dim(dists)[1]
-  probMove<-matrix(NaN,n,n)
-  for(i in 1:n){
-    for(j in 1:n){
-      probMove[i,j]<-popsize[i]^alpha*popsize[j]^beta/dists[i,j]^gamma
-    }
-  }
-  rowtot<-rowSums(probMove)
-  probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
   
-  ### first method to adjust for infectious period
-  # probMoveMonth<-1-exp(-probMove_preadj*35)
-  # tmp.oneIP <- rowSums(probMoveMonth)
-  # tmpbase <- apply(probMoveMonth, 2, function(x) x/tmp.oneIP  )
-  
-  ### second method to adjust for infectious period
+  #### adjust so it is mobility across the infectious period
   timeWindow<-35
-  probStay<-1-(diag(probMove_preadj))^timeWindow
-  tmp<-probMove_preadj
+  probStay<-1-(diag(tmpbase_pre2))^timeWindow
+  tmp<-tmpbase_pre2
   diag(tmp)<-0
   tmp1<-sweep(tmp,1,rowSums(tmp),"/")
   tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
   diag(tmp2)<-probStay
   tmpbase<-tmp2
-
   
   ####### Collapse mobility matrix to 9X9 here
   nloc.munic=nrow(tmpbase)
@@ -67,7 +49,6 @@ likFunc.munic<-function(par){
   tmpbase.1 <- apply(tmpbase, 1, function(x){
     split(x,splitnames[,2]) %>% sapply(sum)
   })  %>% transpose()
-
   
   tmpbase2 <- apply(tmpbase.1,2,function(x) {
     mapply( weighted.mean
@@ -81,34 +62,7 @@ likFunc.munic<-function(par){
   TranMat.tmp2<-sweep(move4,1,rowSums(move4),"/")
   
   
-  ######### WEIGHT BY DESTINATION POPULATION BEFORE COLLAPSING
-  
-  # move3<-tcrossprod(tmp.sick,tmp)
-  # move4<-sweep(move3,2,tmp.pHome,"*")
-  # TranMat.tmp<-sweep(move4,1,rowSums(move4),"/")
 
-  
-#  # #### COLLAPSE BEFORE MATRIX MULTIPLICATION AFTER WEIGHTING DESTINATION
-#   nloc.munic=nrow(TranMat.tmp)
-#   ### Create index for municipality to province
-#   splitnames <- matrix(nrow=nloc.munic,ncol=2)
-#   for (us in 1:nloc.munic) {
-#     for (prov in 1:2) { 
-#       splitnames[us,prov] <- strsplit(names(pop2019.town),"_")[[us]][prov]
-#     }
-#   }
-#   
-#   TranMat.tmp.1 <- apply(TranMat.tmp, 1, function(x){
-#     split(x,splitnames[,2]) %>% sapply(sum)
-#   })  %>% transpose()
-  
-  # # ### Collapse rows to province level by weighting by the population sizes
-  # TranMat.tmp2 <- apply(TranMat.tmp.1,2,function(x) {
-  #   mapply( weighted.mean
-  #     , x = split(x,splitnames[,2])
-  #     , w = split(pop2019.town,splitnames[,2])
-  #   )
-  # })
   
 ######RUN MATRIX MULTIPLICATION
   gensA<-gensB<-(1:maxGen)

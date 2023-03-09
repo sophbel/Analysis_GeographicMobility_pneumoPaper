@@ -1,8 +1,8 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ### Municipality Level Function
-iters=5000
+iters=20000
 # for (chain in 1:3){
-chain=3
+chain=1
 cluster=FALSE
 ##### Adding variables from other scripts and loading libraries
 library(data.table)
