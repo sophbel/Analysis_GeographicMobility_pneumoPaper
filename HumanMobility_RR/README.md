@@ -9,10 +9,6 @@ This analysis integrates human mobility data and genomic data to mechanistically
 ### Install R packages. 
 ```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize","patchwork"))```
 
-### Determine generation time distribution
-```./CarriageDurations/061122_Carriage_GenTime.R```<br />
-*We used carriage duration estimates from Kenya and The Gambia (Abdullahi et al., 2012 and Chaguza et al., 2021) to simulate generation times by sampling across incubation periods, and carriage duration, weighting by longer durations.* <br />
-Generation Time: Gamma distribution 35 day mean and standard deviation.
 ### Process raw input data.*
 **Links throughout allow to you to download processed data* <br />
 <br />
@@ -106,7 +102,7 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 6) To vary whether the start location is Rural (<50per/km2) or Urban (>500per/km2) run ```051122_RuralUrbanNMunic.R```. 
 
 ### Generation Time Estimates <br />
-*Take the carriage duration estimates from The Gambia and Kilifi, Kenya and estimate the transmission generation distribution using simulation* <br />
+*Take the carriage duration estimates from The Gambia and Kilifi, Kenya (Abdullahi et al., 2012 and Chaguza et al., 2021) and estimate the transmission generation distribution using simulation* <br />
 Script: ```./CarriageDurations/061122_Carriage_GenTime.R```<br />
 Output: Plot into ```./CarriageDurations/```<br />
 ## Relative Risk Analysis
