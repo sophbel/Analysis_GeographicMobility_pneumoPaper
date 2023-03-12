@@ -150,4 +150,3 @@ save(ans.munic,file=paste0("./MCMC_model/outputs/mechan_model/ans.munic",chain,"
 
 
 
-

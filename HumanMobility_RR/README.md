@@ -9,10 +9,6 @@ This analysis integrates human mobility data and genomic data to mechanistically
 ### Install R packages. 
 ```install.packages(c("raster","rgdal","data.table","doParallel","ucminf","doMC","Rcpp","RcppEigen","Rfast","abind","ggplot2","fmcmc","coda","dplyr","ape","lubridate","tmaptools","geodist","PBSmapping","stringi","maptools","tidyr","stringr","ComplexHeatmap","circlize","patchwork"))```
 
-### Determine generation time distribution
-```./CarriageDurations/061122_Carriage_GenTime.R```<br />
-*We used carriage duration estimates from Kenya and The Gambia (Abdullahi et al., 2012 and Chaguza et al., 2021) to simulate generation times by sampling across incubation periods, and carriage duration, weighting by longer durations.* <br />
-Generation Time: Gamma distribution 35 day mean and standard deviation.
 ### Process raw input data.*
 **Links throughout allow to you to download processed data* <br />
 <br />
@@ -62,6 +58,10 @@ Population size (province): ```./modelinput_data/pop_2019.RData: ```<br />
 *This creates a list of length 9 (number of GPSCs) with pairwise time to MRCA for each pair (half the time between pairs (years)).*<br />
 Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
+4) **Pairwise distance (km) between locations**<br />
+*This creates a matrix containing the pairwise distances in kms between the 9 South African provines, and another matrix with the distances between the 234 municipalities.*<br />
+Script: ```031122_031122_PairwiseDistance.R```<br />
+Output: ```./modelinput_data/pairwise_geodist.town.RData & ./modelinput_data/pairwise_geodist.RData```<br />
 
 *Can download all model input files into ```./data/modelinput_data/``` from this FigShare (https://figshare.com/s/361552cabfa381acf6c2)*
 
@@ -106,7 +106,7 @@ Run Model Files: ```./MCMC_model/RunModel/041122_Pneumo_MCMC_MUNIC.R```<br />
 6) To vary whether the start location is Rural (<50per/km2) or Urban (>500per/km2) run ```051122_RuralUrbanNMunic.R```. 
 
 ### Generation Time Estimates <br />
-*Take the carriage duration estimates from The Gambia and Kilifi, Kenya and estimate the transmission generation distribution using simulation* <br />
+*Take the carriage duration estimates from The Gambia and Kilifi, Kenya (Abdullahi et al., 2012 and Chaguza et al., 2021) and estimate the transmission generation distribution using simulation* <br />
 Script: ```./CarriageDurations/061122_Carriage_GenTime.R```<br />
 Output: Plot into ```./CarriageDurations/```<br />
 ## Relative Risk Analysis
