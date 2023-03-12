@@ -58,6 +58,10 @@ Population size (province): ```./modelinput_data/pop_2019.RData: ```<br />
 *This creates a list of length 9 (number of GPSCs) with pairwise time to MRCA for each pair (half the time between pairs (years)).*<br />
 Script: ```031122_makeGDistMatrix.R```<br />
 Output: ```./modelinput_data/tMRCAs.RData```<br />
+4) **Pairwise distance (km) between locations**<br />
+*This creates a matrix containing the pairwise distances in kms between the 9 South African provines, and another matrix with the distances between the 234 municipalities.*<br />
+Script: ```031122_031122_PairwiseDistance.R```<br />
+Output: ```./modelinput_data/pairwise_geodist.town.RData & ./modelinput_data/pairwise_geodist.RData```<br />
 
 *Can download all model input files into ```./data/modelinput_data/``` from this FigShare (https://figshare.com/s/361552cabfa381acf6c2)*
 
