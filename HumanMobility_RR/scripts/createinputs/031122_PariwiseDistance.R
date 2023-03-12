@@ -33,7 +33,7 @@ pairwise_geodist <- geodist(
 colnames(pairwise_geodist) <- region_vec
 rownames(pairwise_geodist) <- region_vec
 pairwise_geodist<- round(pairwise_geodist, 2)
-save(pairwise_geodist,file = "./modelinput_data/pairwise_geodist.RData" )
+# save(pairwise_geodist,file = "./modelinput_data/pairwise_geodist.RData" )
 
 load("./data/facebook/mvment_SA.provinces.RData")
 
@@ -50,4 +50,4 @@ load("./modelinput_data/cdr.mat.town.one.RData")
 cdr.mat.town<-cdr.mat.town.one
 mobNames <- rownames(cdr.mat.town)
 pairwise_geodist.town <- dist.matrix[-c(which(duplicated(rownames(dist.matrix)))),-c(which(duplicated(rownames(dist.matrix))))]
-save(pairwise_geodist.town,file = "./modelinput_data/pairwise_geodist.town.RData" )
+# save(pairwise_geodist.town,file = "./modelinput_data/pairwise_geodist.town.RData" )

@@ -2,7 +2,7 @@ setwd( "/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Anal
 ### Municipality Level Function
 iters=20000
 # for (chain in 1:3){
-chain=3
+chain=1
 cluster=FALSE
 ##### Adding variables from other scripts and loading libraries
 library(data.table)
@@ -146,7 +146,6 @@ par2_8<-runif(8,0,0.9999)
 startPar<-c(par1,par2_8)
 ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
 save(ans.munic,file=paste0("./MCMC_model/outputs/mechan_model/ans.munic",chain,".",iters,".08_adj",".RData"))
-
 
 
 
