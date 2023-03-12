@@ -2,7 +2,6 @@ library(data.table)
 library(ggplot2)
 ##########ORGANIZE THE DATA #####################
 
-# ######MAELA JOHNLEES ELIFE#####
 maxCarriageDuration<-365
 sites<-c("Gambia","Kilifi")
 clear.mat<-matrix(nrow=length(sites),ncol=7)
@@ -70,10 +69,10 @@ ggplot(clear.mat)+
   ylab("Estimated Generation Time")+
   xlab("Site")
 
-mean(clear.mat[2:3,"gentime_mean"])
-mean(clear.mat[2:3,"sd"])
+mean(clear.mat[,"gentime_mean"])
+mean(clear.mat[,"sd"])
 
-genTime<- mean(clear.mat[2:3,"gentime_mean"])
+genTime<- mean(clear.mat[,"gentime_mean"])
 varGen<-(genTime)^2
 shape=genTime^2/varGen
 scale=varGen/genTime
@@ -90,9 +89,9 @@ ggplot()+
   scale_x_continuous(breaks=c(0,100,200),limits=c(0,200),labels=c(0,100,200))+
   scale_y_continuous(breaks=c(0,.025,0.05),limits=c(0,0.05),labels=c(0,0.025,0.05))+
   # xlim(0,0.025)+
-  theme(legend.title = element_blank(),legend.position = c(0.6,0.8))+
+  theme(legend.title = element_blank(),legend.position = c(0.6,0.8),axis.text = element_text(size=15),axis.title = element_text(size=15))+
   scale_fill_manual(values = colors,breaks=c("The Gambia","Kenya"),limits=c("The Gambia","Kenya"))+
   guides(fill = guide_legend(override.aes = list(size=10,color="white")))
 
-ggsave("./CarriageDurations/transmissiongens.pdf",width=4,height=3.5)
+# ggsave("./CarriageDurations/transmissiongens.pdf",width=4,height=3.5)
   
