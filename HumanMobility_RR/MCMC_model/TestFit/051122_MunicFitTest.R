@@ -182,7 +182,7 @@ ggplot(df.propperprov,aes(x=popsize,y=prop))+
 
 
 # summary(lm(df$prop~df$popsize))
-ggsave("./MCMC_model/TestFit/Plots/propperpop.pdf",width=4,height=4)
+# ggsave("./MCMC_model/TestFit/Plots/propperpop.pdf",width=4,height=4)
 
 
 nloc=nlocs=9
@@ -357,7 +357,7 @@ overall_data[,2:4]<-t(meanDist.emp.bs.qt)
 overall_data<-data.table(overall_data)
 colnames(overall_data)<-c("years","lowerCI","median","upperCI")
 # ################################################################################################
-# load("./MCMC_model/TestFit/Data/overall_data.RData")
+load("./MCMC_model/TestFit/Data/overall_data.RData")
 # load("./MCMC_model/TestFit/Data/true.dat.quants.Munic.RData")
 # load("./MCMC_model/TestFit/Data/dat.quants.Munic.RData")
 

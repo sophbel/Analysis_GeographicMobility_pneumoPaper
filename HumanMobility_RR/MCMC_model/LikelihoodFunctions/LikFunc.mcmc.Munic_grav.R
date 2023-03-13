@@ -21,11 +21,11 @@ likFunc.munic<-function(par){
   #### gravity model parameter fit
   popsize<-pop2019.town
   # alpha=1.2
-  alpha=exp(extTranMatDat.tmp$pars$alpha)/(1+exp(extTranMatDat.tmp$pars$alpha))
+  alpha=exp(extTranMatDat.tmp$pars$alpha)
   # beta=1.5
-  beta=exp(extTranMatDat.tmp$pars$beta)/(1+exp(extTranMatDat.tmp$pars$beta))
+  beta=exp(extTranMatDat.tmp$pars$beta)
   # gamma=2
-  gamma=exp(extTranMatDat.tmp$pars$gamma)/(1+exp(extTranMatDat.tmp$pars$gamma))
+  gamma=exp(extTranMatDat.tmp$pars$gamma)
   dists<-pairwise_geodist.town
   diag(dists)<-1
   n<-dim(dists)[1]
