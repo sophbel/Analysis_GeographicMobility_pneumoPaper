@@ -49,7 +49,7 @@ Municipality Mobility:```./modelinput_data/cdr.mat.town.one.RData ``` <br />
 2) **Municipality Population Sizes** <br />
 Script: ```mobility_probability.R``` <br />
 Output: Municipality Populations:```./modelinput_data/pop_municipality.2017LS.RData```  <br />
-3) **Metadata to Generate Likelihood**<br />
+3) **Metadata to Infer Likelihood**<br />
 *This creates a list of length 9 (number of GPSCs) containing 8 columns with information for each pair including ids, collection location (province numbered 1-9), time in days between pairs, collection year for each pair.*<br />
 Script: ```031122_GPSC_metadata.R```<br />
 Output: Metadata File: ```./modelinput_data/dat.tmp.allser.RData```<br />
