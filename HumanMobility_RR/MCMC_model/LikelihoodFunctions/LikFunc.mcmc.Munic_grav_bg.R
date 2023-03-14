@@ -29,7 +29,9 @@ likFunc.munic<-function(par){
   probMove<-matrix(NaN,n,n)
   for(i in 1:n){
     for(j in 1:n){
-      probMove[i,j]<-popsize[i]*popsize[j]^beta/dists[i,j]^gamma
+      # probMove[i,j]<-popsize[i]*popsize[j]^beta/dists[i,j]^gamma
+      probMove[i,j]<-popsize[j]^beta/dists[i,j]^gamma
+      
     }
   }
   rowtot<-rowSums(probMove)
