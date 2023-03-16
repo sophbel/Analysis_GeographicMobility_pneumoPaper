@@ -135,8 +135,6 @@ likFunc.munic<-function(par){
     # TranMatArrayB2<-matrix(TranMatArrayB,nlocs*length(gensB),nloc.munic,byrow=T)
     probAllPrs<-eigenMapMatMult(TranMatArrayB2,TranMatArrayA3)
     den<-sum(probAllPrs)
-    
-    
     TranMatArrayA3<-matrix(TranMatArrayA2[,dat.in2$loc1[ii],],nlocs,length(gensA))
     TranMatArrayB2<-matrix(TranMatArrayB[,dat.in2$loc2[ii],],length(gensB),nlocs,byrow=T)
     num<-sum(eigenMapMatMult(TranMatArrayB2,TranMatArrayA3))
