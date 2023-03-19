@@ -6,7 +6,7 @@ likFunc.munic<-function(par){
   
   ##### Put this back to fit more
   nInfecLoc<-rep(1,9)
-  nInfecLoc[1:8]<-exp(par[3:10])
+  nInfecLoc[1:8]<-exp(par[4:11])
   nInfecLoc<-nInfecLoc/sum(nInfecLoc)
   ################################
   
