@@ -137,7 +137,7 @@ par3<-runif(1,-3,0)
 par4_10<-runif(8,0,0.9999)
 startPar<-c(par1,par2,par3,par4_10)
 ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
-save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/ans.munic",chain,".",iters,".08_gravity_adj_bg_meta",".RData"))
+save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/ans.munic",chain,".",iters,".08_gravity_adj_bg_metapar",".RData"))
 
 
 
