@@ -1,7 +1,7 @@
 ####Fit model with simulation
 iters=20000
 scale=.06
-boot=1
+boot=3
 #########Set up simulation
 library(dplyr)
 library(data.table)
@@ -105,7 +105,7 @@ SimulationFunction<-function(){
   return(output)
 }
 
-# for(boot in 1:3){
+for(boot in 1:3){
 print("Running Simulation:")
   print(boot)
 sim<-SimulationFunction()
@@ -199,8 +199,8 @@ start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
-# save(dat.in2,file=paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,"_adj.RData"))
-# save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,"_adj.RData"))
-# save(sim.ans,file=paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,"_adj.RData"))###SAVE OUTPUT
-# }
+save(dat.in2,file=paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,"_adj.RData"))
+save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,"_adj.RData"))
+save(sim.ans,file=paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,"_adj.RData"))###SAVE OUTPUT
+}
 ###############################################################################
