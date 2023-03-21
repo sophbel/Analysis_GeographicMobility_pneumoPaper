@@ -28,6 +28,8 @@ probMove_grav_munic <- apply(probMove, 2, function(x) x/rowtot  )
 
 timeWindow<-35
 probStay<-1-(diag(probMove_grav_munic))^timeWindow
+probStay[which(probStay>0.99999)]<-0.99999
+
 tmp<-probMove_grav_munic
 diag(tmp)<-0
 tmp<-sweep(tmp,1,rowSums(tmp),"/")
