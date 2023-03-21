@@ -45,6 +45,7 @@ likFunc.munic<-function(par){
   ### second method to adjust for infectious period
   timeWindow<-35
   probStay<-1-(diag(probMove_preadj))^timeWindow
+  probStay[which(probStay>0.99999)]<-0.99999
   tmp<-probMove_preadj
   diag(tmp)<-0
   tmp1<-sweep(tmp,1,rowSums(tmp),"/")
