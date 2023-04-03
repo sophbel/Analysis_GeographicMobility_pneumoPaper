@@ -19,7 +19,9 @@ n<-dim(dists)[1]
 probMove<-matrix(NaN,n,n)
 for(i in 1:n){
   for(j in 1:n){
-    probMove[i,j]<-popsize[i]^alpha*popsize[j]^beta/dists[i,j]^gamma
+    # probMove[i,j]<-popsize[i]^alpha*popsize[j]^beta/dists[i,j]^gamma
+    probMove[i,j]<-log(popsize[j]^beta)/dists[i,j]^gamma
+    
   }
 }
 # diag(probMove)<-NA

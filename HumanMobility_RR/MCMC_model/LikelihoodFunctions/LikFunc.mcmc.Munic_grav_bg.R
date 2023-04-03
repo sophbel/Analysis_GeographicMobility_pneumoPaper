@@ -21,6 +21,7 @@ likFunc.munic<-function(par){
   popsize<-pop2019.town
   # beta=1.5
   beta=exp(extTranMatDat.tmp$pars$beta)
+  # tmppar1 <- exp(beta_tmp)/(1+exp(beta_tmp))
   # gamma=2
   gamma=exp(extTranMatDat.tmp$pars$gamma)
   dists<-pairwise_geodist.town
@@ -30,7 +31,7 @@ likFunc.munic<-function(par){
   for(i in 1:n){
     for(j in 1:n){
       # probMove[i,j]<-popsize[i]*popsize[j]^beta/dists[i,j]^gamma
-      probMove[i,j]<-popsize[j]^beta/dists[i,j]^gamma
+      probMove[i,j]<-log(popsize[j]^beta)/dists[i,j]^gamma
       
     }
   }
