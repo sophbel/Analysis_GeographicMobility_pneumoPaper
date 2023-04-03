@@ -63,24 +63,51 @@ max.range=0.6
 nlocs=nloc=9
 npop<-pop_2019
 pHome<-npop/sum(npop)
-#########
-tmpbase<-cdr.mat
+######### OLD VERSION
+# tmpbase<-cdr.mat
+# tmppar1 <- exp(parHome)/(1+exp(parHome))
+# tmppar <- min.range+tmppar1*(max.range-min.range)
+# tmpdiag<-diag(tmpbase)-tmppar
+# tmpdiag[which(tmpdiag>0.99999)]<-0.99999
+# diag(tmpbase)<-0
+# tmpbase<-sweep(tmpbase,1,rowSums(tmpbase),"/")
+# tmpbase<-sweep(tmpbase,1,(1-tmpdiag)/(1-diag(tmpbase)),"*")
+# diag(tmpbase)<-tmpdiag
+# tmp.sick<-tmp<-tmpbase
+# 
+# move3<-tcrossprod(tmp.sick,tmp.sick)
+# move4<-sweep(move3,2,pHome,"*")
+# TranMat<-sweep(move4,1,rowSums(move4),"/")
+
+############ NEW VERSION
+### Create mobility matrix for susceptible individuals
+tmpbase_pre<-cdr.mat
 tmppar1 <- exp(parHome)/(1+exp(parHome))
 tmppar <- min.range+tmppar1*(max.range-min.range)
-tmpdiag<-diag(tmpbase)-tmppar
+tmpdiag<-diag(tmpbase_pre)-tmppar1
 tmpdiag[which(tmpdiag>0.99999)]<-0.99999
-diag(tmpbase)<-0
-tmpbase<-sweep(tmpbase,1,rowSums(tmpbase),"/")
-tmpbase<-sweep(tmpbase,1,(1-tmpdiag)/(1-diag(tmpbase)),"*")
-diag(tmpbase)<-tmpdiag
-tmp.sick<-tmp<-tmpbase
+diag(tmpbase_pre)<-0
+tmpbase_pre1<-sweep(tmpbase_pre,1,rowSums(tmpbase_pre),"/")
+tmpbase_pre2<-sweep(tmpbase_pre1,1,(1-tmpdiag)/(1-diag(tmpbase_pre1)),"*")
+diag(tmpbase_pre2)<-tmpdiag
 
-move3<-tcrossprod(tmp.sick,tmp.sick)
+
+#### adjust so it is mobility across the infectious period
+timeWindow<-35
+probStay<-1-(diag(tmpbase_pre2))^timeWindow
+tmp<-tmpbase_pre2
+diag(tmp)<-0
+tmp1<-sweep(tmp,1,rowSums(tmp),"/")
+tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
+diag(tmp2)<-probStay
+tmpbase<-tmp2
+
+
+move3<-tcrossprod(tmpbase,tmpbase)
 move4<-sweep(move3,2,pHome,"*")
 TranMat<-sweep(move4,1,rowSums(move4),"/")
-
-
 ############
+
 #SIMULATION FUNCTION
 SimulationFunction<-function(){
   
@@ -185,7 +212,7 @@ for(k in 1:nrow(dat.in2)){
 }
 
 
-source("./MCMC_model/Simulations/LikFunc.mcmc.SIMS.Munic_adj.R")
+source("./MCMC_model/Simulations/Likelihoods/LikFunc.mcmc.SIMS.Munic_adj.R")
 
 nInfecLoc<-table(dat.in.all$start)
 
