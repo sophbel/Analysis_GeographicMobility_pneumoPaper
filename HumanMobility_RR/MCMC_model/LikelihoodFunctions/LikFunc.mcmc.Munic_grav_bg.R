@@ -31,7 +31,7 @@ likFunc.munic<-function(par){
   for(i in 1:n){
     for(j in 1:n){
       # probMove[i,j]<-popsize[i]*popsize[j]^beta/dists[i,j]^gamma
-      probMove[i,j]<-log(popsize[j]^beta)/dists[i,j]^gamma
+      probMove[i,j]<-log(popsize[j])^beta/dists[i,j]^gamma
       
     }
   }
