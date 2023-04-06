@@ -21,15 +21,18 @@ likFunc.munic<-function(par){
   popsize<-pop2019.town
   # beta=1.5
   # beta1=log(extTranMatDat.tmp$pars$beta/(1+extTranMatDat.tmp$pars$beta))
+  beta=extTranMatDat.tmp$pars$beta
   
   ### reciprocal logit
-  beta=1/(1+exp(-extTranMatDat.tmp$pars$beta))
+  # beta=1/(1+exp(-extTranMatDat.tmp$pars$beta))
   # beta <- min.range+beta1*(max.range-min.range)
+  
+  
   # tmppar1 <- exp(beta_tmp)/(1+exp(beta_tmp))
   # gamma=2
   gamma=exp(extTranMatDat.tmp$pars$gamma)
   dists<-pairwise_geodist.town
-  diag(dists)<-1
+  diag(dists)<-10
   n<-dim(dists)[1]
   probMove<-matrix(NaN,n,n)
   for(i in 1:n){
@@ -42,12 +45,9 @@ likFunc.munic<-function(par){
   rowtot<-rowSums(probMove)
   probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
   
-  ### first method to adjust for infectious period
-  # probMoveMonth<-1-exp(-probMove_preadj*35)
-  # tmp.oneIP <- rowSums(probMoveMonth)
-  # tmpbase <- apply(probMoveMonth, 2, function(x) x/tmp.oneIP  )
   
-  ### second method to adjust for infectious period
+  
+  ###  method to adjust for infectious period
   timeWindow<-35
   probStay<-1-(diag(probMove_preadj))^timeWindow
   # probStay[which(probStay>0.99999)]<-0.99999

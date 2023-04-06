@@ -38,6 +38,8 @@ likFunc.munic<-function(par){
   rowtot<-rowSums(probMove)
   probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
   
+  
+  
   ### first method to adjust for infectious period
   # probMoveMonth<-1-exp(-probMove_preadj*35)
   # tmp.oneIP <- rowSums(probMoveMonth)
