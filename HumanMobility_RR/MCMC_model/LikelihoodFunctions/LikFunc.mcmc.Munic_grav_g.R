@@ -25,7 +25,7 @@ likFunc.munic<-function(par){
   # gamma=2
   gamma=exp(extTranMatDat.tmp$pars$gamma)
   dists<-pairwise_geodist.town
-  diag(dists)<-1
+  diag(dists)<-10
   n<-dim(dists)[1]
   probMove<-matrix(NaN,n,n)
   for(i in 1:n){
