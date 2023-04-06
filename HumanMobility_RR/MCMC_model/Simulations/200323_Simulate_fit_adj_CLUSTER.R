@@ -1,6 +1,6 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ####Fit model with simulation
-iters=20000
+iters=10000
 scale=.06
 boot=3
 #########Set up simulation
