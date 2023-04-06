@@ -63,33 +63,52 @@ max.range=0.6
 nlocs=nloc=9
 npop<-pop_2019
 pHome<-npop/sum(npop)
-######### OLD VERSION
-# tmpbase<-cdr.mat
+
+############ NEW VERSION PROVINCE LEVEL
+### Create mobility matrix for susceptible individuals
+# tmpbase_pre<-cdr.mat
 # tmppar1 <- exp(parHome)/(1+exp(parHome))
 # tmppar <- min.range+tmppar1*(max.range-min.range)
-# tmpdiag<-diag(tmpbase)-tmppar
+# tmpdiag<-diag(tmpbase_pre)-tmppar1
 # tmpdiag[which(tmpdiag>0.99999)]<-0.99999
-# diag(tmpbase)<-0
-# tmpbase<-sweep(tmpbase,1,rowSums(tmpbase),"/")
-# tmpbase<-sweep(tmpbase,1,(1-tmpdiag)/(1-diag(tmpbase)),"*")
-# diag(tmpbase)<-tmpdiag
-# tmp.sick<-tmp<-tmpbase
+# diag(tmpbase_pre)<-0
+# tmpbase_pre1<-sweep(tmpbase_pre,1,rowSums(tmpbase_pre),"/")
+# tmpbase_pre2<-sweep(tmpbase_pre1,1,(1-tmpdiag)/(1-diag(tmpbase_pre1)),"*")
+# diag(tmpbase_pre2)<-tmpdiag
 # 
-# move3<-tcrossprod(tmp.sick,tmp.sick)
+# 
+# #### adjust so it is mobility across the infectious period
+# timeWindow<-35
+# probStay<-1-(diag(tmpbase_pre2))^timeWindow
+# tmp<-tmpbase_pre2
+# diag(tmp)<-0
+# tmp1<-sweep(tmp,1,rowSums(tmp),"/")
+# tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
+# diag(tmp2)<-probStay
+# tmpbase<-tmp2
+# 
+# 
+# move3<-tcrossprod(tmpbase,tmpbase)
 # move4<-sweep(move3,2,pHome,"*")
 # TranMat<-sweep(move4,1,rowSums(move4),"/")
+############
 
-############ NEW VERSION
+#########MUNICIPALITY LEVEL
+# tmp.pHome.PROV<-extTranMatDat.tmp$popbyCell
+# tmp.pHome.PROV<-tmp.pHome.PROV/sum(tmp.pHome.PROV)
+
 ### Create mobility matrix for susceptible individuals
-tmpbase_pre<-cdr.mat
+tmpbase_pre<-cdr.mat.town
+# tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))
 tmppar1 <- exp(parHome)/(1+exp(parHome))
 tmppar <- min.range+tmppar1*(max.range-min.range)
-tmpdiag<-diag(tmpbase_pre)-tmppar1
+tmpdiag<-diag(tmpbase_pre)-tmppar
 tmpdiag[which(tmpdiag>0.99999)]<-0.99999
 diag(tmpbase_pre)<-0
 tmpbase_pre1<-sweep(tmpbase_pre,1,rowSums(tmpbase_pre),"/")
 tmpbase_pre2<-sweep(tmpbase_pre1,1,(1-tmpdiag)/(1-diag(tmpbase_pre1)),"*")
 diag(tmpbase_pre2)<-tmpdiag
+
 
 
 #### adjust so it is mobility across the infectious period
@@ -102,11 +121,31 @@ tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
 diag(tmp2)<-probStay
 tmpbase<-tmp2
 
+####### Collapse mobility matrix to 9X9 here
+nloc.munic=nrow(tmpbase)
 
-move3<-tcrossprod(tmpbase,tmpbase)
+splitnames <- matrix(nrow=nloc.munic,ncol=2)
+for (us in 1:nloc.munic) {
+  for (prov in 1:2) { 
+    splitnames[us,prov] <- strsplit(names(pop2019.town),"_")[[us]][prov]
+  }
+}
+
+tmpbase.1 <- apply(tmpbase, 1, function(x){
+  split(x,splitnames[,2]) %>% sapply(sum)
+})  %>% transpose()
+
+tmpbase2 <- apply(tmpbase.1,2,function(x) {
+  mapply( weighted.mean
+          , x = split(x,splitnames[,2])
+          , w = split(pop2019.town,splitnames[,2])
+  )
+})
+
+move3<-tcrossprod(tmpbase2,tmpbase2)
 move4<-sweep(move3,2,pHome,"*")
 TranMat<-sweep(move4,1,rowSums(move4),"/")
-############
+##############
 
 #SIMULATION FUNCTION
 SimulationFunction<-function(){
