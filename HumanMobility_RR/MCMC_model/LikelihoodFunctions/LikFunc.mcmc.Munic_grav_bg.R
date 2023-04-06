@@ -20,7 +20,11 @@ likFunc.munic<-function(par){
   #### gravity model parameter fit
   popsize<-pop2019.town
   # beta=1.5
-  beta=exp(extTranMatDat.tmp$pars$beta)
+  # beta1=log(extTranMatDat.tmp$pars$beta/(1+extTranMatDat.tmp$pars$beta))
+  
+  ### reciprocal logit
+  beta=1/(1+exp(-extTranMatDat.tmp$pars$beta))
+  # beta <- min.range+beta1*(max.range-min.range)
   # tmppar1 <- exp(beta_tmp)/(1+exp(beta_tmp))
   # gamma=2
   gamma=exp(extTranMatDat.tmp$pars$gamma)
