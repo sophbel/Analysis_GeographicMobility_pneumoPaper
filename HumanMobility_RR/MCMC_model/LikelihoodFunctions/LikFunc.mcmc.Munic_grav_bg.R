@@ -21,7 +21,7 @@ likFunc.munic<-function(par){
   popsize<-pop2019.town
   # beta=1.5
   # beta1=log(extTranMatDat.tmp$pars$beta/(1+extTranMatDat.tmp$pars$beta))
-  beta=extTranMatDat.tmp$pars$beta
+  beta=exp(extTranMatDat.tmp$pars$beta)
   
   ### reciprocal logit
   # beta=1/(1+exp(-extTranMatDat.tmp$pars$beta))
@@ -57,7 +57,7 @@ likFunc.munic<-function(par){
   tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
   diag(tmp2)<-probStay
   tmpbase<-tmp2
-
+  
   
   ####### Collapse mobility matrix to 9X9 here
   nloc.munic=nrow(tmpbase)
@@ -235,6 +235,5 @@ likFunc.munic<-function(par){
   out=sum(LL)
   # attr(out,"IndLik")<-aa2
   print(out)
-  
   return(out)
 }

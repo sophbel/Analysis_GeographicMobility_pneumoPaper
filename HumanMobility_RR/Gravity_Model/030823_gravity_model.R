@@ -9,8 +9,8 @@ load("./modelinput_data/pop_municipality.2017LS.RData")
 # ylocs<-runif(n,0,100)
 # popsize<-runif(n,5000,50000)
 popsize<-pop2019.town
-alpha=1.2
-beta=1.5
+# alpha=1.2
+beta=50
 gamma=2
 # dists<-as.matrix(dist(cbind(xlocs,ylocs)))
 dists<-pairwise_geodist.town
@@ -39,3 +39,47 @@ tmp<-sweep(tmp,1,(1-probStay)/(1-diag(tmp)),"*")
 diag(tmp)<-probStay
 probMoveWeek<-tmp
 
+
+#### #### #### #### #### #### #### #### 
+#### Beta Gamma Gravity Model 
+#### #### #### #### #### #### #### #### 
+
+#### gravity model parameter fit
+popsize<-pop2019.town
+extTranMatDat.tmp$pars$beta=50
+extTranMatDat.tmp$pars$gamma=2
+
+
+beta=extTranMatDat.tmp$pars$beta
+
+### reciprocal logit
+# beta=1/(1+exp(-extTranMatDat.tmp$pars$beta))
+# beta <- min.range+beta1*(max.range-min.range)
+
+gamma=exp(extTranMatDat.tmp$pars$gamma)
+dists<-pairwise_geodist.town
+diag(dists)<-10
+n<-dim(dists)[1]
+probMove<-matrix(NaN,n,n)
+for(i in 1:n){
+  for(j in 1:n){
+    probMove[i,j]<-log(popsize[j])^beta/dists[i,j]^gamma
+    
+  }
+}
+rowtot<-rowSums(probMove)
+probMove_preadj <- apply(probMove, 2, function(x) x/rowtot  )
+
+
+
+###  method to adjust for infectious period
+timeWindow<-35
+probStay<-1-(diag(probMove_preadj))^timeWindow
+tmp<-probMove_preadj
+diag(tmp)<-0
+tmp1<-sweep(tmp,1,rowSums(tmp),"/")
+tmp2<-sweep(tmp1,1,(1-probStay)/(1-diag(tmp1)),"*")
+diag(tmp2)<-probStay
+tmpbase<-tmp2
+grav_bg_mobility<-tmpbase
+saveRDS(grav_bg_mobility,file="/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/Gravity_Model/grav_bg_mobility.RData")
