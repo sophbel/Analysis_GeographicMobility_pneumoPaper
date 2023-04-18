@@ -17,7 +17,7 @@ shape=mean^2/var
 scale=var/mean
 tranmat.cdr <- cdr.mat.town
 ##INPUT TRUE MOBILITY 
-load("./ModelProjections/TranMatArray.234x234.RData")
+load("./ModelProjections/data/TranMatArray.234x234.RData")
 TranMatArray.1<-TranMatArray.234x234
 
 provs <- c("Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga","North West","Northern Cape","Western Cape")

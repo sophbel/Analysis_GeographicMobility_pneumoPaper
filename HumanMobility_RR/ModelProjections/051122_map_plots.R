@@ -68,6 +68,8 @@ densities.tmp<-as.numeric(shp.tmp$pop_density)
 names(densities.tmp)<-shp.tmp$NAME_3
 densities<-densities.tmp[names(pop2019.town)]
 # save(densities,file="./ModelProjections/data/densities.RData")
+# load(file="./ModelProjections/data/densities.RData")
+
 ###############top population sizes
 ## GT
 j_lalo <- data.table(t(data.table(c(-26.2041, 28.0473))))## Joburg
@@ -356,6 +358,8 @@ ggplot(data=shp.tmp)+
 #Calculating the distance travelled from Sequential simulations Reff=1
 load("./modelinput_data/pairwise_geodist.town.RData")
 diag(pairwise_geodist.town)<-NA
+load(file="./ModelProjections/data/densities.RData")
+
 for (i in 1){
   # nboot=600000
   ####overall
