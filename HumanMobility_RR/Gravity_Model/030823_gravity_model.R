@@ -10,18 +10,17 @@ load("./modelinput_data/pop_municipality.2017LS.RData")
 # popsize<-runif(n,5000,50000)
 popsize<-pop2019.town
 # alpha=1.2
-beta=50
+beta=3
 gamma=2
 # dists<-as.matrix(dist(cbind(xlocs,ylocs)))
 dists<-pairwise_geodist.town
-diag(dists)<-1
+diag(dists)<-10
 n<-dim(dists)[1]
 probMove<-matrix(NaN,n,n)
 for(i in 1:n){
   for(j in 1:n){
     # probMove[i,j]<-popsize[i]^alpha*popsize[j]^beta/dists[i,j]^gamma
     probMove[i,j]<-log(popsize[j]^beta)/dists[i,j]^gamma
-    
   }
 }
 # diag(probMove)<-NA
