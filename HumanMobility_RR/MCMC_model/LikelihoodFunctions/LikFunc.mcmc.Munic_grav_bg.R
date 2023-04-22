@@ -232,7 +232,7 @@ likFunc.munic<-function(par){
   
   aa2<-do.call("c",aa)
   LL<-sum(aa2,na.rm=T)
-  out=sum(LL)
+  out=-sum(LL)
   # attr(out,"IndLik")<-aa2
   print(out)
   return(out)

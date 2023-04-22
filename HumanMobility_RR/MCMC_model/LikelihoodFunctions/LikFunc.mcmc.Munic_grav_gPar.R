@@ -40,7 +40,7 @@ likFunc.munic<-function(par){
   
   
   ### Adjust the matrix for pneumococcal individuals
-  tmpbase_pre<-cdr.mat.town
+  tmpbase_pre<-probMove_preadjtmp
   tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))
   tmppar <- min.range+tmppar1*(max.range-min.range)
   tmpdiag<-diag(probMove_preadjtmp)-tmppar
