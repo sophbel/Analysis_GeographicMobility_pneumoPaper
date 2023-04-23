@@ -232,7 +232,7 @@ extTranMatDat.tmp$pars$homeSus<-999
 # scale=varGen/genTime
 
 max.no.gens<-30 ### 8.2 years for minimum number of generations times (10 days)
-maxGen<-max.no.gens*2#### multiple by 2 as we were off by a factor of 2
+maxGen<-max.no.gens*0.5#### multiple by 2 as we were off by a factor of 2
 
 ####Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
