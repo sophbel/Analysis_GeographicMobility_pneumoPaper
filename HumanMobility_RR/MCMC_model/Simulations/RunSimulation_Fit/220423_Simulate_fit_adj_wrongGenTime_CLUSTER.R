@@ -186,8 +186,8 @@ samp<-sample(nrow(dat.in.all),3000,replace=F)
 dat.in.tmp<-dat.in.all[samp,]
 
 ### adjust generations as if I was 2X wrong
-dat.in.tmp$nogens<-dat.in.tmp$nogens*2
-dat.in.tmp$nogens2<-dat.in.tmp$nogens2*2
+dat.in.tmp$nogens<-dat.in.tmp$nogens*0.5
+dat.in.tmp$nogens2<-dat.in.tmp$nogens2*0.5
 dat.in.tmp$meanGen<-dat.in.tmp$nogens+dat.in.tmp$nogens2
 
 # ###Sample 3X more 
@@ -252,8 +252,8 @@ start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
-save(dat.in2,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in2",scale,".",iters,".",boot,"_adj.RData"))
-save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in.all",scale,".",iters,".",boot,"_adj.RData"))
-save(sim.ans,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/sim.ans.",scale,".",iters,".",boot,"_adj.RData"))###SAVE OUTPUT
+save(dat.in2,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in2",scale,".",iters,".",boot,"_adj_5.RData"))
+save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in.all",scale,".",iters,".",boot,"_adj_5.RData"))
+save(sim.ans,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/sim.ans.",scale,".",iters,".",boot,"_adj_5.RData"))###SAVE OUTPUT
 }
 ###############################################################################

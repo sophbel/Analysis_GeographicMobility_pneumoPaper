@@ -130,6 +130,8 @@ extTranMatDat.tmp$pars$homeSus<-999
 dat.in2<-dat.inMaster[which(dat.inMaster$totTimeDays<3500),]
 npairs=nrow(dat.in2)
 
+
+
 ### Run MCMC
 par1<-runif(1,0,3)
 par2<-runif(1,0,3)
