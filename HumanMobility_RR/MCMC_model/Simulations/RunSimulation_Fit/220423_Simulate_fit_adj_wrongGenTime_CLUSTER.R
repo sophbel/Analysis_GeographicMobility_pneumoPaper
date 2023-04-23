@@ -185,7 +185,12 @@ dat.in.all$distStart2<-pairwise_geodist[a]
 samp<-sample(nrow(dat.in.all),3000,replace=F)
 dat.in.tmp<-dat.in.all[samp,]
 
-### adjust generations as if I was 2X wrong
+### adjust generations as if I was 2X wrong 
+# dat.in.tmp$nogens<-dat.in.tmp$nogens*2
+# dat.in.tmp$nogens2<-dat.in.tmp$nogens2*2
+# dat.in.tmp$meanGen<-dat.in.tmp$nogens+dat.in.tmp$nogens2
+
+### adjust generations as if I was 0.5X wrong 
 dat.in.tmp$nogens<-dat.in.tmp$nogens*0.5
 dat.in.tmp$nogens2<-dat.in.tmp$nogens2*0.5
 dat.in.tmp$meanGen<-dat.in.tmp$nogens+dat.in.tmp$nogens2
