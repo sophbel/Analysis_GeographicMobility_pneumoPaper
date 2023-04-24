@@ -255,6 +255,6 @@ end.time<-Sys.time()
 print(end.time-start.time)
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in2",scale,".",iters,".",boot,"_adj_75.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/dat.in.all",scale,".",iters,".",boot,"_adj_75.RData"))
-save(sim.ans,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/sim.ans.",scale,".",iters,".",boot,"_adj_5.RData"))###SAVE OUTPUT
+save(sim.ans,file=paste0("./MCMC_model/Simulations/output/wrongGenTime/sim.ans.",scale,".",iters,".",boot,"_adj_75.RData"))###SAVE OUTPUT
 }
 ###############################################################################
