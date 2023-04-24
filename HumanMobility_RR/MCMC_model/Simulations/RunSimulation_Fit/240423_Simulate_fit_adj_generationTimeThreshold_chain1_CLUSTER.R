@@ -42,12 +42,14 @@ a<-match(colnames(cdr.mat.town),names(pop2019.town))
 pop2019.town<-pop2019.town[a]
 
 
-## Simulatation parameters
+## Simulation parameters
 nsims<-1  ## Number of sepaarte simulations to run
 burnin<-20
-nGen2<-nGen<-1:30
-pGen2<-pGen<-rep(1/30,30)
-ntimes<-90000 ## No. of pairs per simulation per observation
+# nGen2<-nGen<-1:30
+# pGen2<-pGen<-rep(1/30,30)
+nGen2<-nGen<-1:120
+pGen2<-pGen<-rep(1/120,120)
+ntimes<-50000 ## No. of pairs per simulation per observation
 
 ### True sampling from true data set.
 dat.inMaster<-do.call("rbind",dat.tmp.allser)
@@ -182,7 +184,7 @@ dat.in.all$distStart2<-pairwise_geodist[a]
 # samp2<-rbinom(nrow(dat.in.all),1,prob=randsamp[dat.in.all[,"loc2"]])
 # dat.in.tmp<-dat.in.all[which(samp1==1&samp2==1),]
 ####or
-samp<-sample(nrow(dat.in.all),3000,replace=F)
+samp<-sample(nrow(dat.in.all),5000,replace=F)
 dat.in.tmp<-dat.in.all[samp,]
 
 
@@ -206,7 +208,6 @@ print(locs2)
 ##############REFIT MODEL USING SIMULATION##########################################
 calcAllProbs=FALSE
 singPar=FALSE
-dat.in2<-dat.in.tmp
 
 ncore=1
 # min.range<-(-0.04)
@@ -224,6 +225,8 @@ nInfecLoc<-table(dat.in.all$start)
 ##########set the generation times to 15
 max.no.gens<-15 ### 
 maxGen<-max.no.gens#### 
+dat.in2<-subset(dat.in.tmp,dat.in.tmp$nogens<=max.no.gens&dat.in.tmp$nogens2<=max.no.gens)
+
 ##Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -231,7 +234,6 @@ for(k in 1:nrow(dat.in2)){
   probByGen.tmp[k,dat.in2[k,7],2]<-1
 }
 
-dat.in2<-dat.in.tmp
 npairs=nrow(dat.in2)
 print(paste0("Number of pairs in subsample=",npairs))
 
@@ -250,6 +252,8 @@ save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.
 #########set the generation times to 30
 max.no.gens<-30 ### 
 maxGen<-max.no.gens#### 
+dat.in2<-subset(dat.in.tmp,dat.in.tmp$nogens<=max.no.gens&dat.in.tmp$nogens2<=max.no.gens)
+
 ####Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -257,7 +261,6 @@ for(k in 1:nrow(dat.in2)){
   probByGen.tmp[k,dat.in2[k,7],2]<-1
 }
 
-dat.in2<-dat.in.tmp
 npairs=nrow(dat.in2)
 print(paste0("Number of pairs in subsample=",npairs))
 
@@ -276,6 +279,8 @@ save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.
 #########set the generation times to 60
 max.no.gens<-60 ### 
 maxGen<-max.no.gens#### 
+dat.in2<-subset(dat.in.tmp,dat.in.tmp$nogens<=max.no.gens&dat.in.tmp$nogens2<=max.no.gens)
+
 ####Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -283,7 +288,6 @@ for(k in 1:nrow(dat.in2)){
   probByGen.tmp[k,dat.in2[k,7],2]<-1
 }
 
-dat.in2<-dat.in.tmp
 npairs=nrow(dat.in2)
 print(paste0("Number of pairs in subsample=",npairs))
 
@@ -302,6 +306,8 @@ save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.
 #########set the generation times to 90
 max.no.gens<-90 ### 
 maxGen<-max.no.gens#### 
+dat.in2<-subset(dat.in.tmp,dat.in.tmp$nogens<=max.no.gens&dat.in.tmp$nogens2<=max.no.gens)
+
 ####Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -309,7 +315,6 @@ for(k in 1:nrow(dat.in2)){
   probByGen.tmp[k,dat.in2[k,7],2]<-1
 }
 
-dat.in2<-dat.in.tmp
 npairs=nrow(dat.in2)
 print(paste0("Number of pairs in subsample=",npairs))
 
@@ -328,6 +333,8 @@ save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.
 #########set the generation times to 120
 max.no.gens<-120 ### 
 maxGen<-max.no.gens#### 
+dat.in2<-subset(dat.in.tmp,dat.in.tmp$nogens<=max.no.gens&dat.in.tmp$nogens2<=max.no.gens)
+
 ####Probability of being in each generation set at true generations
 probByGen.tmp<-array(0,c(nrow(dat.in2),maxGen,2))
 for(k in 1:nrow(dat.in2)){
@@ -335,7 +342,6 @@ for(k in 1:nrow(dat.in2)){
   probByGen.tmp[k,dat.in2[k,7],2]<-1
 }
 
-dat.in2<-dat.in.tmp
 npairs=nrow(dat.in2)
 print(paste0("Number of pairs in subsample=",npairs))
 
