@@ -43,7 +43,7 @@ likFunc.munic<-function(par){
   tmpbase_pre<-probMove_preadjtmp
   tmppar1 <- exp(extTranMatDat.tmp$pars$homeSus)/(1+exp(extTranMatDat.tmp$pars$homeSus))
   tmppar <- min.range+tmppar1*(max.range-min.range)
-  tmpdiag<-diag(probMove_preadjtmp)-tmppar
+  tmpdiag<-diag(cdr.mat.town)-tmppar
   tmpdiag[which(tmpdiag>0.99999)]<-0.99999
   diag(probMove_preadjtmp)<-0
   tmpbase_pre1<-sweep(probMove_preadjtmp,1,rowSums(probMove_preadjtmp),"/")
