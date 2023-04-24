@@ -232,8 +232,10 @@ likFunc.munic<-function(par){
   
   aa2<-do.call("c",aa)
   LL<-sum(aa2,na.rm=T)
-  out=-sum(LL)
-  # attr(out,"IndLik")<-aa2
+  out=sum(LL)
+  #LL+sum(log(dnorm(extTranMatDat.tmp$pars$beta)
+  
+  
   print(out)
   return(out)
 }
