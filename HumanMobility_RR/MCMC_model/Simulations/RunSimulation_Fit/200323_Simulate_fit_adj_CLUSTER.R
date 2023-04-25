@@ -1,8 +1,8 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ####Fit model with simulation
-iters=20000
-scale=.06
-boot=3
+iters=20010
+scale=.05
+# boot=3
 #########Set up simulation
 library(dplyr)
 library(data.table)
@@ -235,11 +235,11 @@ print(paste0("Number of pairs in subsample=",npairs))
 print("Running MCMC")
 startPar<-c(-2.5,rep(0,8))
 start.time<-Sys.time()
-sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive(),thin = 5)
+sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive(),thin = 10)
 end.time<-Sys.time()
 print(end.time-start.time)
-save(dat.in2,file=paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,"_adj.RData"))
-save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,"_adj.RData"))
-save(sim.ans,file=paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,"_adj.RData"))###SAVE OUTPUT
+save(dat.in2,file=paste0("./MCMC_model/Simulations/output/dat.in2",scale,".",iters,".",boot,"_adj_munic2.RData"))
+save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/dat.in.all",scale,".",iters,".",boot,"_adj_munic2.RData"))
+save(sim.ans,file=paste0("./MCMC_model/Simulations/output/sim.ans.",scale,".",iters,".",boot,"_adj_munic2.RData"))###SAVE OUTPUT
 }
 ###############################################################################
