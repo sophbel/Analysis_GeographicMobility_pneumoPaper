@@ -1,6 +1,6 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ### Municipality Level Function
-iters=20000
+iters=10000
 # iters=3000
 
 # for (chain in 1:3){
