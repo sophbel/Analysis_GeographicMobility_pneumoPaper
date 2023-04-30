@@ -144,9 +144,9 @@ par3_9<-runif(8,0,0.9999)
 # par3_9<-runif(8,0,0.9999)
 startPar<-c(par1,par2,par3_9)
 
-ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .06),thin=5)
+ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .05),thin=5)
 # ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = 0.1),thin=5 ,conv_checker = convergence_gelman(10),nchains=3)
-save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/grav_bg/ans.munic",chain,".",iters,".06_gravity_adj_bg_scale",".RData"))
+save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/grav_bg/ans.munic",chain,".",iters,".05_gravity_adj_bg_scale",".RData"))
 
 
 
