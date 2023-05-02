@@ -1,7 +1,7 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ####Fit model with simulation
 iters=20000
-scale=.06
+scale=.07
 boot=3
 #########Set up simulation
 library(dplyr)
@@ -207,7 +207,7 @@ print(locs2)
 ###################
 ##############REFIT MODEL USING SIMULATION##########################################
 calcAllProbs=FALSE
-singPar=FALSE
+singPar=TRUE
 
 ncore=1
 # min.range<-(-0.04)
@@ -219,7 +219,17 @@ extTranMatDat.tmp$pars<-list()
 extTranMatDat.tmp$pars$homeSus<-999
 
 source("./MCMC_model/Simulations/Likelihoods/LikFunc.mcmc.SIMS.Munic_adj.R")
+# source("./MCMC_model/Simulations/Likelihoods/LikFunc.mcmc.SIMS.Munic_adj_singlePar.R")
+
 nInfecLoc<-table(dat.in.all$start)
+
+if(singPar==TRUE){
+  startPar<-runif(1,-3,0)
+  
+}else{
+  startPar<-c(-2.5,rep(0,8))
+  
+}
 
 #############################################
 ##########set the generation times to 15
@@ -239,15 +249,20 @@ print(paste0("Number of pairs in subsample=",npairs))
 
 #######RUN MCMC#####
 print("Running MCMC")
-startPar<-c(-2.5,rep(0,8))
+# startPar<-c(-2.5,rep(0,8))
 start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
+if(singPar==TRUE){
+  save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres15_singPar.RData"))
+  save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres15_singPar.RData"))
+  save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres15_singPar.RData"))###SAVE OUTPUT
+}else{
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres15.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres15.RData"))
 save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres15.RData"))###SAVE OUTPUT
-
+}
 ######################################################
 #########set the generation times to 30
 max.no.gens<-30 ### 
@@ -266,15 +281,20 @@ print(paste0("Number of pairs in subsample=",npairs))
 
 #######RUN MCMC#######################
 print("Running MCMC")
-startPar<-c(-2.5,rep(0,8))
+# startPar<-c(-2.5,rep(0,8))
 start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
+if(singPar==TRUE){
+  save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres30_singPar.RData"))
+  save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres30_singPar.RData"))
+  save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres30_singPar.RData"))###SAVE OUTPUT
+}else{
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres30.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres30.RData"))
 save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres30.RData"))###SAVE OUTPUT
-
+}
 ########################################################################
 #########set the generation times to 60
 max.no.gens<-60 ### 
@@ -293,15 +313,22 @@ print(paste0("Number of pairs in subsample=",npairs))
 
 #######RUN MCMC#######################
 print("Running MCMC")
-startPar<-c(-2.5,rep(0,8))
+# startPar<-c(-2.5,rep(0,8))
+# startPar<-runif(1,-3,0)
+
 start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
+if(singPar==TRUE){
+  save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres60_singPar.RData"))
+  save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres60_singPar.RData"))
+  save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres60_singPar.RData"))###SAVE OUTPUT
+}else{
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres60.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres60.RData"))
 save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres60.RData"))###SAVE OUTPUT
-
+}
 
 #########set the generation times to 90
 max.no.gens<-90 ### 
@@ -320,15 +347,22 @@ print(paste0("Number of pairs in subsample=",npairs))
 
 #######RUN MCMC#######################
 print("Running MCMC")
-startPar<-c(-2.5,rep(0,8))
+# startPar<-c(-2.5,rep(0,8))
+# startPar<-runif(1,-3,0)
+
 start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
+if(singPar==TRUE){
+  save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres90_singPar.RData"))
+  save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres90_singPar.RData"))
+  save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres90_singPar.RData"))###SAVE OUTPUT
+}else{
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres90.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres90.RData"))
 save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres90.RData"))###SAVE OUTPUT
-
+}
 
 #########set the generation times to 120
 max.no.gens<-120 ### 
@@ -347,14 +381,20 @@ print(paste0("Number of pairs in subsample=",npairs))
 
 #######RUN MCMC#######################
 print("Running MCMC")
-startPar<-c(-2.5,rep(0,8))
+
+
 start.time<-Sys.time()
 sim.ans<-MCMC(likFunc.sim,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = scale),progress = interactive())
 end.time<-Sys.time()
 print(end.time-start.time)
+if(singPar==TRUE){
+  save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres120_singPar.RData"))
+  save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres120_singPar.RData"))
+  save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres120_singPar.RData"))###SAVE OUTPUT
+}else{
 save(dat.in2,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in2",scale,".",iters,".",boot,"_adj_genthres120.RData"))
 save(dat.in.all,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/dat.in.all",scale,".",iters,".",boot,"_adj_genthres120.RData"))
 save(sim.ans,file=paste0("./MCMC_model/Simulations/output/genTimeThresh/sim.ans.",scale,".",iters,".",boot,"_adj_genthres120.RData"))###SAVE OUTPUT
-
+}
 # }
 ###############################################################################

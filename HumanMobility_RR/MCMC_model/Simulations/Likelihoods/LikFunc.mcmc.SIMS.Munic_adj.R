@@ -2,6 +2,7 @@ likFunc.sim<-function(par){
   
   if(singPar==TRUE){
   extTranMatDat.tmp$pars$homeSus<-par[1]
+  nInfecLoc<-pHome
   }else{
   ##### Put this back to fit more
   extTranMatDat.tmp$pars$homeSus<-par[1]
