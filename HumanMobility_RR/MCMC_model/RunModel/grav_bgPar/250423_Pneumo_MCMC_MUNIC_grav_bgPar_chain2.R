@@ -1,6 +1,6 @@
 setwd("/data/pam/team284/sb62/scratch/Migration/SouthAfrica/mobility_model/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 ### Municipality Level Function
-iters=20000
+iters=30000
 # for (chain in 1:3){
 chain=2
 cluster=FALSE
@@ -141,8 +141,8 @@ par2<-endrun_pars_bg[2]
 par3<-runif(1,-3,0)
 par4_11<-endrun_pars_bg[3:10]
 startPar<-c(par1,par2,par3,par4_11)
-ans.munic <- MCMC(fun=likFunc.munic, initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
-save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/grav_bgPar/ans.munic",chain,".",iters,".08_gravity_adj_bgPar_meta.RData"))
+ans.munic <- MCMC(fun=likFunc.munic, initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .06),thin=5)
+save(ans.munic,file=paste0("./MCMC_model/outputs/gravity_model/grav_bgPar/ans.munic",chain,".",iters,".06_gravity_adj_bgPar_meta.RData"))
 
 
 
