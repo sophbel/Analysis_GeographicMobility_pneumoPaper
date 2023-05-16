@@ -339,7 +339,7 @@ setwd("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/prop
 # save(dist.quants.tmp3,file="dist.quants.tmp3.posteriorsAll.RData")
 # save(dist.quants.tmp3,file="dist.quants.tmp3.posteriorsAll.noWT.RData")
 
-# load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/proppergen/dist.quants.tmp3.posteriors.RData")
+load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/proppergen/dist.quants.tmp3.posteriors.RData")
 
 #####Combine two methods and plot
 

@@ -17,7 +17,7 @@ shape=mean^2/var
 scale=var/mean
 tranmat.cdr <- cdr.mat.town
 ##INPUT TRUE MOBILITY 
-load("./ModelProjections/data/TranMatArray.234x234.RData")
+load("./ModelProjections/data/TranMatArray.234x234_adj.RData")
 TranMatArray.1<-TranMatArray.234x234
 
 provs <- c("Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga","North West","Northern Cape","Western Cape")
@@ -64,7 +64,7 @@ simFunction<-function(tranmat,specificStart=specificStart,noGens,overdis=F,R0=1,
 }
 noGens=120
 ## time in days, generation of that day.
-nboot=20
+nboot=200
 mat.boots<-list()
 plot.nmuic.list <- list()
 plot.dist.list <- list()
@@ -206,8 +206,8 @@ colnames(mat.tot.fin.overall) <- c("NperGen","NperGen_lower","NperGen_upper",
                                    "propHome","propHome_lower","propHome_upper",
                                    "propJoburg","propJoburg_lower","propJoburg_upper","gen","days","medNperGen","medDistance")
 
-# save(mat.tot.fin.overall,file="./ModelProjections/data/mat.tot.fin.overall.RData")
-# save(mat.tot,file="./ModelProjections/data/mat.tot.RData")
+save(mat.tot.fin.overall,file="./ModelProjections/data/mat.tot.fin.overall_adj.RData")
+save(mat.tot,file="./ModelProjections/data/mat.tot_adj.RData")
 
 
 ######PLOTS
@@ -242,7 +242,7 @@ plot.probs.overall <- ggplot() +
 
 library(patchwork)
 
-(plot.dist + plot.nmuic + plot.probs.overall)
+(plot.dist + plot.nmuic )#+ plot.probs.overall)
 
 # ggsave("./ModelProjections/plots/sims.overall.dist.Nmunic.pdf",width=12,height=4)
 

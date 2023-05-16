@@ -12,8 +12,8 @@ SeasonFunc<-function(day,r0=1.1,amp=0.03){
   d<-r0+amp*(sin(-pi/2+2*pi*day/365))
   return(d)}
 
-mean=30
-var=30^2
+mean=35
+var=35^2
 shape=mean^2/var
 scale=var/mean
 ##INPUT TRUE MOBILITY 
@@ -21,7 +21,7 @@ load("./modelinput_data/cdr.mat.town.one.RData")
 cdr.mat.town<-cdr.mat.town.one
 tranmat.cdr <- cdr.mat.town
 
-load("./ModelProjections/data/TranMatArray.234x234.RData")
+load("./ModelProjections/data/TranMatArray.234x234_adj.RData")
 TranMatArray.1<-TranMatArray.234x234
 load("./modelinput_data/pairwise_geodist.town.RData") 
 load("./modelinput_data/pop_municipality.2017LS.RData") 
@@ -105,7 +105,7 @@ for (boot in 1:nboot) {
       # samp<-75
     
     }else{
-    samp<-which(densities>=500)
+    samp<-which(densities>=250)
     # sampe<-20
     }
     
@@ -242,19 +242,19 @@ if(rural==TRUE){
   mat.tot.rural.1<-mat.tot.rural
   mat.tot.fin.rural.1<-mat.tot.fin.rural
   plot.nmuic.rural <- ggplot() +
-  geom_line(data=mat.tot.rural,aes(days/365, NperGen,group=as.character(boot)) ,color="grey")+
-  geom_line(data=mat.tot.fin.rural.1,aes(days/365, NperGen),color="black" )+
-  theme_bw()+
-  # geom_ribbon(aes(ymin=lowerCI_dist,ymax=upperCI_dist))+
-  scale_color_discrete(name="iter")+
-  theme(legend.position = "none",axis.text = element_text(size=20),axis.title = element_text(size=20))+
-  xlab("Years")+
-  ggtitle("rural")+
-  ylim(1,30)+
-  ylab("Municipalities\n Visited (N)")
-  plot.phome.rural <- ggplot() +
-    geom_line(data=mat.tot.rural.1,aes(days/365, propHome,group=as.character(boot)) ,color="grey")+
-    geom_line(data=mat.tot.fin.rural.1,aes(days/365, propHome),color="black" )+
+    geom_line(data=mat.tot.rural,aes(days/365, NperGen,group=as.character(boot)) ,color="grey")+
+    geom_line(data=mat.tot.fin.rural.1,aes(days/365, NperGen),color="black" )+
+    theme_bw()+
+    # geom_ribbon(aes(ymin=lowerCI_dist,ymax=upperCI_dist))+
+    scale_color_discrete(name="iter")+
+    theme(legend.position = "none",axis.text = element_text(size=20),axis.title = element_text(size=20))+
+    xlab("Years")+
+    ggtitle("rural")+
+    ylim(1,30)+
+    ylab("Municipalities\n Visited (N)")
+  plot.dist.rural <- ggplot() +
+    geom_line(data=mat.tot.rural.1,aes(days/365, Distance,group=as.character(boot)) ,color="grey")+
+    geom_line(data=mat.tot.fin.rural.1,aes(days/365, Distance),color="black" )+
     theme_bw()+
     # geom_ribbon(aes(ymin=lowerCI_dist,ymax=upperCI_dist))+
     scale_color_discrete(name="iter")+
@@ -262,7 +262,7 @@ if(rural==TRUE){
     xlab("Years")+
     ggtitle("rural")+
     # ylim(1,30)+
-    ylab("Proportion Home")
+    ylab("Distance (km)")
   }else{
     mat.tot.urban<-mat.tot.rural
     mat.tot.fin.urban<-mat.tot.fin.rural
@@ -277,9 +277,9 @@ if(rural==TRUE){
       ggtitle("urban")+
       ylim(1,30)+
       ylab("Municipalities\n Visited (N)")
-    plot.phome.urban <- ggplot() +
-      geom_line(data=mat.tot.urban,aes(days/365, propHome,group=as.character(boot)) ,color="grey")+
-      geom_line(data=mat.tot.fin.urban,aes(days/365, propHome),color="black" )+
+    plot.dist.urban <- ggplot() +
+      geom_line(data=mat.tot.urban,aes(days/365, Distance,group=as.character(boot)) ,color="grey")+
+      geom_line(data=mat.tot.fin.urban,aes(days/365, Distance),color="black" )+
       theme_bw()+
       # geom_ribbon(aes(ymin=lowerCI_dist,ymax=upperCI_dist))+
       scale_color_discrete(name="iter")+
@@ -287,14 +287,14 @@ if(rural==TRUE){
       xlab("Years")+
       ggtitle("urban")+
       # ylim(1,30)+
-      ylab("Proportion Home")
+      ylab("Distance (km)")
   }
   
 
 }
 library(patchwork)
-  plot.nmuic.rural+plot.nmuic.urban
-  plot.phome.rural+plot.phome.urban
+  (plot.nmuic.rural+plot.nmuic.urban)/
+  (plot.dist.rural+plot.dist.urban)
   
   mat.1munic<-matrix(nrow=2,ncol=3)
 ###percemt with 1 municipality overall
@@ -327,8 +327,11 @@ library(patchwork)
     
   
   
-mat.tot.NVT <- rbindlist(mat.boots)
+# mat.tot.NVT <- rbindlist(mat.boots)
+save(mat.tot.fin.urban,file="./ModelProjections/data/mat.tot.fin.urban_adj.RData")
+save(mat.tot.fin.rural,file="./ModelProjections/data/mat.tot.fin.rural_adj.RData")
 
+# save(mat.tot,file="./ModelProjections/data/mat.tot_adj.RData")
 
 ##########################################
 ######No sampling by starting location #######

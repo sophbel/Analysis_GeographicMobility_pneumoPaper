@@ -1,4 +1,5 @@
 '%notin%'<-Negate('%in%')
+setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR")
 #----- Script to extract Landscan population data -----#
 library(maptools)
 library(sf)
@@ -17,7 +18,7 @@ shp <- sf::st_read(Sa_shp)
 
 
 load("./modelinput_data/pop_municipality.2017LS.RData") 
-load("./ModelProjections/data/TranMatArray.234x234.RData")
+load("./ModelProjections/data/TranMatArray.234x234_adj.RData")
 TranMatArray.1<-TranMatArray.234x234
 load("./modelinput_data/cdr.mat.town.one.RData")# # [Mobility_ManyMonthsSA.R] ## Probability of movement between each province normalized to carriage rates for each province 
 cdr.mat.town<-cdr.mat.town.one
@@ -151,7 +152,7 @@ shapes=c("Capitals"=8,"Population >1million"=18)
 ###############################################################################################
 ##################### Risk ratio of being at each municipality at 1 year#########
    
-  nboot=600000
+  nboot=1000000
    ngens=10
    noPop=FALSE
    df.whereat<-matrix(nrow=1,ncol=nboot)
@@ -223,7 +224,7 @@ risk1Year <- ggplot(data=shp_simple)+
 
 risk1Year
 
-# ggsave("./ModelProjections/plots/RR1Year.map.Pop.pdf",width = 10,height = 10)
+# ggsave("./ModelProjections/plots/RR1Year.map.Pop_adj.pdf",width = 10,height = 10)
 upoverall<-vecloc.pop[which(vecloc.pop$Risk_1year>1)]
 dim(upoverall)[1]
 tmp<-mat.numIncRisk[1:18,]
@@ -285,33 +286,33 @@ risk.list[[d]]<-vecloc.pop
 shp_simple <- merge(shp.tmp,vecloc,by="NAME_3")
 
 ####plot rural vs. urban
-# risk1Year <- ggplot(data=shp_simple)+
-#    geom_sf(data= shp_simple,aes(fill=log(Risk_1year)), lwd = 0) +
-#    theme(legend.position = "none")+
-#    
-#    ### Population >1 million
-#    geom_sf(data=j_lalo,size=6,shape=18,color="black")+
-#    geom_sf(data=tshw_lalo,size=6,shape=18,color="black")+
-#    geom_sf(data=ekur_lalo,size=6,shape=18,color="black")+
-#    geom_sf(data=ct_lalo,size=6,shape=18,color="black")+
-#    geom_sf(data=kzn_lalo,size=6,shape=18,color="black")+
-#    geom_sf(data=nmb_lalo,size=6,shape=18,color="black")+
-#    # scale_shape_manual(values = shapes,breaks=c("Capitals","Population >1million"),limits=c("Capitals","Population >1million"))+
-#    theme_light() +
-#    scale_fill_distiller( palette ="RdBu", direction = -1,breaks=c(-5,0,2.99),
-#                          labels=c(0.01,1,20),limits=c(min( log(shp_simple$Risk_1year)),log(max(shp_simple$Risk_1year))) )+
-#    theme(axis.text=element_blank(),
-#          plot.subtitle = element_text(color = "blue"),
-#          plot.caption = element_text(color = "Gray60"),
-#          legend.text=element_text(size=12),
-#          # legend.position = c(.9,.15),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
-#          legend.position = c(.12,.86),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
-#    
-#    guides(fill = guide_colorbar(title = "Relative Risk",title.position = "top",
-#                                 title.theme = element_text(size = 15,
-#                                                            colour = "gray70",angle = 0)))
-# risk1Year
-# riskpop.den[[d]]<-risk1Year
+risk1Year <- ggplot(data=shp_simple)+
+   geom_sf(data= shp_simple,aes(fill=log(Risk_1year)), lwd = 0) +
+   theme(legend.position = "none")+
+
+   ### Population >1 million
+   geom_sf(data=j_lalo,size=6,shape=18,color="black")+
+   geom_sf(data=tshw_lalo,size=6,shape=18,color="black")+
+   geom_sf(data=ekur_lalo,size=6,shape=18,color="black")+
+   geom_sf(data=ct_lalo,size=6,shape=18,color="black")+
+   geom_sf(data=kzn_lalo,size=6,shape=18,color="black")+
+   geom_sf(data=nmb_lalo,size=6,shape=18,color="black")+
+   # scale_shape_manual(values = shapes,breaks=c("Capitals","Population >1million"),limits=c("Capitals","Population >1million"))+
+   theme_light() +
+   scale_fill_distiller( palette ="RdBu", direction = -1,breaks=c(-5,0,2.99),
+                         labels=c(0.01,1,20),limits=c(min( log(shp_simple$Risk_1year)),log(max(shp_simple$Risk_1year))) )+
+   theme(axis.text=element_blank(),
+         plot.subtitle = element_text(color = "blue"),
+         plot.caption = element_text(color = "Gray60"),
+         legend.text=element_text(size=12),
+         # legend.position = c(.9,.15),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
+         legend.position = c(.12,.86),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
+
+   guides(fill = guide_colorbar(title = "Relative Risk",title.position = "top",
+                                title.theme = element_text(size = 15,
+                                                           colour = "gray70",angle = 0)))
+risk1Year
+riskpop.den[[d]]<-risk1Year
 print(d)
 }
 risk.rural<-risk.list[[1]]
@@ -416,6 +417,7 @@ for (i in 1){
     geom_line(data=overall_avs,aes(x=years,y=V1))+
     theme_classic()+
     xlab("Years")+
+    xlim(0,10)+
     ylab("Number of Municipalities")
   
   
