@@ -84,7 +84,7 @@ ggplot()+
   geom_histogram(data=carr.mat.gamb[sample(tots,replace=F),], aes(x=transmission,y = ..count../sum(..count..),fill="pink"),binwidth=1,alpha=0.5,fill="pink")+
   geom_line(aes(x=1:tots,y=dgamma(1:tots,shape=shape,scale=scale)),linetype="dashed")+
   theme_classic()+
-  xlab("Transmission Generations")+
+  xlab("Transmission Generation Interval (days)")+
   ylab("Density")+
   scale_x_continuous(breaks=c(0,100,200),limits=c(0,200),labels=c(0,100,200))+
   scale_y_continuous(breaks=c(0,.025,0.05),limits=c(0,0.05),labels=c(0,0.025,0.05))+
