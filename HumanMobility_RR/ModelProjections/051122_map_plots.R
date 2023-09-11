@@ -339,7 +339,7 @@ uprural[which(uprural$NAME_3%in%upurban$NAME_3)]
 
 
 ###general populations
-ggplot(data=shp.tmp)+
+p<-ggplot(data=shp.tmp)+
    geom_sf(data= shp.tmp,aes(fill=as.numeric(pop_density)), lwd = 0)+
    scale_fill_viridis_c(option = "plasma", trans = "sqrt",
                         breaks=c(50,500,2000),limits=c(min(shp.tmp$pop_density),max(shp.tmp$pop_density))) +
@@ -349,9 +349,9 @@ ggplot(data=shp.tmp)+
          plot.caption = element_text(color = "Gray60"),
          legend.text=element_text(size=20))  +
    labs(fill="Population Density\n(person/km^2)")
-
-
 # load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/RR1Year_popDensities.RData")
+p
+
 
 ############ ############ ############ ############################################
 ####### Sequential simulations not RR for projections ###########

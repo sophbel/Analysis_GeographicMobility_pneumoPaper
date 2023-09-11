@@ -39,7 +39,6 @@ attr(sim.matsGPSC,"data")<-dat
 }
 names(tMRCAs) <- gubgpscs
 
-setwd("./modelinput_data/")
-save(tMRCAs,file="tMRCAs.RData")
-
+# setwd("./modelinput_data/")
+# save(tMRCAs,file="tMRCAs.RData")
 

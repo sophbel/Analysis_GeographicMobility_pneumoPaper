@@ -36,7 +36,7 @@ cdr.mat.town<-cdr.mat.town.one
 ###
 nloc=nlocs=9
 nloc.munic=234
-maxGen<-100
+maxGen<-150
 
 maxTranGens=maxGen
 
@@ -76,6 +76,8 @@ for (ser in 1:9){
 }
 
 probByGen.tmp=prob.tMRCA.out
+save(prob.tMRCA.out,file="./modelinput_data/prob.tMRCA.out.RData")
+
 ## set provs order
 provs<-colnames(cdr.mat)
 
