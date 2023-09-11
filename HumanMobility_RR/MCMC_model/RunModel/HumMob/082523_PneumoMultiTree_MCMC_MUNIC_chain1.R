@@ -31,6 +31,7 @@ load("./modelinput_data/pop_municipality.2017LS.RData")
 load("./modelinput_data/pairwise_geodist.town.RData") 
 load('./modelinput_data/cdr.mat.town.one.RData')
 cdr.mat.town<-cdr.mat.town.one
+load("./modelinput_data/prob.tMRCA.out_multTrees.RData")
 # load('./modelinput_data/cdr.mat.munic.IP.RData')
 # cdr.mat.town<-cdr.mat.munic.IP
 ###
@@ -51,38 +52,33 @@ max.no.gens<-maxGen
 
 plot(1:1000,dgamma(1:1000,shape=shape,scale=scale))
 
+
+
 # pFunc<-function(x){
-#   a<-dgamma(x*365,shape=shape*1:1000,scale=scale)
-#   den<-sum(a,na.rm=T)
-#   b<-a[1:max.no.gens]/den
-#   return(b)
+#   a<-apply(as.matrix(x*365,dim=2),1,dgamma,shape=shape*1:1000,scale=scale)
+#   den<-colSums(a)
+#   b<-sweep(a[1:max.no.gens,],2,den,"/")
+#   d<-rowMeans(b)
+#   return(d)
 # }
-
-pFunc<-function(x){
-  a<-apply(as.matrix(x*365,dim=2),1,dgamma,shape=shape*1:1000,scale=scale)
-  den<-colSums(a)
-  b<-sweep(a[1:max.no.gens,],2,den,"/")
-  d<-rowMeans(b)
-  return(d)
-}
-
-prob.tMRCA.out<-list()
-for (ser in 1:9){
-  gD<-tMRCAs[[ser]]
-  prob.gdist<-array(0,c(nrow(gD),nrow(gD),max.no.gens))
-  for (i in 1:nrow(gD)){
-    for (j in 1:nrow(gD)){
-      if(i==j)next
-      if(mean(gD[i,j,]*365)>5000)next
-      prob.gdist[i,j,]<-pFunc(x=gD[i,j,])
-      # if((gD[i,j]*365)>5000)next#### This results in an error if 5000 is too small or too large
-      # prob.gdist[i,j,]<-pFunc(x=gD[i,j])
-    }
-  }
-  attr(prob.gdist,"data")<-attr(gD,"data")
-  prob.tMRCA.out[[ser]]<-prob.gdist
-  print(ser)
-}
+# 
+# prob.tMRCA.out<-list()
+# for (ser in 1:9){
+#   gD<-tMRCAs[[ser]]
+#   prob.gdist<-array(0,c(nrow(gD),nrow(gD),max.no.gens))
+#   for (i in 1:nrow(gD)){
+#     for (j in 1:nrow(gD)){
+#       if(i==j)next
+#       if(mean(gD[i,j,]*365)>5000)next
+#       prob.gdist[i,j,]<-pFunc(x=gD[i,j,])
+#       # if((gD[i,j]*365)>5000)next#### This results in an error if 5000 is too small or too large
+#       # prob.gdist[i,j,]<-pFunc(x=gD[i,j])
+#     }
+#   }
+#   attr(prob.gdist,"data")<-attr(gD,"data")
+#   prob.tMRCA.out[[ser]]<-prob.gdist
+#   print(ser)
+# }
 
 probByGen.tmp=prob.tMRCA.out
 ## set provs order
@@ -153,8 +149,8 @@ npairs=nrow(dat.in2)
 par1<-runif(1,-3,0)
 par2_8<-runif(8,0,0.9999)
 startPar<-c(par1,par2_8)
-ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .08),thin=5)
-save(ans.munic,file=paste0("./MCMC_model/outputs/mechan_model_trees/ans.munic",chain,".",iters,".08_adj",".RData"))
+ans.munic <- MCMC(likFunc.munic,initial = startPar,nsteps  = iters,kernel  = kernel_normal(scale = .07),thin=5)
+save(ans.munic,file=paste0("./MCMC_model/outputs/mechan_model_trees/ans.munic",chain,".",iters,".07_adj",".RData"))
 
 
 
