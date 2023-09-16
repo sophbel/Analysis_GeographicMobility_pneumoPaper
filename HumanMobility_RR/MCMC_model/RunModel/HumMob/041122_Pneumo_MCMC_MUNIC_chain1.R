@@ -25,7 +25,7 @@ cdr.mat<-cdr.mat.one
 # cdr.mat<-cdr.mat.IP
 load('./modelinput_data/pop_2019.RData')
 load('./modelinput_data/dat.tmp.allser.RData')
-load('./modelinput_data/tMRCAs.RData')
+# load('./modelinput_data/tMRCAs.RData')
 load('./modelinput_data/pairwise_geodist.RData')
 load("./modelinput_data/pop_municipality.2017LS.RData") 
 load("./modelinput_data/pairwise_geodist.town.RData") 
@@ -36,7 +36,7 @@ cdr.mat.town<-cdr.mat.town.one
 ###
 nloc=nlocs=9
 nloc.munic=234
-maxGen<-150
+maxGen<-100
 
 maxTranGens=maxGen
 
@@ -50,6 +50,8 @@ scale=varGen/genTime
 max.no.gens<-maxGen
 
 plot(1:1000,dgamma(1:1000,shape=shape,scale=scale))
+
+
 
 pFunc<-function(x){
   a<-dgamma(x*365,shape=shape*1:1000,scale=scale)

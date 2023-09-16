@@ -37,7 +37,7 @@ load("./modelinput_data/prob.tMRCA.out_multTrees.RData")
 ###
 nloc=nlocs=9
 nloc.munic=234
-maxGen<-100
+maxGen<-150
 
 maxTranGens=maxGen
 
