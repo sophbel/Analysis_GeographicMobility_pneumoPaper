@@ -1,8 +1,9 @@
 ###############
 ###Figure 2####
 ##############
+setwd("/Users/sb62/Documents/Migration/Analysis_GeographicMobility_pneumoPaper/HumanMobility_RR/")
 disease=FALSE
-sub=FALSE
+sub=TRUE
 load("./data/gps_metadata/GPS_SA.RData")###This loads all 6910 SA metadata
 if(sub==FALSE){
 if(disease==TRUE){
@@ -68,7 +69,7 @@ mat.tmp$distance_range_f = factor(mat.tmp$distance_range, levels=c("Within Provi
 mat.tmp$upperCI[which(mat.tmp$upperCI>5)]<-5
 lineplot <- ggplot(data = mat.tmp, aes( x = distance_range_f, y = RR , group = time_range_f)) +
   geom_hline(yintercept=1, linetype="dashed", color = "red") +
-  geom_point(size=2) +
+  geom_point(size=1) +
   geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), alpha = .9, color = "black", width = 0.5 ) +
   theme(axis.text.x = element_text(angle = 90, size=20),
         axis.text.y = element_text(size=18), axis.title.y  = element_text(size=25),
@@ -79,7 +80,7 @@ lineplot <- ggplot(data = mat.tmp, aes( x = distance_range_f, y = RR , group = t
                    limits=c("Within Province", "<500","500-1000","Distant Pairs" ,"Other Africa","Outside Africa"))+
   # theme(aspect.ratio=20/30) +
   
-  geom_point(aes(x=4, y=1),shape=25,fill="white", size=2,alpha=1)+
+  geom_point(aes(x=4, y=1),shape=25,fill="white", size=1,alpha=1)+
   theme(plot.margin = unit(c(1, 1, 1, 1), "cm")) +
   scale_y_continuous( trans = "log10", breaks = c(0.09,1,5),labels=c("<0.1","1.0","5.0"),limits=c(0.09,5)) +
   ylab("Risk Ratio")
@@ -92,7 +93,7 @@ pmanycont <- lin1_mal_cont + facet_wrap( ~ time_range_f, nrow =5) +
   theme(strip.text.x=element_blank())
 pmanycont
 # dev.off()
-ggsave(pmanycont,file="./RelativeRisk/plots/RR.overdistTime.pdf",width=3.4,height=10)
+# ggsave(pmanycont,file="./RelativeRisk/plots/RR.overdistTime.pdf",width=3.4,height=10)
 ##### Plot Continuous
 mat_distancerange <- matplot_continuous
 mat_distancerange$lowerCI[mat_distancerange$lowerCI <= 0.1 ] <- 0.1
@@ -126,7 +127,7 @@ plotwithin <- ggplot(data = mat_sub_genomic, aes( x = medMRCA, y = RR, group = d
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
         legend.position = "none") +
   theme(axis.text.y = element_text(size= 15) ) +
-  xlim(0,100)
+  xlim(0,75)
 homog <- plotwithin + facet_wrap( ~ distance_range_f, nrow =1) +
   theme(strip.text.x = element_blank())
 

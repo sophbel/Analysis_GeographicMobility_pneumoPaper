@@ -18,7 +18,7 @@ shp <- sf::st_read(Sa_shp)
 
 
 load("./modelinput_data/pop_municipality.2017LS.RData") 
-load("./ModelProjections/data/TranMatArray.234x234_adj.RData")
+load("./ModelProjections/data/TranMatArray.234x234_MultTree_adj.RData")
 TranMatArray.1<-TranMatArray.234x234
 load("./modelinput_data/cdr.mat.town.one.RData")# # [Mobility_ManyMonthsSA.R] ## Probability of movement between each province normalized to carriage rates for each province 
 cdr.mat.town<-cdr.mat.town.one
@@ -230,6 +230,8 @@ dim(upoverall)[1]
 tmp<-mat.numIncRisk[1:18,]
 quantile(upoverall$Risk_1year,probs=c(0.025,0.5,0.975))
 mean(upoverall$Risk_1year)
+mean(vecloc.pop[which(vecloc.pop$pop2019.town>3000000)]$Risk_1year)
+
  ##################################################################################
 
 
@@ -240,99 +242,6 @@ mean(upoverall$Risk_1year)
 
 
 
-# min.dens<-c(0,50,500)
-# max.dens<-c(50,500,5000)
-min.dens<-c(0,500,0)
-max.dens<-c(50,5000,5000)
-riskpop.den<-list()
-risk.list<-list()
-testIncRisk=3
-mat.numIncRisk<-matrix(ncol=2,nrow=testIncRisk)
-for (g in 1:testIncRisk){
-for(d in 1:length(min.dens)){
-nboot=1000000
-ngens=10
-df.whereat<-matrix(nrow=1,ncol=nboot)
-samp.tmp<-which(densities>=min.dens[d] & densities<max.dens[d])
-samp<-sample(samp.tmp,5)
-for( boot in 2:nboot) {
-   specificStart <- sample(samp,1)
-   # specificStart <- 75
-   
-   df.whereat[1,1] <- wherenext<- specificStart
-  # for (gen in 2:ngens){
-    # df.whereat[1,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,12])
-    df.whereat[1,boot] <- wherenext <- sample(234,1,prob=TranMatArray.1[wherenext,,10])
-    
-    
-  # }
-  print(boot)
-}
-
-vecloc <- vector(mode="numeric",length=234)
-tab.df.whereat<-table(df.whereat)
-for (i in 1:234) { 
-   vecloc[i] <- (tab.df.whereat[i]/nboot)/mean(tab.df.whereat/nboot) ### risk of being in X municipality compared to anywhere else on average
-   # vecloc[i] <- (tab.df.whereat[i]/nboot)/mean(tab.df.whereat[19]/nboot) ## risk of being in X municipality compared to type you started in
-   
-  print(i)
-}
-
-vecloc <- data.table(vecloc)
-vecloc$NAME_3 <- tn1
-colnames(vecloc) <- c("Risk_1year","NAME_3")
-vecloc.pop <- cbind(vecloc,pop2019.town)
-risk.list[[d]]<-vecloc.pop
-shp_simple <- merge(shp.tmp,vecloc,by="NAME_3")
-
-####plot rural vs. urban
-risk1Year <- ggplot(data=shp_simple)+
-   geom_sf(data= shp_simple,aes(fill=log(Risk_1year)), lwd = 0) +
-   theme(legend.position = "none")+
-
-   ### Population >1 million
-   geom_sf(data=j_lalo,size=6,shape=18,color="black")+
-   geom_sf(data=tshw_lalo,size=6,shape=18,color="black")+
-   geom_sf(data=ekur_lalo,size=6,shape=18,color="black")+
-   geom_sf(data=ct_lalo,size=6,shape=18,color="black")+
-   geom_sf(data=kzn_lalo,size=6,shape=18,color="black")+
-   geom_sf(data=nmb_lalo,size=6,shape=18,color="black")+
-   # scale_shape_manual(values = shapes,breaks=c("Capitals","Population >1million"),limits=c("Capitals","Population >1million"))+
-   theme_light() +
-   scale_fill_distiller( palette ="RdBu", direction = -1,breaks=c(-5,0,2.99),
-                         labels=c(0.01,1,20),limits=c(min( log(shp_simple$Risk_1year)),log(max(shp_simple$Risk_1year))) )+
-   theme(axis.text=element_blank(),
-         plot.subtitle = element_text(color = "blue"),
-         plot.caption = element_text(color = "Gray60"),
-         legend.text=element_text(size=12),
-         # legend.position = c(.9,.15),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
-         legend.position = c(.12,.86),legend.background = element_rect(color="darkgrey", size=0.5, linetype="solid"))  +
-
-   guides(fill = guide_colorbar(title = "Relative Risk",title.position = "top",
-                                title.theme = element_text(size = 15,
-                                                           colour = "gray70",angle = 0)))
-risk1Year
-riskpop.den[[d]]<-risk1Year
-print(d)
-}
-risk.rural<-risk.list[[1]]
-uprural<-risk.rural[which(risk.rural$Risk_1year>1)]
-risk.urban<-risk.list[[2]]
-upurban<-risk.urban[which(risk.urban$Risk_1year>1)]
-# }
-
-mat.numIncRisk[g,1]<-dim(uprural)[1]
-mat.numIncRisk[g,2]<-dim(upurban)[1]
-}
-# library(patchwork)
-# riskpop.den[[1]]+riskpop.den[[2]]+riskpop.den[[3]]
-# riskpop.den[[1]]+riskpop.den[[2]]
-tmp<-mat.numIncRisk[1:18,]
-quantile(tmp[,1],probs=c(0.025,0.5,0.975),na.rm=T)
-mean(tmp[,1],na.rm=T)
-quantile(tmp[,2],probs=c(0.025,0.5,0.975),na.rm=T)
-mean(tmp[,2],na.rm=T)
-uprural[which(uprural$NAME_3%in%upurban$NAME_3)]
 
 # ggsave("./ModelProjections/plots/ruralurban.risk1year.pdf",width=25,height=7)
 
@@ -348,6 +257,7 @@ p<-ggplot(data=shp.tmp)+
          plot.subtitle = element_text(color = "blue"),
          plot.caption = element_text(color = "Gray60"),
          legend.text=element_text(size=20))  +
+  annotation_scale()+
    labs(fill="Population Density\n(person/km^2)")
 # load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/RR1Year_popDensities.RData")
 p

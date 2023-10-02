@@ -391,7 +391,7 @@ load("/Users/sb62/Documents/Migration/SA_Migration_110422/ModelProjections/TranM
 TranMatArray.1<-TranMatArray
 
 TranMA.tmp <- array(data=NA, dim=c(nlocs,nlocs,length(genvec)))
-iters=1000
+iters=500
 pair.rand <- matrix(1/9,nrow=9,ncol=9)
 dist.prop.mat.list <-list()
 for (m in 1:iters){
