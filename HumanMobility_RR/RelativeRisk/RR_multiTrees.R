@@ -69,7 +69,7 @@ neighbor_cont_bootstrap <- function(x=x,y=x, geo_matrix, colyear_matrix, strain_
 #################################
 library(data.table)
 library(dplyr)
-library(readxl)
+# library(readxl)
 library(ggplot2)
 library(geodist)
 library(ape)
@@ -89,7 +89,7 @@ load("./data/gps_metadata/GPS_SA.RData")
 # load("../data/gps_metadata/GPS_GPSC_everything.RData")
 '%notin%'<-Negate('%in%')
 load("./data/gps_metadata/GPS_GPSC_everything.RData")
-nboot=5
+nboot=50
 # boot.out = matrix(NA, length(maxpos), nboot )
 boot_list<-list()
 if(categorical==TRUE){

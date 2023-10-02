@@ -69,7 +69,7 @@ neighbor_cont_bootstrap <- function(x=x,y=x, geo_matrix, colyear_matrix, strain_
 #################################
 library(data.table)
 library(dplyr)
-library(readxl)
+# library(readxl)
 library(ggplot2)
 library(geodist)
 library(ape)
@@ -351,7 +351,7 @@ if(categorical==TRUE){
 }
   
 if(categorical==TRUE){
-  load("./RelativeRisk/files/matplot_specificRange.noSub_cat_mulTrees_260923_disease.RData")
+  # load("./RelativeRisk/files/matplot_specificRange.noSub_cat_mulTrees_260923_disease.RData")
   mat.tmp <- rbind(matplot_specificRange.noSub[,c("distance_range","RR","lowerCI","upperCI","time_range")],
                    mat_lineage.noSub[,c("distance_range","RR","lowerCI","upperCI","time_range")])
   mat.tmp$lowerCI[mat.tmp$lowerCI <= 0.1 ] <- 0.1
@@ -395,7 +395,7 @@ if(categorical==TRUE){
   
   
 }else{
-load("./RelativeRisk/files/mat_sub_genomic_cont_multiTrees_disease.RData")
+# load("./RelativeRisk/files/mat_sub_genomic_cont_multiTrees_disease.RData")
   mat_distancerange <- matplot_continuous
   mat_distancerange$lowerCI[mat_distancerange$lowerCI <= 0.1 ] <- 0.1
   mat_distancerange$upperCI[mat_distancerange$upperCI <= 0.1]<- 0.1
