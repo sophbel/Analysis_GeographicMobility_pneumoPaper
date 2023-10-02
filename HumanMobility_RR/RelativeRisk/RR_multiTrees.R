@@ -89,7 +89,7 @@ load("./data/gps_metadata/GPS_SA.RData")
 # load("../data/gps_metadata/GPS_GPSC_everything.RData")
 '%notin%'<-Negate('%in%')
 load("./data/gps_metadata/GPS_GPSC_everything.RData")
-nboot=50
+nboot=2
 # boot.out = matrix(NA, length(maxpos), nboot )
 boot_list<-list()
 if(categorical==TRUE){
@@ -336,7 +336,7 @@ matplot_continuous <- mat_sum
 }
 
 if(categorical==TRUE){
-  # load("./RelativeRisk/files/mat_lineage.Sub.Rdata")###This loads all 6910 SA metadata
+  load("./RelativeRisk/files/mat_lineage.Sub.Rdata")###This loads all 6910 SA metadata
   mat_lineage.noSub<-mat_lineage
   matplot_specificRange.noSub<-matplot_categorical
   # save(matplot_specificRange.noSub,file="./RelativeRisk/files/matplot_specificRange.noSub_cat_mulTrees_260923.RData")
@@ -404,7 +404,7 @@ if(categorical==TRUE){
 save(mat_sub_genomic,file="./RelativeRisk/files/mat_sub_genomic_cont_multiTrees_samp.RData")
   
 # load("./RelativeRisk/files/mat_sub_genomic_cont_multiTrees.RData")
-  }
+  
 plotwithin <- ggplot(data = mat_sub_genomic, aes( x = medMRCA, y = RR, group = distance_range_f ,color = distance_range_f)) + 
   geom_line()+
   geom_ribbon(aes(ymin=lowerCI, ymax=upperCI), alpha = 0.1, color = NA, fill = "#00539CFF" ) +
@@ -457,4 +457,6 @@ plotwithin <- ggplot(data = mat_sub_genomic.tmp, aes( x = medMRCA, y = RR)) +
         legend.position = "none") +
   theme(axis.text.y = element_text(size= 15) ) +
   xlim(0,75)
+
+}
 }
